@@ -1,6 +1,6 @@
 from .db import db
 
-class cartitems(db.Model):
+class CartItems(db.Model):
     __tablename__ = 'cartitems'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -10,7 +10,6 @@ class cartitems(db.Model):
     price = db.Column(db.Float, nullable=False)
 
 
-    cart = db.relationship("Cart", back_populates="cartitems")
     product = db.relationship("Product", back_populates="cartitems")
 
     def to_dict(self):
