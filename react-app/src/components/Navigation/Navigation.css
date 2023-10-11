@@ -1,7 +1,94 @@
-.profile-dropdown {
-  position: absolute;
+.navbar {
+  list-style-type: none;
+  margin: 0;
+  padding: 10px 50px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0px 2px 0 rgba(0, 0, 0, 0.1);
 }
+
+.profile-button-wrapper {
+  position: relative;
+  display: inline-block;
+}
+
+button {
+  border: none;
+  background-color: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+}
+
+.fas {
+  font-size: 24px;
+  color: #000000;
+  border-radius: 50%;
+  padding: 8px;
+  background-color: #f8f8f8bb;
+}
+
+.arrow {
+  width: 0;
+  height: 0;
+  border-left: 5px solid transparent;
+  border-right: 5px solid transparent;
+  border-top: 5px solid #000;
+  margin-left: 5px;
+}
+
+.profile-dropdown::before {
+  content: "";
+  position: absolute;
+  top: -10px;
+  right: 10px;
+  border-left: 10px solid transparent;
+  border-right: 10px solid transparent;
+  border-bottom: 10px solid #fff;
+  filter: drop-shadow(0 0 5px rgba(0, 0, 0, 0.2));
+}
+
+.profile-dropdown {
+  list-style-type: none;
+  margin: 0;
+  padding: 15px;
+  position: absolute;
+  background-color: #fff;
+  box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+  right: 0;
+ top: calc(100% + 5px);
+  min-width: 200px;
+  z-index: 1000;
+  border-radius: 4px;
+}
+
+.profile-dropdown.hidden {
+  display: none;
+}
+
+
+
 
 .hidden {
   display: none;
+}
+
+
+@font-face {
+  font-family: 'Luxurious Roman';
+  src:
+      url('./fonts/LuxuriousRoman-Regular.woff2') format('woff2'),
+      url('./fonts/LuxuriousRoman-Regular.woff') format('woff');
+  font-weight: 100;
+  font-style: normal;
+}
+
+
+.title-petsy a {
+  font-family: 'Luxurious Roman', serif;
+  font-size: 40px;
+  color: #F16521;
+  font-weight: bold;
+  text-decoration: none;
 }
