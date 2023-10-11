@@ -1,5 +1,5 @@
-from .db import db
+from .db import db, environment, SCHEMA
 from .user import User
-from .db import environment, SCHEMA
 from .review import Review
 from .CartItems import CartItems
+from .products import Products
