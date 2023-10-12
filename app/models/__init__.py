@@ -1,5 +1,7 @@
 from .db import db, environment, SCHEMA
 from .user import User
 from .review import Review
-from .cartitems import cartitems
-from .products import Products
+from .cartItem import CartItems
+from .product import Products
+from .order import Order
+from .favorite import Favorite

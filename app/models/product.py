@@ -1,9 +1,9 @@
 from .db import db
 
-class Products(db.Model):
+class Product(db.Model):
     __tableName__ = 'products'
 
-    id = db.Columm(db.Integer(), primary_key=True)
+    id = db.Column(db.Integer(), primary_key=True)
     userId = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
     productName = db.Column(db.String(), nullable=False)
     description = db.Column(db.String(), nullable=False)
