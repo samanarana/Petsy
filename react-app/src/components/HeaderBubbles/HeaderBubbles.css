@@ -1,0 +1,49 @@
+.header {
+	background-color: #ffcc00; /* Yellow-Orange */
+	padding: 10px 0;
+}
+
+.bubble-nav {
+	display: flex;
+	justify-content: center;
+	list-style-type: none;
+	padding: 0;
+	margin: 0;
+}
+
+.bubble-item {
+	position: relative;
+	margin: 0 10px;
+	text-align: center;
+}
+
+.bubble-item .bubble {
+	width: 20px;
+	height: 20px;
+	background-color: #fff;
+	border-radius: 50%;
+	transition: width 0.3s ease, height 0.3s ease;
+}
+
+.bubble-item:hover .bubble {
+	width: 30px;
+	height: 30px;
+}
+
+.bubble-item span {
+	display: block;
+	position: absolute;
+	top: 30px;
+	width: 100%;
+	color: #000;
+	border-bottom: 2px solid transparent;
+	transition: border-color 0.3s ease;
+}
+
+.bubble-item:hover span {
+	border-color: #000;
+}
+
+.bubble-item a.active span {
+	border-color: #000;
+}

@@ -6,7 +6,7 @@ class Order(db.Model):
 
     id = db.Column(db.Integer, primary_key=True)
     userId = db.Column(db.Integer, db.ForeignKey("users.id"), nullable=False)
-    orderDate = db.Column(db.DateTime, default=datetime.datetime.now(), nullable=False)
+    orderDate = db.Column(db.DateTime, default=datetime.now(), nullable=False)
     totalPrice = db.Column(db.Float, default=0)
     shippingAddress = db.Column(db.String, nullable=False)
     billingAddress = db.Column(db.String, nullable=False)
