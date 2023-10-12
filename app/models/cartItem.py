@@ -1,6 +1,6 @@
 from .db import db
 
-class CartItems(db.Model):
+class cartItem(db.Model):
     __tablename__ = 'cartitems'
 
     id = db.Column(db.Integer, primary_key=True)
