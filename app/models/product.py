@@ -11,7 +11,7 @@ class Product(db.Model):
     imgUrl = db.Column(db.String(), nullable=False)
 
     user = db.relationship('User', backref=db.backref('product'))
-    cartitems = db.relationship('CartItems', back_populates='product')
+    cartitems = db.relationship('CartItem', back_populates='product')
 
     def to_dict(self):
         return {

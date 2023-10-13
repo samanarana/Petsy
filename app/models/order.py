@@ -14,7 +14,7 @@ class Order(db.Model):
     orderStatus = db.Column(db.String, default="pending")
 
 
-    user = db.relationship("User", back_populates="orders")
+    user = db.relationship("User", back_populates="order")
 
     def to_dict(self):
         return {
