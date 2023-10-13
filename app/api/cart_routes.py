@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import CartItems
+from app.models import CartItem
 from app import db
 
 
@@ -14,7 +14,7 @@ def view_cart(userId):
     if userId != current_user.id:
         return jsonify({"message": "Unauthorized"}), 401
 
-    cart_items = CartItems.query.filter_by(userId=userId).all()
+    cart_items = CartItem.query.filter_by(userId=userId).all()
     return {'cart': [item.to_dict() for item in cart_items]}
 
 
@@ -24,7 +24,7 @@ def view_cart(userId):
 def add_to_cart():
     data = request.get_json()
 
-    new_item = CartItems(
+    new_item = CartItem(
         userId=current_user.id,
         productId=data['productId'],
         quantity=data['quantity'],
@@ -41,7 +41,7 @@ def add_to_cart():
 @cart_routes.route('/cart/<int:productId>', methods=['DELETE'])
 @login_required
 def remove_from_cart(productId):
-    item = CartItems.query.filter_by(userId=current_user.id, productId=productId).first()
+    item = CartItem.query.filter_by(userId=current_user.id, productId=productId).first()
 
     if not item:
         return jsonify({"message": "Item not found"})
@@ -60,7 +60,7 @@ def complete_transaction():
 
     # transaction logic here
 
-    CartItems.query.filter_by(userId=current_user.id).delete()
+    CartItem.query.filter_by(userId=current_user.id).delete()
     db.session.commit()
 
     return {'message': 'Transaction completed'}, 200
