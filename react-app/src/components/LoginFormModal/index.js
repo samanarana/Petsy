@@ -4,12 +4,14 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 
+import SignupFormModal from "../SignupFormModal/index";
+
 function LoginFormModal() {
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const { closeModal } = useModal();
+  const { closeModal, openModal } = useModal();
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,9 +23,21 @@ function LoginFormModal() {
     }
   };
 
+    // Open the signup modal
+    const openSignupModal = () => {
+      closeModal();
+      openModal(<SignupFormModal />);
+    };
+
   return (
     <>
-      <h1>Log In</h1>
+    <div className="login-form-modal">
+      <p>Sign in</p>
+
+      <button className="register-button" onClick={openSignupModal}>
+          Register
+      </button>
+
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
@@ -31,7 +45,7 @@ function LoginFormModal() {
           ))}
         </ul>
         <label>
-          Email
+          Email address
           <input
             type="text"
             value={email}
@@ -48,8 +62,9 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit">Log In</button>
+        <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
       </form>
+      </div>
     </>
   );
 }

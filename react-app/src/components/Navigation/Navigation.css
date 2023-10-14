@@ -8,9 +8,31 @@
   box-shadow: 0px 2px 0 rgba(0, 0, 0, 0.1);
 }
 
+.nav-item {
+    position: relative;
+    margin-left: auto;
+}
+
+.cart-button:hover {
+    background-color: rgba(0, 0, 0, 0.08);
+    border-radius: 15px;
+    transition: background-color 0.3s ease;
+}
+
+.profile-button-wrapper button:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+}
+
+.profile-button-wrapper:hover {
+  background-color: transparent;
+}
+
 .profile-button-wrapper {
   position: relative;
   display: inline-block;
+  margin-right: 10px;
 }
 
 button {
@@ -96,8 +118,26 @@ button {
 
 .title-petsy a {
   font-family: 'Luxurious Roman', serif;
-  font-size: 40px;
+  font-size: 35px;
   color: #F16521;
-  font-weight: bold;
+  font-weight: 600;
   text-decoration: none;
+  margin-top: -15px;
+  margin-left: -15px;
+}
+
+body, html {
+  margin: 0;
+  padding: 0;
+}
+
+
+.cart-button {
+  padding: 8px 8px;
+  font-size: 20px;
+}
+
+.sign-in-button {
+	font-size: 10px !important;
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
 }
