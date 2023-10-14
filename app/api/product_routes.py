@@ -1,5 +1,5 @@
-from flask import Blueprint, request
-from flask_login import login_required
+from flask import Blueprint, request, jsonify
+from flask_login import login_required, current_user
 from app.models import Product
 from app import db
 
@@ -72,3 +72,12 @@ def delete_product(id):
     db.session.commit()
 
     return {'message': 'Product deleted'}
+
+# Get all the products from a logged in user
+@product_routes.route('/current', methods=['GET'])
+@login_required
+def get_user_products():
+    user_id = current_user.id
+    user_products = Product.query.filter_by(userId=user_id).all()
+
+    return jsonify({'user_products': [product.to_dict() for product in user_products]})
