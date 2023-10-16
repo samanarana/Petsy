@@ -5,3 +5,4 @@ from .cartItem import CartItem
 from .product import Product
 from .order import Order
 from .favorite import Favorite
+from .orderItem import OrderItem
