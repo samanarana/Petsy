@@ -1,10 +1,11 @@
 import React, { useState } from "react";
 import { login } from "../../store/session";
 import { useDispatch, useSelector } from "react-redux";
-import { Redirect } from "react-router-dom";
+import { Redirect, useHistory } from "react-router-dom";
 import './LoginForm.css';
 
 function LoginFormPage() {
+  const history = useHistory();
   const dispatch = useDispatch();
   const sessionUser = useSelector((state) => state.session.user);
   const [email, setEmail] = useState("");
@@ -12,6 +13,14 @@ function LoginFormPage() {
   const [errors, setErrors] = useState([]);
 
   if (sessionUser) return <Redirect to="/" />;
+
+  //Demo User Button Config
+  const demoUserButton = (e) => {
+    setErrors('')
+    setEmail('demo@aa.io')
+    setPassword('password')
+    history.push('/')
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
