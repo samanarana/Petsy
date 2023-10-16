@@ -1,7 +1,7 @@
 from .db import db
 
 class Favorite(db.Model):
-    __tableName__ = 'favorites'
+    __tablename__ = 'favorites'
 
     id = db.Column(db.Integer(), primary_key=True)
     userId = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)

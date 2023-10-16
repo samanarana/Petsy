@@ -1,6 +1,6 @@
 from .db import db
 
-class CartItems(db.Model):
+class CartItem(db.Model):
     __tablename__ = 'cartitems'
 
     id = db.Column(db.Integer, primary_key=True)
@@ -16,7 +16,7 @@ class CartItems(db.Model):
     def to_dict(self):
         return {
             "id": self.id,
-            "cartId": self.cartId,
+            "userId": self.userId,
             "productId": self.productId,
             "quantity": self.quantity,
             "price": self.price

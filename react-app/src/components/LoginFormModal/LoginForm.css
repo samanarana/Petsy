@@ -1,0 +1,83 @@
+.login-form-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 250px;
+    padding: 30px;
+    text-align: left;
+}
+
+.login-form-modal p {
+    font-weight: bold;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-top: -1px;
+    margin-bottom: 30px;
+  }
+
+  .login-form-modal label {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 12px;
+    display: block;
+    margin-bottom: 5px;
+    margin-top: 10px;
+    text-align: left;
+  }
+
+  .login-form-modal input {
+    width: calc(100% - 10px);
+    height: 30px;
+    padding: 5px;
+    margin: 4px 0;
+    border-radius: 4px;
+    font-size: 0.9em;
+    border: none;
+    box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.3);
+  }
+
+  .login-form-modal button.login-button {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 30px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    display: block;
+  }
+
+
+  .login-form-modal button.login-button:disabled {
+    background-color: #525252a4;
+    cursor: not-allowed;
+  }
+
+
+
+  .register-button {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 20px;
+    padding: 8px 12px;
+    cursor: pointer;
+    font-size: 12px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+
+  .register-button:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+  }

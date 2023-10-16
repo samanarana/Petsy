@@ -1,6 +1,31 @@
 .header {
-	background-color: #ffcc00; /* Yellow-Orange */
-	padding: 10px 0;
+	background-image: linear-gradient(to bottom, #fbdbbc 50%, #ffffff 50%);
+	padding: 1px 0 90px 0;
+}
+
+.header-content {
+    padding-top: 15px;
+}
+
+@font-face {
+	font-family: 'Luxurious Roman';
+	src:
+		url('../../components/Navigation/fonts/LuxuriousRoman-Regular.woff2') format('woff2'),
+		url('../../components/Navigation/fonts/LuxuriousRoman-Regular.woff') format('woff');
+	font-weight: 100;
+	font-style: normal;
+}
+
+.header-title {
+    text-align: center;
+	margin-bottom: 20px;
+}
+
+.header-title h1 {
+	font-family: 'Luxurious Roman', serif;
+    font-size: 30px;
+	margin: 0;
+	font-weight: 100;
 }
 
 .bubble-nav {
@@ -8,36 +33,44 @@
 	justify-content: center;
 	list-style-type: none;
 	padding: 0;
-	margin: 0;
+	margin-top: 35px;
 }
 
 .bubble-item {
 	position: relative;
-	margin: 0 10px;
+	margin: 0 25px;
 	text-align: center;
 }
 
 .bubble-item .bubble {
-	width: 20px;
-	height: 20px;
-	background-color: #fff;
+	width: 90px;
+	height: 90px;
 	border-radius: 50%;
-	transition: width 0.3s ease, height 0.3s ease;
+	transition: transform 0.3s ease, box-shadow 0.3s ease;
+	position: relative;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .bubble-item:hover .bubble {
-	width: 30px;
-	height: 30px;
+	transform: scale(1.1);
+	box-shadow: 0px 6px 10px rgba(0, 0, 0, 0.2);
 }
 
 .bubble-item span {
 	display: block;
 	position: absolute;
-	top: 30px;
+	top: 80px;
+	margin-top: 30px;
 	width: 100%;
 	color: #000;
 	border-bottom: 2px solid transparent;
+	padding-bottom: 10px;
 	transition: border-color 0.3s ease;
+	font-size: 13px;
+	font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+	font-weight: bold;
 }
 
 .bubble-item:hover span {

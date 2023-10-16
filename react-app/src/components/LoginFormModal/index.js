@@ -3,13 +3,27 @@ import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
+import SignupFormModal from "../SignupFormModal/index";
+import { useHistory } from "react-router-dom";
 
 function LoginFormModal() {
+  const history = useHistory()
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
-  const { closeModal } = useModal();
+  const { closeModal, openModal } = useModal();
+
+
+  //Demo User Button Config
+  const demoUserButton = async (e) => {
+    e.preventDefault();
+    setErrors([]);
+    const data = await dispatch(login('demo@aa.io', 'password'));
+    if (data) {
+    history.push('/');
+    }
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -21,9 +35,21 @@ function LoginFormModal() {
     }
   };
 
+    // Open the signup modal
+    const openSignupModal = () => {
+      closeModal();
+      openModal(<SignupFormModal />);
+    };
+
   return (
     <>
-      <h1>Log In</h1>
+    <div className="login-form-modal">
+      <p>Sign in</p>
+
+      <button className="register-button" onClick={openSignupModal}>
+          Register
+      </button>
+
       <form onSubmit={handleSubmit}>
         <ul>
           {errors.map((error, idx) => (
@@ -31,7 +57,7 @@ function LoginFormModal() {
           ))}
         </ul>
         <label>
-          Email
+          Email address
           <input
             type="text"
             value={email}
@@ -48,8 +74,19 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button type="submit">Log In</button>
+        <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
+
+        <div className="login-button-div">
+            <button
+              className="login-button"
+              type="submit"
+              onClick={demoUserButton}>
+              Demo User
+            </button>
+        </div>
+
       </form>
+      </div>
     </>
   );
 }

@@ -1,7 +1,7 @@
 from .db import db
 
 class Product(db.Model):
-    __tableName__ = 'products'
+    __tablename__ = 'products'
 
     id = db.Column(db.Integer(), primary_key=True)
     userId = db.Column(db.Integer(), db.ForeignKey('users.id'), nullable=False)
@@ -10,7 +10,10 @@ class Product(db.Model):
     price = db.Column(db.Integer(), nullable=False)
     imgUrl = db.Column(db.String(), nullable=False)
 
-    user = db.relationship('User', backref=db.backref('products'))
+    user = db.relationship('User', backref=db.backref('product'))
+    cartitems = db.relationship('CartItem', back_populates='product')
+    orderitems = db.relationship('OrderItem', back_populates='product')
+
 
     def to_dict(self):
         return {
