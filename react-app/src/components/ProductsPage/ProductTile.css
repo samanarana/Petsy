@@ -1,0 +1,74 @@
+.product-tile-list {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 1rem;
+    padding: 20px;
+}
+
+.product-tile {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    width: 100%;
+    margin-bottom: 1em;
+}
+
+.image-wrapper {
+    position: relative;
+    width: 100%;
+    padding-bottom: 100%;
+    overflow: hidden;
+}
+
+.image-placeholder, .product-tile img {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        background-color: #e0e0e0;
+        border: 1px solid #ccc;
+}
+
+.product-name, .product-rating, .product-price, .add-to-cart-btn {
+    margin: 0;
+}
+
+.product-name {
+    font-weight: 600;
+    margin-top: 10px;
+}
+
+.product-rating {
+    display: flex;
+    align-items: center;
+    margin-top: 5px;
+}
+
+.star-icon {
+    margin-right: 5px;
+}
+
+.product-price {
+    font-weight: 600;
+    margin-top: 5px;
+}
+
+.add-to-cart-btn {
+    margin-top: 20px;
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+    border-radius: 20px;
+    padding: 0.5em 1em;
+    cursor: pointer;
+    font-size: 12px;
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+}
+
+.add-to-cart-btn:hover {
+    transform: scale(1.05);
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.3);
+}

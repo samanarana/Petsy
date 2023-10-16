@@ -4,7 +4,6 @@ import React from 'react';
 import { NavLink } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
-import HeaderBubbles from '../HeaderBubbles/index';
 import './Navigation.css';
 import CategoryNav from './CategoryNav.js';
 
@@ -46,7 +45,6 @@ function Navigation({ isLoaded }){
 				)}
 			</ul>
 			<CategoryNav />
-			<HeaderBubbles />
 		</>
 	);
 }
