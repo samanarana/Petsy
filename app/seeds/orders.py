@@ -1,4 +1,4 @@
-from app.models import db, Order
+from app.models import db, Order, environment, SCHEMA
 
 def seed_orders():
     order1 = Order(userId=1,
@@ -45,5 +45,8 @@ def seed_orders():
     db.session.commit()
 
 def undo_orders():
-    db.session.execute("DELETE FROM orders")
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.orders RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM orders")
     db.session.commit()

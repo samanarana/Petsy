@@ -1,4 +1,4 @@
-from app.models.orderItem import OrderItem,db
+from app.models import OrderItem, db, environment, SCHEMA
 from sqlalchemy.sql import text
 
 def seed_orderitems():
@@ -17,5 +17,8 @@ def seed_orderitems():
     db.session.commit()
 
 def undo_orderitems():
-    db.session.execute(text("DELETE FROM orderitems"))
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.orderitems RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM orderitems"))
     db.session.commit()

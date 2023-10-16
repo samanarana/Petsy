@@ -1,4 +1,4 @@
-from app.models import db, CartItem
+from app.models import db, CartItem, environment, SCHEMA
 from sqlalchemy.sql import text
 
 def seed_cartitems():
@@ -19,5 +19,8 @@ def seed_cartitems():
     db.session.commit()
 
 def undo_cartitems():
-    db.session.execute(text("DELETE FROM cartitems"))
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.cartitems RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM cartitems"))
     db.session.commit()

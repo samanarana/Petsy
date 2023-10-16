@@ -1,4 +1,4 @@
-from app.models import db, Review
+from app.models import db, Review, environment, SCHEMA
 from datetime import datetime
 
 def seed_reviews():
@@ -17,5 +17,8 @@ def seed_reviews():
     db.session.commit()
 
 def undo_reviews():
-    db.session.execute("DELETE FROM reviews")
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.reviews RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM reviews")
     db.session.commit()

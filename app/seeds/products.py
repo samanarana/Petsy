@@ -1,4 +1,4 @@
-from app.models import db, Product
+from app.models import db, Product, environment, SCHEMA
 from sqlalchemy.sql import text
 
 def seed_products():
@@ -17,6 +17,9 @@ def seed_products():
     db.session.commit()
 
 def undo_products():
-    db.session.execute(text("DELETE FROM products"))
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.products RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute(text("DELETE FROM products"))
 
     db.session.commit()

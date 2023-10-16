@@ -1,4 +1,4 @@
-from app.models import db, Favorite
+from app.models import db, Favorite, environment, SCHEMA
 
 def seed_favorites():
     favorite1 = Favorite(userId=1, productId=1)
@@ -13,5 +13,8 @@ def seed_favorites():
     db.session.commit()
 
 def undo_favorites():
-    db.session.execute("DELETE FROM favorites")
+    if environment == "production":
+        db.session.execute(f"TRUNCATE table {SCHEMA}.favorites RESTART IDENTITY CASCADE;")
+    else:
+        db.session.execute("DELETE FROM favorites")
     db.session.commit()
