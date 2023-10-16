@@ -45,10 +45,12 @@
 .bubble-item .bubble {
 	width: 90px;
 	height: 90px;
-	background-color: #243328;
 	border-radius: 50%;
 	transition: transform 0.3s ease, box-shadow 0.3s ease;
 	position: relative;
+	background-size: cover;
+	background-position: center;
+	background-repeat: no-repeat;
 }
 
 .bubble-item:hover .bubble {

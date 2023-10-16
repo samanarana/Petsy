@@ -16,11 +16,13 @@ function LoginFormModal() {
 
 
   //Demo User Button Config
-  const demoUserButton = (e) => {
-    setErrors([])
-    setEmail('demo@aa.io')
-    setPassword('password')
-    history.push('/')
+  const demoUserButton = async (e) => {
+    e.preventDefault();
+    setErrors([]);
+    const data = await dispatch(login('demo@aa.io', 'password'));
+    if (data) {
+    history.push('/');
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -73,11 +75,11 @@ function LoginFormModal() {
           />
         </label>
         <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
-        
+
         <div className="login-button-div">
-            <button 
-              className="login-button" 
-              type="submit" 
+            <button
+              className="login-button"
+              type="submit"
               onClick={demoUserButton}>
               Demo User
             </button>

@@ -6,9 +6,11 @@ import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import HeaderBubbles from '../HeaderBubbles/index';
 import './Navigation.css';
+import CategoryNav from './CategoryNav.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faShoppingCart } from '@fortawesome/free-solid-svg-icons';
+import { faShoppingCart, faSearch } from '@fortawesome/free-solid-svg-icons';
+
 
 function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
@@ -23,10 +25,19 @@ function Navigation({ isLoaded }){
 				</li>
 				{isLoaded && (
 					<>
+
+						<li className="nav-center-item">
+							<div className="search-container">
+							<input className="search-input" placeholder="Search for anything" />
+							<FontAwesomeIcon icon={faSearch} className="search-icon" />
+							</div>
+						</li>
+
 						<li className="nav-item">
 							<div className="profile-button-wrapper">
 								<ProfileButton user={sessionUser} />
 							</div>
+
 							<NavLink to="/cart" className="cart-button">
 								<FontAwesomeIcon icon={faShoppingCart} style={{ color: '#000000' }} />
 							</NavLink>
@@ -34,6 +45,7 @@ function Navigation({ isLoaded }){
                 	</>
 				)}
 			</ul>
+			<CategoryNav />
 			<HeaderBubbles />
 		</>
 	);
