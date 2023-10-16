@@ -3,15 +3,25 @@ import { login } from "../../store/session";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
-
 import SignupFormModal from "../SignupFormModal/index";
+import { useHistory } from "react-router-dom";
 
 function LoginFormModal() {
+  const history = useHistory()
   const dispatch = useDispatch();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState([]);
   const { closeModal, openModal } = useModal();
+
+
+  //Demo User Button Config
+  const demoUserButton = (e) => {
+    setErrors([])
+    setEmail('demo@aa.io')
+    setPassword('password')
+    history.push('/')
+  };
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -63,6 +73,16 @@ function LoginFormModal() {
           />
         </label>
         <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
+        
+        <div className="login-button-div">
+            <button 
+              className="login-button" 
+              type="submit" 
+              onClick={demoUserButton}>
+              Demo User
+            </button>
+        </div>
+
       </form>
       </div>
     </>
