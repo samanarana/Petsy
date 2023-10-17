@@ -75,3 +75,16 @@
     background-color: #525252a4;
     cursor: not-allowed;
   }
+
+
+  .input-error {
+    border: 1px solid #e74c3c;
+    background-color: #fff5f5;
+  }
+
+  .error-message {
+    color: #e74c3c;
+    font-size: 1em;
+    padding: 3px 0;
+    text-align: left;
+  }
