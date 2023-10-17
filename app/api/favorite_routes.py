@@ -8,18 +8,18 @@ favorite_routes = Blueprint('favorites', __name__)
 
 
 # Retrieve all favorite products of a user
-@favorite_routes.route('/users/<int:userId>/favorites', methods=['GET'])
+@favorite_routes.route('/<int:userId>', methods=['GET'])
 @login_required
 def get_favorites(userId):
-    if userId != current_user.id:
-        return jsonify({"message": "Unauthorized"})
+    # if userId != current_user.id:
+    #     return jsonify({"message": "Unauthorized"})
 
     favorites = Favorite.query.filter_by(userId=userId).all()
     return {'favorites': [favorite.to_dict() for favorite in favorites]}
 
 
 # Mark a product as favorite
-@favorite_routes.route('/favorites', methods=['POST'])
+@favorite_routes.route('/', methods=['POST'])
 @login_required
 def add_favorite():
     data = request.get_json()
@@ -36,7 +36,7 @@ def add_favorite():
 
 
 # Remove a product from favorites
-@favorite_routes.route('/favorites/<int:productId>', methods=['DELETE'])
+@favorite_routes.route('/<int:userId>/<int:productId>', methods=['DELETE'])
 @login_required
 def remove_favorite(productId):
     favorite = Favorite.query.filter_by(userId=current_user.id, productId=productId).first()
