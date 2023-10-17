@@ -36,14 +36,14 @@
 }
 
 .product-name {
-    font-weight: 600;
-    margin-top: 10px;
+    font-size: 12px;
+    margin-top: 5px;
 }
 
 .product-rating {
     display: flex;
+    font-size: 12px;
     align-items: center;
-    margin-top: 5px;
 }
 
 .star-icon {
@@ -51,7 +51,9 @@
 }
 
 .product-price {
+    font-size: 14px;
     font-weight: 600;
+    color: green;
     margin-top: 5px;
 }
 
