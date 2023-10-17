@@ -27,7 +27,7 @@ def add_product():
     data = request.get_json()
 
     new_product = Product(
-        userId=data['userId'],
+        userId=current_user.id,
         productName=data['productName'],
         description=data['description'],
         price=data['price'],
