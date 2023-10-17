@@ -18,9 +18,9 @@ function LoginFormModal() {
   //Demo User Button Config
   const demoUserButton = async (e) => {
     e.preventDefault();
-    setErrors([]);
     const data = await dispatch(login('demo@aa.io', 'password'));
     if (data) {
+      setErrors(data);
     history.push('/');
     }
   };
@@ -74,11 +74,12 @@ function LoginFormModal() {
             required
           />
         </label>
-        <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
 
         <div className="login-button-div">
+            <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
+
             <button
-              className="login-button"
+              className="demo-button"
               type="submit"
               onClick={demoUserButton}>
               Demo User

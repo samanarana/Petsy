@@ -39,11 +39,10 @@
     box-shadow: inset 0px 0px 3px rgba(0, 0, 0, 0.3);
   }
 
-  .login-form-modal button.login-button {
+  .login-form-modal button.login-button, button.demo-button {
     background-color: #000;
     color: #fff;
-    padding: 10px 20px;
-    margin-top: 30px;
+    margin-top: 20px;
     border: none;
     border-radius: 25px;
     cursor: pointer;
