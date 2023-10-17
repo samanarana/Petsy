@@ -4,7 +4,7 @@ import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 import SignupFormModal from "../SignupFormModal/index";
-import { useHistory } from "react-router-dom";
+import { useHistory, Redirect } from "react-router-dom";
 
 function LoginFormModal() {
   const history = useHistory()
@@ -21,7 +21,9 @@ function LoginFormModal() {
     const data = await dispatch(login('demo@aa.io', 'password'));
     if (data) {
       setErrors(data);
-    history.push('/');
+    } else {
+      setTimeout(()=> { <Redirect to='/' />;}, 1000)
+      closeModal()
     }
   };
 
@@ -74,12 +76,11 @@ function LoginFormModal() {
             required
           />
         </label>
+        <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
 
         <div className="login-button-div">
-            <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
-
             <button
-              className="demo-button"
+              className="login-button"
               type="submit"
               onClick={demoUserButton}>
               Demo User
