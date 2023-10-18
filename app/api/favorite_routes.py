@@ -19,10 +19,19 @@ def get_favorites(userId):
 
 
 # Mark a product as favorite
+import logging
+
 @favorite_routes.route('/', methods=['POST'])
 @login_required
 def add_favorite():
     data = request.get_json()
+
+    # Log the incoming data to see its structure
+    logging.info(f"Incoming data for add_favorite: {data}")
+
+    # Check if 'productId' is in the data
+    if 'productId' not in data:
+        return jsonify({"message": "productId is required"}), 400
 
     new_favorite = Favorite(
         userId=current_user.id,
@@ -35,10 +44,11 @@ def add_favorite():
     return new_favorite.to_dict()
 
 
+
 # Remove a product from favorites
 @favorite_routes.route('/<int:userId>/<int:productId>', methods=['DELETE'])
 @login_required
-def remove_favorite(productId):
+def remove_favorite(userId, productId):
     favorite = Favorite.query.filter_by(userId=current_user.id, productId=productId).first()
 
     if not favorite:

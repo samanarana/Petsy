@@ -1,0 +1,48 @@
+/* Add this CSS to your stylesheet or component */
+
+.product-details-container {
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    margin: 20px;
+    padding: 20px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    background-color: #fff;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.product-details-image img {
+    max-width: 100%;
+    max-height: 300px;
+    border-radius: 8px;
+}
+
+.product-details-title {
+    font-size: 24px;
+    margin: 0;
+}
+
+.product-details-description {
+    font-size: 16px;
+    margin: 10px 0;
+}
+
+.product-details-price {
+    font-size: 20px;
+    font-weight: bold;
+}
+
+.product-details-add-to-cart {
+    background-color: #ff5a5f;
+    color: #fff;
+    font-size: 18px;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+.product-details-add-to-cart:hover {
+    background-color: #ff3b3f;
+}

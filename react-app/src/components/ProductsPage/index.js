@@ -6,6 +6,7 @@ import { fetchAllProductsThunk } from '../../store/product';
 
 const ProductTileList = () => {
     const dispatch = useDispatch();
+    const userId = useSelector(state => state.session.user_id);
 
     useEffect(() => {
         dispatch(fetchAllProductsThunk())
@@ -17,7 +18,7 @@ const ProductTileList = () => {
     return (
         <div className='product-tile-list'>
             {products.map(product => (
-                <ProductTile key={product.id} product={product} />
+                <ProductTile key={product.id} product={product} userId={userId}/>
             ))}
         </div>
     );

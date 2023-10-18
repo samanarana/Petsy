@@ -9,7 +9,7 @@ function CategoryNav() {
 		<ul className="category-nav">
 			{categories.map((category) => (
 				<li key={category} className="category-item">
-					<NavLink to={category === 'All Products' ? '/all-products' : `/${category.toLowerCase()}`}
+					<NavLink to={category === 'All Products' ? '/products' : `/${category.toLowerCase()}`}
 						activeClassName="active-category"
 					>
 						<span>{category}</span>
