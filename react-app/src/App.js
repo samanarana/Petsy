@@ -8,6 +8,7 @@ import Navigation from "./components/Navigation";
 import ProductsPage from "./components/ProductsPage/index";
 import HomePage from "./components/HomePage/index";
 import FavoritesPage from "./components/FavoritesPage/index";
+import ProductDetailsPage from "./components/ProductDetailsPage/index";
 
 function App() {
   const dispatch = useDispatch();
@@ -30,7 +31,10 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/all-products">
+          <Route path="/products/:productId">
+              <ProductDetailsPage />
+          </Route>
+          <Route path="/products">
             <ProductsPage />
           </Route>
           <Route path="/favorites/:userId">

@@ -9,7 +9,7 @@ import CategoryNav from './CategoryNav.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faSearch } from '@fortawesome/free-solid-svg-icons';
-
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 
 function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
@@ -33,6 +33,11 @@ function Navigation({ isLoaded }){
 						</li>
 
 						<li className="nav-item">
+
+							<NavLink to={`/favorites/${sessionUser?.id}`} className="favorites-button">
+								<FontAwesomeIcon icon={regularHeart} style={{ color: '#000000' }} />
+							</NavLink>
+
 							<div className="profile-button-wrapper">
 								<ProfileButton user={sessionUser} />
 							</div>
@@ -40,6 +45,7 @@ function Navigation({ isLoaded }){
 							<NavLink to="/cart" className="cart-button">
 								<FontAwesomeIcon icon={faShoppingCart} style={{ color: '#000000' }} />
 							</NavLink>
+
 						</li>
                 	</>
 				)}

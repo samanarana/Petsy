@@ -7,7 +7,7 @@ import favorite from './favorite'
 const rootReducer = combineReducers({
   session,
   product,
-  favorite
+  favorite,
 });
 
 

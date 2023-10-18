@@ -46,7 +46,7 @@ def login():
             # Check if the given password matches the hashed password in the database
             if check_password_hash(user.password, form.data['password']):
                 login_user(user)
-                return user.to_dict()
+                return {'user': user.to_dict(), 'userId': user.id} #not sure about this line
             else:
                 return {'errors': {'password': 'Password is incorrect'}}, 401
         else:
