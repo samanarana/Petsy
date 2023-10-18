@@ -31,11 +31,11 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/products">
-            <ProductsPage />
-          </Route>
           <Route path="/products/:productId">
               <ProductDetailsPage />
+          </Route>
+          <Route path="/products">
+            <ProductsPage />
           </Route>
           <Route path="/favorites/:userId">
             <FavoritesPage />
