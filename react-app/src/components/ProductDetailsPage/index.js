@@ -4,15 +4,11 @@ import { fetchSingleProductThunk } from '../../store/product';
 
 function ProductDetailsPage({ productId }) {
     const dispatch = useDispatch();
-    const singleProduct = useSelector((state) => state.singleProduct);
+    const singleProduct = useSelector((state) => state.product.singleProduct);
 
     useEffect(() => {
         dispatch(fetchSingleProductThunk(productId));
     }, [dispatch, productId]);
-
-    if (!singleProduct) {
-        return <p>Loading...</p>;
-    }
 
     return (
         <div>
