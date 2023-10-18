@@ -59,6 +59,8 @@ def upgrade():
     sa.Column('description', sa.String(), nullable=False),
     sa.Column('price', sa.Integer(), nullable=False),
     sa.Column('imgUrl', sa.String(), nullable=False),
+    sa.Column('category', sa.String(), nullable=False),  # New column
+    sa.Column('quantity', sa.Integer(), nullable=False, default=1),  # New column
     sa.ForeignKeyConstraint(['userId'], ['users.id'], ),
     sa.PrimaryKeyConstraint('id')
     )
