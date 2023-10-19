@@ -2,10 +2,16 @@ import React, { useState, useEffect, useRef } from "react";
 import { useHistory } from "react-router-dom";
 import { useDispatch } from "react-redux";
 import { logout } from "../../store/session";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
+
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 
 function ProfileButton({ user }) {
+
+  console.log(user, "-------------------------")
+
   const dispatch = useDispatch();
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
@@ -38,13 +44,16 @@ function ProfileButton({ user }) {
 
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
+  const arrowIcon = showMenu ? faChevronDown : faChevronUp;
+
+
   return (
     <>
       {user ? (
         <div className="profile-button-wrapper">
           <button onClick={openMenu}>
             <i className="fas fa-user-circle" />
-            <div className="arrow"></div>
+            <FontAwesomeIcon icon={arrowIcon} className={`arrow-icon ${showMenu ? "arrow-down" : "arrow-up"}`} />
           </button>
           <ul className={ulClassName} ref={ulRef}>
             <li>{user.username}</li>

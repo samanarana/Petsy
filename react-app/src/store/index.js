@@ -10,7 +10,7 @@ const rootReducer = combineReducers({
   favorite,
 });
 
-
+//  EHANCER
 let enhancer;
 
 if (process.env.NODE_ENV === 'production') {
@@ -22,8 +22,11 @@ if (process.env.NODE_ENV === 'production') {
   enhancer = composeEnhancers(applyMiddleware(thunk, logger));
 }
 
+//  STORE
+
 const configureStore = (preloadedState) => {
   return createStore(rootReducer, preloadedState, enhancer);
 };
+
 
 export default configureStore;

@@ -16,14 +16,9 @@ const FavoriteTileList = () => {
 
     // Get favorite data from redux state
     const favorites = useSelector(state => state.favorite.favorites) || [];
-    // console.log('----------------------------------------------', favorites)
     const products = useSelector(state => state.product.products) || [];
     const favoriteProductIds = favorites.map(favorite => favorite.productId);
-
     const favoriteProducts = products.filter(product => favoriteProductIds.includes(product.id));
-
-
-
 
     return (
         <div className='product-tile-list'>

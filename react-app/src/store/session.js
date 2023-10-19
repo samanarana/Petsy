@@ -1,4 +1,4 @@
-// constants
+// ACTION CREATORS
 const SET_USER = "session/SET_USER";
 const REMOVE_USER = "session/REMOVE_USER";
 
@@ -11,7 +11,7 @@ const removeUser = () => ({
 	type: REMOVE_USER,
 });
 
-const initialState = { user: null };
+//THUNKS
 
 export const authenticate = () => async (dispatch) => {
 	const response = await fetch("/api/auth/", {
@@ -94,10 +94,17 @@ export const signUp = (username, email, password) => async (dispatch) => {
 	}
 };
 
+// INITIAL STATE
+const initialState = { user: null };
+
+// REDUCER
 export default function reducer(state = initialState, action) {
+	let newState;
 	switch (action.type) {
 		case SET_USER:
-			return { user: action.payload };
+			newState = Object.assign({}, state);
+			newState.user = action.payload
+			return newState;
 		case REMOVE_USER:
 			return { user: null };
 		default:

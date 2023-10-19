@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { login } from "../../store/session";
-import { useDispatch } from "react-redux";
-import { useHistory } from "react-router-dom";
+import { useDispatch, useSelector } from "react-redux";
+import { useHistory, Redirect } from "react-router-dom";
 import { useModal } from "../../context/Modal";
 import "./LoginForm.css";
 import SignupFormModal from "../SignupFormModal/index";
@@ -9,6 +9,8 @@ import SignupFormModal from "../SignupFormModal/index";
 function LoginFormModal() {
   const history = useHistory();
   const dispatch = useDispatch();
+  const sessionUser = useSelector((state) => state.session.user);
+
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
   const [errors, setErrors] = useState({});
@@ -20,7 +22,9 @@ function LoginFormModal() {
     await dispatch(login('demo@aa.io', 'password'));
     closeModal();
     history.push('/');
-};
+  } ;
+
+  if (sessionUser) return <Redirect to='/' />;
 
   const handleSubmit = async (e) => {
     e.preventDefault();

@@ -9,7 +9,7 @@ import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 const FavoriteTile = ({ favorite }) => {
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorite.favorites);
-    const userId = useSelector(state => state.session.user_id);
+    const userId = useSelector(state => state.session.user.id);
 
     const isFavorited = favorites.some((favorite) => favorite.productId === favorite.id);
 
@@ -18,9 +18,9 @@ const FavoriteTile = ({ favorite }) => {
         event.preventDefault();
 
         if (isFavorited) {
-            dispatch(removeFavoriteThunk(userId, favorite.id));
+            dispatch(removeFavoriteThunk(favorite.id));
         } else {
-            dispatch(addFavoriteThunk(userId, favorite.id));
+            dispatch(addFavoriteThunk(favorite.id));
         }
     };
 
