@@ -17,11 +17,14 @@ const ProductTileList = () => {
 
     return (
         <div className='product-tile-list'>
-            {products.map(product => (
-                <ProductTile key={product.id} product={product} userId={userId}/>
-            ))}
+            <>
+                {products.map(product => (
+                    <ProductTile key={product.id} product={product} userId={userId}/>
+                ))}
+            </>
         </div>
     );
+
 }
 
 export default ProductTileList;
