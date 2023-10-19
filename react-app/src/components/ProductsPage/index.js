@@ -13,7 +13,7 @@ const ProductTileList = () => {
     }, [dispatch]);
 
     // Get product data from redux state
-    const products = useSelector(state => state.product.products) || [];
+    const products = useSelector(state => state.product.allProducts) || [];
 
     return (
         <div className='product-tile-list'>
