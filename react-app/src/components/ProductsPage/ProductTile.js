@@ -10,9 +10,11 @@ import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 const ProductTile = ({ product }) => {
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorite.favorites);
-    const userId = useSelector(state => state.session.user_id);
 
-    const isFavorited = favorites.some((favorite) => favorite.productId === product.id);
+
+    const userId = useSelector(state => state.session.user.id);
+    const isFavorited = favorites.find((favorite) => favorite.productId === +product.id);
+    console.log("favorited from productTile", isFavorited)
 
     const handleHeartClick = (event) => {
         event.stopPropagation();
@@ -20,13 +22,14 @@ const ProductTile = ({ product }) => {
 
         if (isFavorited) {
 
-            const favoriteToRemove = favorites.find((favorite) => favorite.productId === product.id);
+            const favoriteToRemove = favorites.find((favorite) => favorite.productId === +product.id);
             if (favoriteToRemove) {
-                dispatch(removeFavoriteThunk(favoriteToRemove.id));
+                dispatch(removeFavoriteThunk(userId, favoriteToRemove.productId));
+                console.log('removeFavorite', favoriteToRemove.productId)
             }
         } else {
-
             dispatch(addFavoriteThunk(userId, product.id));
+            console.log('addFavorite', product.id)
         }
     };
 

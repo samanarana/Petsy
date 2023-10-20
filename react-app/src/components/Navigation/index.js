@@ -34,7 +34,7 @@ function Navigation({ isLoaded }){
 
 						<li className="nav-item">
 
-							<NavLink to={`/favorites/${sessionUser?.id}`} className="favorites-button">
+							<NavLink to={`/users/${sessionUser?.id}/favorites`} className="favorites-button">
 								<FontAwesomeIcon icon={regularHeart} style={{ color: '#000000' }} />
 							</NavLink>
 
