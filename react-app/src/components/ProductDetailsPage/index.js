@@ -6,6 +6,7 @@ import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import { useParams } from "react-router-dom";
 import './ProductDetails.css';
@@ -54,18 +55,31 @@ function ProductDetailsPage() {
               <div className="main-image"></div>
           </div>
           <div className="product-info">
-              <h2>${product.price}</h2>
-              <p>{product.description}</p>
-              <button className="add-to-cart-button">Add to cart</button>
+                <p className="detail-product-price">${product.price}</p>
 
-              <button className="favorite-button" onClick={handleHeartClick}>
-                    {isFavorited ?
-                        <FontAwesomeIcon icon={solidHeart} style={{color: "#c70000"}} />
-                        :
-                        <FontAwesomeIcon icon={regularHeart} style={{color: "#000000"}} />
-                    }
-                    <span> Add to favorites</span>
-                </button>
+                <label>Quantity</label>
+            <div className="dropdown-container">
+                <select className="quantity-dropdown">
+                    <option disable selected>Select an option</option>
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                </select>
+                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+            </div>
+
+                <button className="add-to-cart-button">Add to cart</button>
+
+                <button className="favorite-button" onClick={handleHeartClick}>
+                        {isFavorited ?
+                            <FontAwesomeIcon icon={solidHeart} style={{color: "#c70000"}} />
+                            :
+                            <FontAwesomeIcon icon={regularHeart} style={{color: "#000000"}} />
+                        }
+                        <span> Add to favorites</span>
+                    </button>
+
+                <p>{product.description}</p>
           </div>
       </div>
   );
