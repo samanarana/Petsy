@@ -12,24 +12,24 @@ const loadFavorites = (favorites) => {
     };
 };
 
-const addFavorite = (favorite) => {
+const addFavorite = (favoriteId) => {
     return {
         type: ADD_FAVORITE,
-        payload: favorite,
+        payload: favoriteId
     };
 };
 
-const removeFavorite = (favoriteId) => {
+const removeFavorite = (productId) => {
     return {
         type: REMOVE_FAVORITE,
-        payload: favoriteId,
+        payload: productId
     };
 };
 
 // Thunks
 
 export const fetchAllFavoritesThunk = (userId) => async (dispatch) => {
-	const response = await fetch(`/api/favorites/${userId}`, {
+	const response = await fetch(`/api/users/${userId}/favorites`, {
 		headers: {
 			"Content-Type": "application/json",
 		},
@@ -41,12 +41,12 @@ export const fetchAllFavoritesThunk = (userId) => async (dispatch) => {
 };
 
 export const addFavoriteThunk = (userId, productId) => async (dispatch) => {
-    const response = await fetch(`/api/favorites/`, {
+    const response = await fetch(`/api/users/${userId}/favorites`, {
         method: 'POST',
         headers: {
             "Content-Type": "application/json",
         },
-        body: JSON.stringify({ userId, productId })
+        body: JSON.stringify({ productId })
     });
 
     if (response.ok) {
@@ -55,13 +55,13 @@ export const addFavoriteThunk = (userId, productId) => async (dispatch) => {
     }
 };
 
-export const removeFavoriteThunk = (favoriteId) => async (dispatch) => {
-    const response = await fetch(`/api/favorites/${favoriteId}`, {
+export const removeFavoriteThunk = (userId, productId) => async (dispatch) => {
+    const response = await fetch(`/api/users/${userId}/favorites/${productId}`, {
         method: 'DELETE',
     });
 
     if (response.ok) {
-        dispatch(removeFavorite(favoriteId));
+        dispatch(removeFavorite(productId));
     }
 };
 
@@ -73,6 +73,7 @@ const initialState = {
 };
 
 export default function favoriteReducer(state = initialState, action) {
+
     switch (action.type) {
         case LOAD_FAVORITES:
             return { ...state, favorites: action.payload };
@@ -86,7 +87,7 @@ export default function favoriteReducer(state = initialState, action) {
 			return {
 				...state,
 				favorites: state.favorites.filter(
-					(favorite) => favorite.id !== action.payload
+					(favorite) => favorite.productId !== action.payload
 					),
 			};
         default:

@@ -11,6 +11,10 @@ const removeUser = () => ({
 	type: REMOVE_USER,
 });
 
+
+// INITIAL STATE
+const initialState = { user: null };
+
 //THUNKS
 
 export const authenticate = () => async (dispatch) => {
@@ -94,17 +98,12 @@ export const signUp = (username, email, password) => async (dispatch) => {
 	}
 };
 
-// INITIAL STATE
-const initialState = { user: null };
 
 // REDUCER
 export default function reducer(state = initialState, action) {
-	let newState;
 	switch (action.type) {
 		case SET_USER:
-			newState = Object.assign({}, state);
-			newState.user = action.payload
-			return newState;
+			return { user: action.payload };
 		case REMOVE_USER:
 			return { user: null };
 		default:

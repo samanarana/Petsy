@@ -37,7 +37,7 @@ function App() {
           <Route path="/products">
             <ProductsPage />
           </Route>
-          <Route path="/favorites/:userId">
+          <Route path="/users/:userId/favorites">
             <FavoritesPage />
           </Route>
 

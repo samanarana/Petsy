@@ -7,19 +7,20 @@ import './FavoriteTile.css';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 
 const FavoriteTile = ({ favorite }) => {
+    console.log('Favorite Tile, favorite threaded data, ------------------------------------------------------------', favorite)
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorite.favorites);
-
-    const isFavorited = favorites.some((favorite) => favorite.productId === favorite.id);
+    const userId = useSelector(state => state.session.user.id)
+    const isFavorited = favorites.some((fav) => fav.productId === +favorite.id);
 
     const handleHeartClick = (event) => {
         event.stopPropagation();
         event.preventDefault();
 
         if (isFavorited) {
-            dispatch(removeFavoriteThunk(favorite.id));
+            dispatch(removeFavoriteThunk(userId, favorite.id));
         } else {
-            dispatch(addFavoriteThunk(favorite.id));
+            dispatch(addFavoriteThunk(userId, favorite.id));
         }
     };
 
@@ -38,7 +39,6 @@ const FavoriteTile = ({ favorite }) => {
                     ★ {favorite.avgRating} ({favorite.reviewCount})
                 </div>
                 <div className='product-price'>{`$${favorite.price}`}</div>
-                {/* Add the favorite button */}
                 <button className='favorite-btn' onClick={handleHeartClick}>
                     {isFavorited ?
                         <FontAwesomeIcon icon={solidHeart} style={{ color: "#c70000" }} />
