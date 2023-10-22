@@ -1,6 +1,6 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import Product
+from app.models import Product, Review
 from app import db
 
 
@@ -85,3 +85,27 @@ def get_user_products():
     user_products = Product.query.filter_by(userId=user_id).all()
 
     return jsonify({'user_products': [product.to_dict() for product in user_products]})
+
+# Retrieve reviews for a specific product
+@product_routes.route('/<int:productId>/reviews', methods=['GET'])
+def get_reviews(productId):
+    reviews = Review.query.filter_by(productId=productId).all()
+    return {'reviews': [review.to_dict() for review in reviews]}
+
+@product_routes.route('/products/<int:productId>/reviews', methods=['POST'])
+@login_required
+def add_review(productId):
+    data = request.get_json()
+
+    new_review = Review(
+        userId=current_user.id,
+        productId=productId,
+        description=data['description'],
+        rating=data['rating'],
+        dateCreated=db.func.now()
+    )
+
+    db.session.add(new_review)
+    db.session.commit()
+
+    return new_review.to_dict()

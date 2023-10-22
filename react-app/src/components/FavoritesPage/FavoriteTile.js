@@ -7,7 +7,6 @@ import './FavoriteTile.css';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 
 const FavoriteTile = ({ favorite }) => {
-    console.log('Favorite Tile, favorite threaded data, ------------------------------------------------------------', favorite)
     const dispatch = useDispatch();
     const favorites = useSelector(state => state.favorite.favorites);
     const userId = useSelector(state => state.session.user.id)

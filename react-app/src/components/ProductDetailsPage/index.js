@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { productDetailsThunk } from '../../store/product';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
@@ -12,17 +12,28 @@ import { useParams } from "react-router-dom";
 import './ProductDetails.css';
 
 function ProductDetailsPage() {
+
+    const [ isLoaded, setIsLoaded ] = useState(false);
+
     const { productId } = useParams();
     const dispatch = useDispatch();
-    const product = useSelector(state => state.product.productDetails);
 
+    useEffect(() => {
+        dispatch(productDetailsThunk(productId)).then(() => {
+            setIsLoaded(true);
+        });
+    }, [dispatch, productId]);
+
+    const product = useSelector(state => state.product.productDetails);
+    // console.log('product', product)
     const favorites = useSelector(state => state.favorite.favorites);
     const userId = useSelector(state => state.session.user_id);
     const isFavorited = favorites.some((favorite) => favorite.productId === product.id);
 
-    useEffect(() => {
-        dispatch(productDetailsThunk(productId));
-    }, [dispatch, productId]);
+    if (!isLoaded) {
+        return <div>Loading...</div>;
+        //placholder, let's update this to something pretty later
+    }
 
     if (!product) return null;
 
@@ -60,7 +71,7 @@ function ProductDetailsPage() {
                 <label>Quantity</label>
             <div className="dropdown-container">
                 <select className="quantity-dropdown">
-                    <option disable selected>Select an option</option>
+                    <option disabled selected>Select an option</option>
                     <option value="1">1</option>
                     <option value="2">2</option>
                     <option value="3">3</option>
