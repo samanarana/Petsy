@@ -31,7 +31,9 @@ def add_product():
         productName=data['productName'],
         description=data['description'],
         price=data['price'],
-        imgUrl=data['imgUrl']
+        imgUrl=data['imgUrl'],
+        category=data['category'],
+        quantity=data['quantity']
     )
 
     db.session.add(new_product)
@@ -54,6 +56,8 @@ def update_product(id):
     product.description = data.get('description', product.description)
     product.price = data.get('price', product.price)
     product.imgUrl = data.get('imgUrl', product.imgUrl)
+    product.category = data.get('category', product.category)
+    product.quantity = data.get('quantity', product.quantity)
 
     db.session.commit()
 
