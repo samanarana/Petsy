@@ -92,7 +92,8 @@ def get_reviews(productId):
     reviews = Review.query.filter_by(productId=productId).all()
     return {'reviews': [review.to_dict() for review in reviews]}
 
-@product_routes.route('/products/<int:productId>/reviews', methods=['POST'])
+# Add a review for a specific product (for authenticated users)
+@product_routes.route('/<int:productId>/reviews', methods=['POST'])
 @login_required
 def add_review(productId):
     data = request.get_json()
@@ -109,3 +110,48 @@ def add_review(productId):
     db.session.commit()
 
     return new_review.to_dict()
+
+# Update a specific review (for authenticated users)
+@product_routes.route('/<int:productId>/reviews/<int:reviewId>', methods=['PUT'])
+@login_required
+def update_review(productId, reviewId):
+    review = Review.query.get(reviewId)
+    if not review:
+        return ('Review not found', 404)
+
+    if review.userId != current_user.id:
+        return ('Not authorized to delete this review', 403)
+
+    data = request.get_json()
+
+    review.description = data.get('description', review.description)
+    review.rating = data.get('rating', review.rating)
+
+    db.session.commit()
+
+    return review.to_dict()
+
+# Delete a specific review (for authenticated users)
+@product_routes.route('/<int:productId>/reviews/<int:reviewId>', methods=['DELETE'])
+@login_required
+def delete_review(productId, reviewId):
+    review = Review.query.get(reviewId)
+    if not review:
+        return ('Review not found', 404)
+
+    if review.userId != current_user.id:
+        return ('Not authorized to delete this review', 403)
+
+    db.session.delete(review)
+    db.session.commit()
+
+    return {'message': 'Review deleted'}
+
+# Get all the review from a logged in user
+@product_routes.route('/current/reviews', methods=['GET'])
+@login_required
+def get_user_reviews():
+    user_id = current_user.id
+    user_products = Review.query.filter_by(userId=user_id).all()
+
+    return jsonify({'user_reviews': [product.to_dict() for product in user_products]})
