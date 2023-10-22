@@ -74,22 +74,21 @@ const initialState = {
 
 export default function favoriteReducer(state = initialState, action) {
 
+    let newState = {...state}
+
     switch (action.type) {
         case LOAD_FAVORITES:
-            return { ...state, favorites: action.payload };
+            newState.favorites = action.payload
+            return newState
 
 		case ADD_FAVORITE:
-			return {
-				...state,
-				favorites: [...state.favorites, action.payload],
-			};
-		case REMOVE_FAVORITE:
-			return {
-				...state,
-				favorites: state.favorites.filter(
-					(favorite) => favorite.productId !== action.payload
-					),
-			};
+            newState.favorites[action.payload.id] = action.payload
+            return newState
+
+        case REMOVE_FAVORITE:
+            newState.favorites = newState.favorites.filter(favorite => favorite.productId !== action.payload);
+            return newState;
+            
         default:
             return state;
     }

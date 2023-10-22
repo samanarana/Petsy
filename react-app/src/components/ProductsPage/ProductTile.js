@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
@@ -7,39 +7,36 @@ import { Link } from 'react-router-dom';
 import './ProductTile.css';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 
-const ProductTile = ({ product }) => {
+const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCount, price } }) => {
     const dispatch = useDispatch();
+    const userId = useSelector(state => state.session.user.id);
     const favorites = useSelector(state => state.favorite.favorites);
 
+    const isProductFavorited = useMemo(() => {
+        return favorites.some(favorite => favorite.productId === id);
+    }, [favorites, id]);
 
-    const userId = useSelector(state => state.session.user.id);
-    const isFavorited = favorites.find((favorite) => favorite.productId === +product.id);
-    console.log("favorited from productTile", isFavorited)
+    const [isFavorited, setIsFavorited] = useState(isProductFavorited);
 
     const handleHeartClick = (event) => {
         event.stopPropagation();
         event.preventDefault();
 
         if (isFavorited) {
-
-            const favoriteToRemove = favorites.find((favorite) => favorite.productId === +product.id);
-            if (favoriteToRemove) {
-                dispatch(removeFavoriteThunk(userId, favoriteToRemove.productId));
-                console.log('removeFavorite', favoriteToRemove.productId)
-            }
+            dispatch(removeFavoriteThunk(userId, id));
         } else {
-            dispatch(addFavoriteThunk(userId, product.id));
-            console.log('addFavorite', product.id)
+            dispatch(addFavoriteThunk(userId, id));
         }
+
+        setIsFavorited(!isFavorited);
     };
 
-
     return (
-        <Link to={`/products/${product.id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+        <Link to={`/products/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className='product-tile'>
                 <div className="image-wrapper">
-                    {product.imgUrl ?
-                        <img src={product.imgUrl} alt={product.productName} />
+                    {imgUrl ?
+                        <img src={imgUrl} alt={productName} />
                         :
                         <div className="image-placeholder"></div>
                     }
@@ -52,11 +49,11 @@ const ProductTile = ({ product }) => {
                     </button>
                 </div>
                 <div className="product-details">
-                    <div className='product-name'>{product.productName}</div>
+                    <div className='product-name'>{productName}</div>
                     <div className='product-rating'>
-                        ★ {product.avgRating} ({product.reviewCount})
+                        ★ {avgRating} ({reviewCount})
                     </div>
-                    <div className='product-price'>{`$${product.price}`}</div>
+                    <div className='product-price'>{`$${price}`}</div>
                     <button className='add-to-cart-btn'>+ Add to cart</button>
                 </div>
             </div>
