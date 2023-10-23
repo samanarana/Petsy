@@ -9,6 +9,7 @@ import ProductsPage from "./components/ProductsPage/index";
 import HomePage from "./components/HomePage/index";
 import FavoritesPage from "./components/FavoritesPage/index";
 import ProductDetailsPage from "./components/ProductDetailsPage/index";
+import CartPage from "./components/CartPage/index";
 
 function App() {
   const dispatch = useDispatch();
@@ -22,6 +23,7 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+
           <Route exact path="/">
               <HomePage />
           </Route>
@@ -39,6 +41,9 @@ function App() {
           </Route>
           <Route path="/users/:userId/favorites">
             <FavoritesPage />
+          </Route>
+          <Route path="/cart">
+            <CartPage />
           </Route>
 
         </Switch>
