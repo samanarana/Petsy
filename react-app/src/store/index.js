@@ -10,8 +10,8 @@ const rootReducer = combineReducers({
   session,
   product,
   favorite,
-  review
-  cartitems,
+  review,
+  cartitems
 });
 
 //  EHANCER
