@@ -9,7 +9,7 @@ import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 
 const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCount, price } }) => {
     const dispatch = useDispatch();
-    const userId = useSelector(state => state.session.user.id);
+    const userId = useSelector(state => state.session.user_id);
     const favorites = useSelector(state => state.favorite.favorites);
 
     const isProductFavorited = useMemo(() => {
