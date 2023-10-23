@@ -56,9 +56,12 @@ function ProductDetailsPage() {
     };
 
     const handleAddToCart = () => {
+        console.log("handleAddToCart triggered");
+
         dispatch(addToCartThunk({
-            product,
-            quantity
+            productId: product.id,
+            quantity,
+            price: product.price
         })).then(() => {
             history.push('/cart');  // Redirect to cart page
         });

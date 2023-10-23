@@ -27,6 +27,9 @@ export const fetchCartItemsThunk = () => async (dispatch) => {
 };
 
 export const addToCartThunk = (item) => async (dispatch) => {
+    // Log the item about to send
+    console.log("Sending item to server:", item);
+
     const response = await fetch("/api/cart/add", {
         method: "POST",
         headers: {
@@ -34,8 +37,13 @@ export const addToCartThunk = (item) => async (dispatch) => {
         },
         body: JSON.stringify(item),
     });
+
+      // Log the server's response
+      console.log("Server response:", response);
+
     if (response.ok) {
         const data = await response.json();
+        console.log("Response data:", data);  // Log the data received from the server
         if (data.success) {
             dispatch(addToCart(item));
             dispatch(fetchCartItemsThunk());
