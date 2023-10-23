@@ -3,11 +3,13 @@ import thunk from 'redux-thunk';
 import session from './session'
 import product from './product'
 import favorite from './favorite'
+import cartitems from './cartitems'
 
 const rootReducer = combineReducers({
   session,
   product,
   favorite,
+  cartitems,
 });
 
 //  EHANCER

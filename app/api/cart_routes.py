@@ -8,53 +8,59 @@ cart_routes = Blueprint('cart', __name__)
 
 
 # Retrieve all products in the user's cart
-@cart_routes.route('/users/<int:userId>/cart', methods=['GET'])
+@cart_routes.route('/api/cart', methods=['GET'])
 @login_required
-def view_cart(userId):
-    if userId != current_user.id:
-        return jsonify({"message": "Unauthorized"}), 401
-
-    cart_items = CartItem.query.filter_by(userId=userId).all()
+def view_cart():
+    cart_items = CartItem.query.filter_by(userId=current_user.id).all()
     return {'cart': [item.to_dict() for item in cart_items]}
 
 
 # Add a product to the cart
-@cart_routes.route('/cart', methods=['POST'])
+@cart_routes.route('/api/cart/add', methods=['POST'])
 @login_required
 def add_to_cart():
     data = request.get_json()
 
-    new_item = CartItem(
-        userId=current_user.id,
-        productId=data['productId'],
-        quantity=data['quantity'],
-        price=data['price']
-    )
+    existing_item = CartItem.query.filter_by(userId=current_user.id, productId=data['productId']).first()
 
-    db.session.add(new_item)
+    if existing_item:
+        existing_item.quantity += data['quantity']
+    else:
+        new_item = CartItem(
+            userId=current_user.id,
+            productId=data['productId'],
+            quantity=data['quantity'],
+            price=data['price']
+        )
+        db.session.add(new_item)
+
     db.session.commit()
 
-    return new_item.to_dict()
+    return jsonify(success=True, message="Item added to cart")
 
 
 # Remove a product from the cart
-@cart_routes.route('/cart/<int:productId>', methods=['DELETE'])
+@cart_routes.route('/api/cart/<int:productId>', methods=['DELETE'])
 @login_required
 def remove_from_cart(productId):
     item = CartItem.query.filter_by(userId=current_user.id, productId=productId).first()
 
     if not item:
-        return jsonify({"message": "Item not found"})
+        return jsonify(success=False, message="Item not found")
 
-    db.session.delete(item)
+    if item.quantity > 1:
+        item.quantity -= 1
+    else:
+        db.session.delete(item)
+
     db.session.commit()
 
-    return {'message': 'Item removed'}
+    return jsonify(success=True, message='Item updated in cart')
 
 
 
 # Complete a purchase transaction
-@cart_routes.route('/cart/transaction', methods=['POST'])
+@cart_routes.route('/api/cart/transaction', methods=['POST'])
 @login_required
 def complete_transaction():
 
