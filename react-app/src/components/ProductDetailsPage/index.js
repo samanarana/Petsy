@@ -24,6 +24,7 @@ function ProductDetailsPage() {
 
     useEffect(() => {
         dispatch(productDetailsThunk(productId)).then(() => {
+            //console.log('Product details loaded successfully.');
             setIsLoaded(true);
         });
     }, [dispatch, productId]);

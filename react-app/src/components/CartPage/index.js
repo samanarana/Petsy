@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { fetchCartItemsThunk } from '../../store/cartitems';
 import './CartPage.css';
@@ -6,10 +6,16 @@ import './CartPage.css';
 function CartPage() {
     const dispatch = useDispatch();
 
-    const cartItems = useSelector(state => state.cartitems.cartItems);
+    const cartItems = useSelector(state => {
+        console.log(state)
+        return state.cartitems.cartItems
+    });
 
     const total = cartItems.reduce((acc, item) => acc + (item.quantity * item.price), 0);
 
+    useEffect(() => {
+        dispatch(fetchCartItemsThunk());
+    }, [dispatch])
 
     const handleRemoveItem = async (productId) => {
         const response = await fetch(`/api/cart/${productId}`, {
@@ -46,7 +52,7 @@ function CartPage() {
                                     ))}
                                 </select>
                                 <p>{item.product.description}</p>
-                                <p>${item.quantity * item.product.price}</p>
+                                <p>${item.product.quantity * item.product.price}</p>
                             </div>
                         </div>
                     ))}
