@@ -25,7 +25,6 @@ function ProductDetailsPage() {
     }, [dispatch, productId]);
 
     const product = useSelector(state => state.product.productDetails);
-    // console.log('product', product)
     const favorites = useSelector(state => state.favorite.favorites);
     const userId = useSelector(state => state.session.user_id);
     const isFavorited = favorites.some((favorite) => favorite.productId === product.id);
@@ -63,7 +62,9 @@ function ProductDetailsPage() {
                   <div className="thumbnail"></div>
 
               </div>
-              <div className="main-image"></div>
+              <div className="main-image">
+                  <img className="main-image-url" src={product.imgUrl} alt={product.productName} />
+              </div>
           </div>
           <div className="product-info">
                 <p className="detail-product-price">${product.price}</p>

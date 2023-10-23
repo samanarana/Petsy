@@ -34,6 +34,12 @@
     border: 1px solid #ccc;
 }
 
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
 .product-info {
     margin-left: 40px;
     flex: 1;
