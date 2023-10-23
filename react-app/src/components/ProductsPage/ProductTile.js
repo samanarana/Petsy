@@ -6,10 +6,14 @@ import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 import './ProductTile.css';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
+import { useModal } from '../../context/Modal';
+import LoginFormModal from "../LoginFormModal";
 
 const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCount, price } }) => {
     const dispatch = useDispatch();
-    const userId = useSelector(state => state.session.user.id);
+
+    const { openModal } = useModal();
+    const userId = useSelector(state => state.session.user && state.session.user.id);
     const favorites = useSelector(state => state.favorite.favorites);
 
     const isProductFavorited = useMemo(() => {
@@ -21,6 +25,11 @@ const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCoun
     const handleHeartClick = (event) => {
         event.stopPropagation();
         event.preventDefault();
+
+        if (!userId) {
+            openModal(<LoginFormModal />);
+            return;
+        }
 
         if (isFavorited) {
             dispatch(removeFavoriteThunk(userId, id));

@@ -8,48 +8,59 @@ cart_routes = Blueprint('cart', __name__)
 
 
 # Retrieve all products in the user's cart
-@cart_routes.route('/users/<int:userId>/cart', methods=['GET'])
+@cart_routes.route('/cart', methods=['GET'])
 @login_required
-def view_cart(userId):
-    if userId != current_user.id:
-        return jsonify({"message": "Unauthorized"}), 401
-
-    cart_items = CartItem.query.filter_by(userId=userId).all()
+def view_cart():
+    cart_items = CartItem.query.filter_by(userId=current_user.id).all()
     return {'cart': [item.to_dict() for item in cart_items]}
 
 
 # Add a product to the cart
-@cart_routes.route('/cart', methods=['POST'])
-@login_required
+@cart_routes.route("/cart/add", methods=["POST"])
 def add_to_cart():
     data = request.get_json()
+    if "productId" not in data or "quantity" not in data or "price" not in data:
+        return jsonify({"error": "Missing data"}), 400
 
-    new_item = CartItem(
-        userId=current_user.id,
-        productId=data['productId'],
-        quantity=data['quantity'],
-        price=data['price']
-    )
+    # Check if the item is already in the cart and update quantity
+    cart_item = CartItem.query.filter_by(
+        userId=current_user.id, productId=data["productId"]
+    ).first()
 
-    db.session.add(new_item)
+    if cart_item:
+        cart_item.quantity += data["quantity"]
+    else:
+        cart_item = CartItem(
+            userId=current_user.id,
+            productId=data["productId"],
+            quantity=data["quantity"],
+            price=data["price"],
+        )
+
+    db.session.add(cart_item)
     db.session.commit()
+    return jsonify({"message": "Item added to cart successfully"}), 201
 
-    return new_item.to_dict()
 
 
 # Remove a product from the cart
 @cart_routes.route('/cart/<int:productId>', methods=['DELETE'])
 @login_required
 def remove_from_cart(productId):
-    item = CartItem.query.filter_by(userId=current_user.id, productId=productId).first()
+    cart_item = CartItem.query.filter_by(
+        userId=current_user.id, productId=productId
+    ).first()
 
-    if not item:
-        return jsonify({"message": "Item not found"})
+    if not cart_item:
+        return jsonify(success=False, message="Item not found")
 
-    db.session.delete(item)
+    if cart_item.quantity > 1:
+        cart_item.quantity -= 1
+    else:
+        db.session.delete(cart_item)
+
     db.session.commit()
-
-    return {'message': 'Item removed'}
+    return jsonify(success=True, message='Item updated in cart')
 
 
 
