@@ -119,6 +119,7 @@
     align-items: center;
     width: 80%;
     height: 40px;
+    margin-top: -6px;
 }
 
 .dropdown-icon {
