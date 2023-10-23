@@ -7,13 +7,15 @@ import { faChevronUp, faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
+import PurchasedProductsModal from "../ReviewModal/ReveiwModal";
+import { useModal } from "../../context/Modal";
 
 function ProfileButton({ user }) {
-
   const dispatch = useDispatch();
   const history = useHistory();
   const [showMenu, setShowMenu] = useState(false);
   const ulRef = useRef();
+  const { openModal } = useModal();
 
   const openMenu = () => {
     if (showMenu) return;
@@ -40,10 +42,13 @@ function ProfileButton({ user }) {
     history.push("/");
   };
 
+  const handleOpenPurchasedProductsModal = () => {
+    openModal(<PurchasedProductsModal />);
+  };
+
   const ulClassName = "profile-dropdown" + (showMenu ? "" : " hidden");
 
   const arrowIcon = showMenu ? faChevronDown : faChevronUp;
-
 
   return (
     <>
@@ -57,17 +62,18 @@ function ProfileButton({ user }) {
             <li>{user.username}</li>
             <li>{user.email}</li>
             <li>
+              <button onClick={handleOpenPurchasedProductsModal}>Leave a Review</button>
+            </li>
+            <li>
               <button onClick={handleLogout}>Log Out</button>
             </li>
+
           </ul>
         </div>
       ) : (
         <div className="sign-in-button">
-          <OpenModalButton
-            buttonText="Sign in"
-            modalComponent={<LoginFormModal />}
-          />
-      </div>
+          <OpenModalButton buttonText="Sign in" modalComponent={<LoginFormModal />} />
+        </div>
       )}
     </>
   );

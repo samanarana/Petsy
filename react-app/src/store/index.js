@@ -3,12 +3,14 @@ import thunk from 'redux-thunk';
 import session from './session'
 import product from './product'
 import favorite from './favorite'
+import review from './review'
 import cartitems from './cartitems'
 
 const rootReducer = combineReducers({
   session,
   product,
   favorite,
+  review
   cartitems,
 });
 

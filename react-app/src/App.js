@@ -9,7 +9,9 @@ import ProductsPage from "./components/ProductsPage/index";
 import HomePage from "./components/HomePage/index";
 import FavoritesPage from "./components/FavoritesPage/index";
 import ProductDetailsPage from "./components/ProductDetailsPage/index";
+import ReviewFormPage from "./components/ReviewPage/ReviewPage";
 import CartPage from "./components/CartPage/index";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -25,16 +27,19 @@ function App() {
         <Switch>
 
           <Route exact path="/">
-              <HomePage />
+            <HomePage />
           </Route>
-          <Route path="/login" >
+          <Route path="/login">
             <LoginFormPage />
           </Route>
           <Route path="/signup">
             <SignupFormPage />
           </Route>
+          <Route path="/products/:productId/reviews/new">
+            <ReviewFormPage />
+          </Route>
           <Route path="/products/:productId">
-              <ProductDetailsPage />
+            <ProductDetailsPage />
           </Route>
           <Route path="/products">
             <ProductsPage />
