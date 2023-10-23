@@ -11,6 +11,7 @@ import LoginFormModal from "../LoginFormModal";
 
 const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCount, price } }) => {
     const dispatch = useDispatch();
+
     const { openModal } = useModal();
     const userId = useSelector(state => state.session.user && state.session.user.id);
     const favorites = useSelector(state => state.favorite.favorites);
