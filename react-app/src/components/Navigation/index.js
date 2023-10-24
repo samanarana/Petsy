@@ -10,10 +10,15 @@ import CategoryNav from './CategoryNav.js';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faSearch } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
+import { faShop } from '@fortawesome/free-solid-svg-icons';
 
 function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
 	const location = useLocation();
+
+	if (location.pathname === '/listings') {
+		return null;
+	}
 
 	return (
 		<>
@@ -39,6 +44,10 @@ function Navigation({ isLoaded }){
 								<FontAwesomeIcon icon={regularHeart} style={{ color: '#000000' }} />
 							</NavLink>
 
+							<NavLink to="/listings" className="shop-button">
+                                <FontAwesomeIcon icon={faShop} style={{ color: '#000000' }} />
+                            </NavLink>
+
 							<div className="profile-button-wrapper">
 								<ProfileButton user={sessionUser} />
 							</div>
@@ -51,7 +60,7 @@ function Navigation({ isLoaded }){
                 	</>
 				)}
 			</ul>
-			{location.pathname !== '/cart' && <CategoryNav />}
+			{location.pathname !== '/cart' && location.pathname !== '/add-listing' && <CategoryNav />}
 		</>
 	);
 }
