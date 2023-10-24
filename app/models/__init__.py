@@ -6,3 +6,4 @@ from .product import Product
 from .order import Order
 from .favorite import Favorite
 from .orderItem import OrderItem
+from .productimages import ProductImage
