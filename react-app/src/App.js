@@ -11,7 +11,8 @@ import FavoritesPage from "./components/FavoritesPage/index";
 import ProductDetailsPage from "./components/ProductDetailsPage/index";
 import ReviewFormPage from "./components/ReviewPage/ReviewPage";
 import CartPage from "./components/CartPage/index";
-
+import ListingsPage from "./components/ListingsPage/index";
+import AddAListing from "./components/ListingForm/AddAListing";
 
 function App() {
   const dispatch = useDispatch();
@@ -49,6 +50,12 @@ function App() {
           </Route>
           <Route path="/cart">
             <CartPage />
+          </Route>
+          <Route path="/listings">
+                <ListingsPage />
+          </Route>
+          <Route path="/add-listing">
+            <AddAListing />
           </Route>
 
         </Switch>

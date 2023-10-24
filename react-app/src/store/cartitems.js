@@ -38,15 +38,11 @@ export const addToCartThunk = (item) => async (dispatch) => {
         body: JSON.stringify(item),
     });
 
-      // Log the server's response
-      console.log("Server response:", response);
-
     if (response.ok) {
         const data = await response.json();
         console.log("Response data:", data);  // Log the data received from the server
         if (data.success) {
             dispatch(addToCart(item));
-            dispatch(fetchCartItemsThunk());
         }
     }
 };
@@ -66,7 +62,12 @@ function cartReducer(state = initialState, action) {
             newState.cartItems = action.payload;
             return newState;
         case ADD_TO_CART:
-            newState.cartItems = [...state.cartItems, action.payload];
+            const itemIdx = newState.cartItems.findIndex(item => item.productId === action.payload.productId);
+            if (itemIdx !== -1) {
+                newState.cartItems[itemIdx].quantity += action.payload.quantity;
+            } else {
+                newState.cartItems.push(action.payload);
+            }
             return newState;
         default:
             return state;

@@ -8,7 +8,7 @@ cart_routes = Blueprint('cart', __name__)
 
 
 # Retrieve all products in the user's cart
-@cart_routes.route('/cart', methods=['GET'])
+@cart_routes.route('/', methods=['GET'])
 @login_required
 def view_cart():
     cart_items = CartItem.query.filter_by(userId=current_user.id).all()
@@ -16,8 +16,10 @@ def view_cart():
 
 
 # Add a product to the cart
-@cart_routes.route("/cart/add", methods=["POST"])
+@cart_routes.route("/add", methods=["POST"])
+@login_required
 def add_to_cart():
+
     data = request.get_json()
     if "productId" not in data or "quantity" not in data or "price" not in data:
         return jsonify({"error": "Missing data"}), 400
@@ -44,7 +46,7 @@ def add_to_cart():
 
 
 # Remove a product from the cart
-@cart_routes.route('/cart/<int:productId>', methods=['DELETE'])
+@cart_routes.route('/<int:productId>', methods=['DELETE'])
 @login_required
 def remove_from_cart(productId):
     cart_item = CartItem.query.filter_by(
@@ -65,7 +67,7 @@ def remove_from_cart(productId):
 
 
 # Complete a purchase transaction
-@cart_routes.route('/cart/transaction', methods=['POST'])
+@cart_routes.route('/transaction', methods=['POST'])
 @login_required
 def complete_transaction():
 

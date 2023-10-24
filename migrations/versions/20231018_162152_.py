@@ -128,7 +128,7 @@ def upgrade():
     op.create_table('productimages',
     sa.Column('id', sa.Integer(), nullable=False),
     sa.Column('productId', sa.Integer(), nullable=False),
-    sa.Column('imgUrl', sa.Integer(), nullable=True),
+    sa.Column('imgUrl', sa.String(), nullable=True),
     sa.ForeignKeyConstraint(['productId'], ['products.id'], ),
     sa.PrimaryKeyConstraint('id')
     )

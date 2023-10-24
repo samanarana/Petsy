@@ -1,6 +1,7 @@
 // Action Types
 const ALL_PRODUCTS = "products/ALL_PRODUCTS";
 const GET_PRODUCT_DETAILS = "products/GET_PRODUCT_DETAILS";
+const CREATE_PRODUCT = "products/CREATE_PRODUCT";
 
 // Action Creators
 const loadProducts = (products) => ({
@@ -15,6 +16,14 @@ const productDetails = (product) => {
         payload: product
     };
 };
+
+const createProduct = (product) => {
+    return {
+        type: CREATE_PRODUCT,
+        payload: product
+    };
+};
+
 
 // Thunks
 
@@ -45,6 +54,27 @@ export const productDetailsThunk = (productId) => async (dispatch) => {
     }
 };
 
+export const createProductThunk = (productData) => async (dispatch) => {
+    try {
+        const response = await fetch("/api/products/", {
+            method: "POST",
+            headers: {
+                "Content-Type": "application/json",
+            },
+            body: JSON.stringify(productData),
+        });
+        if (!response.ok) {
+            throw new Error("Failed to create a product");
+        }
+
+        const data = await response.json();
+        dispatch(createProduct(data));
+    } catch (error) {
+        console.error("There was an error creating the product:", error);
+    }
+};
+
+
 //reducer
 const initialState = {
     allProducts: [],
@@ -64,6 +94,9 @@ export default function reducer(state = initialState, action) {
 		case GET_PRODUCT_DETAILS:
 			newState.productDetails = action.payload;
 			return newState
+		case CREATE_PRODUCT:
+			newState.allProducts = [...newState.allProducts, action.payload];
+			return newState;
 		default:
 			return state;
 	}

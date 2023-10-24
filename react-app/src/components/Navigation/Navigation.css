@@ -202,3 +202,15 @@ body, html {
   border-radius: 15px;
   transition: background-color 0.3s ease;
 }
+
+.shop-button {
+  font-size: 18px;
+  margin-right: 15px;
+  padding: 8px 8px;
+}
+
+.shop-button:hover {
+  background-color: rgba(0, 0, 0, 0.08);
+  border-radius: 15px;
+  transition: background-color 0.3s ease;
+}
