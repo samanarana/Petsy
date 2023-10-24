@@ -69,6 +69,7 @@
     display: block;
     align-items: center;
     transition: transform 0.3s ease;
+    z-index: 1;
 }
 
 .add-to-cart-button:hover {

@@ -5,6 +5,7 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 import './ProductTile.css';
+import { addToCartThunk } from '../../store/cartitems';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 import { useModal } from '../../context/Modal';
 import LoginFormModal from "../LoginFormModal";
@@ -21,6 +22,15 @@ const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCoun
     }, [favorites, id]);
 
     const [isFavorited, setIsFavorited] = useState(isProductFavorited);
+
+    const handleAddToCart = () => {
+
+        dispatch(addToCartThunk({
+            productId: id,
+            quantity: 1,
+            price: price
+        }))
+    };
 
     const handleHeartClick = (event) => {
         event.stopPropagation();
@@ -63,7 +73,7 @@ const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCoun
                         ★ {avgRating} ({reviewCount})
                     </div>
                     <div className='product-price'>{`$${price}`}</div>
-                    <button className='add-to-cart-btn'>+ Add to cart</button>
+                    <button className='add-to-cart-btn' onClick={handleAddToCart}>+ Add to cart</button>
                 </div>
             </div>
         </Link>

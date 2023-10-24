@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams} from "react-router-dom";
 
 import { productDetailsThunk } from '../../store/product';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
@@ -20,7 +20,7 @@ function ProductDetailsPage() {
 
     const { productId } = useParams();
     const dispatch = useDispatch();
-    const history = useHistory();
+    // const history = useHistory();
 
     useEffect(() => {
         dispatch(productDetailsThunk(productId)).then(() => {
@@ -55,15 +55,12 @@ function ProductDetailsPage() {
     };
 
     const handleAddToCart = () => {
-        console.log("handleAddToCart triggered");
 
         dispatch(addToCartThunk({
             productId: product.id,
-            quantity,
+            quantity: 1,
             price: product.price
-        })).then(() => {
-            history.push('/cart');  // Redirect to cart page
-        });
+        }))
     };
 
     return (

@@ -1,10 +1,11 @@
 // Action Types
-const SET_CART_ITEMS = "cart/SET_CART_ITEMS";
+const GET_CART_ITEMS = "cart/GET_CART_ITEMS";
 const ADD_TO_CART = "cart/ADD_TO_CART";
+const REMOVE_CART_ITEM = "cart/REMOVE_CART_ITEM";
 
 //Action Creators
-const setCartItems = (cartItems) => ({
-    type: SET_CART_ITEMS,
+const getCartItems = (cartItems) => ({
+    type: GET_CART_ITEMS,
     payload: cartItems,
   });
 
@@ -13,44 +14,57 @@ const addToCart = (item) => ({
     payload: item,
 });
 
+const removeFromCart = (itemId) => ({
+    type: REMOVE_CART_ITEM,
+    payload: itemId,
+});
+
+
 //Thunks
 export const fetchCartItemsThunk = () => async (dispatch) => {
-    const response = await fetch("/api/cart", {
+    const response = await fetch(`/api/cart`, {
         headers: {
             "Content-Type": "application/json",
         },
     });
+    
     if (response.ok) {
         const data = await response.json();
-        dispatch(setCartItems(data.cart));
+        dispatch(getCartItems(data.cart));
     }
 };
 
 export const addToCartThunk = (item) => async (dispatch) => {
-    // Log the item about to send
-    console.log("Sending item to server:", item);
 
-    const response = await fetch("/api/cart/add", {
+    console.log('addToCartThunk item', item)
+
+    const response = await fetch(`/api/cart`, {
         method: "POST",
         headers: {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(item),
+
     });
 
-      // Log the server's response
-      console.log("Server response:", response);
+    console.log('addToCartThunk response', response)
 
     if (response.ok) {
         const data = await response.json();
-        console.log("Response data:", data);  // Log the data received from the server
-        if (data.success) {
-            dispatch(addToCart(item));
-            dispatch(fetchCartItemsThunk());
-        }
+        console.log('ATCT Data, data')
+        dispatch(addToCart(data));
     }
 };
 
+export const removeFromCartThunk = (itemId) => async (dispatch) => {
+    const response = await fetch(`/api/cart/${itemId}`, {
+        method: "DELETE",
+    });
+
+    if (response.ok) {
+            dispatch(removeFromCart(itemId));
+    }
+};
 
 
 //Reducer
@@ -62,11 +76,14 @@ function cartReducer(state = initialState, action) {
     let newState = {...state};
 
     switch (action.type) {
-        case SET_CART_ITEMS:
+        case GET_CART_ITEMS:
             newState.cartItems = action.payload;
             return newState;
         case ADD_TO_CART:
-            newState.cartItems = [...state.cartItems, action.payload];
+            newState.cartItems = [...newState.cartItems, action.payload];
+            return newState;
+        case REMOVE_CART_ITEM:
+            newState.cartItems = newState.cartItems.filter(item => item.id !== action.payload);
             return newState;
         default:
             return state;
