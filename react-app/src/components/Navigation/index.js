@@ -1,7 +1,7 @@
 //react-app/src/components/Navigation/index.js
 
 import React from 'react';
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { useSelector } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
@@ -9,10 +9,11 @@ import CategoryNav from './CategoryNav.js';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faSearch } from '@fortawesome/free-solid-svg-icons';
-
+import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 
 function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
+	const location = useLocation();
 
 	return (
 		<>
@@ -33,6 +34,11 @@ function Navigation({ isLoaded }){
 						</li>
 
 						<li className="nav-item">
+
+							<NavLink to={`/users/${sessionUser?.id}/favorites`} className="favorites-button">
+								<FontAwesomeIcon icon={regularHeart} style={{ color: '#000000' }} />
+							</NavLink>
+
 							<div className="profile-button-wrapper">
 								<ProfileButton user={sessionUser} />
 							</div>
@@ -40,11 +46,12 @@ function Navigation({ isLoaded }){
 							<NavLink to="/cart" className="cart-button">
 								<FontAwesomeIcon icon={faShoppingCart} style={{ color: '#000000' }} />
 							</NavLink>
+
 						</li>
                 	</>
 				)}
 			</ul>
-			<CategoryNav />
+			{location.pathname !== '/cart' && <CategoryNav />}
 		</>
 	);
 }

@@ -1,0 +1,141 @@
+.product-detail-container {
+    display: flex;
+    max-width: 1100px;
+    margin: 0 auto;
+}
+
+.product-images-container {
+    display: flex;
+    flex-direction: row;
+    margin-top: 30px;
+}
+
+.thumbnail-images {
+    display: flex;
+    flex-direction: column;
+    border-radius: 20px;
+    gap: 10px;
+}
+
+.thumbnail {
+    width: 56px;
+    height: 56px;
+    background-color: #eee;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.main-image {
+    width: 550px;
+    height: 400px;
+    margin-left: 20px;
+    background-color: #eee;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+}
+
+.main-image img {
+    width: 100%;
+    height: 100%;
+    object-fit: contain;
+}
+
+.product-info {
+    margin-left: 40px;
+    flex: 1;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.detail-product-price {
+    font-size: 22px;
+    font-weight: bold;
+    margin-top: 40px;
+}
+
+.add-to-cart-button {
+    background-color: #000;
+    color: #fff;
+    margin-top: 20px;
+    margin-bottom: -10px;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 80%;
+    height: 40px;
+    text-align: center;
+    display: block;
+    align-items: center;
+    transition: transform 0.3s ease;
+}
+
+.add-to-cart-button:hover {
+    transform: scale(1.05);
+    border-radius: 25px;
+}
+
+.favorite-button {
+    background-color: #ffffff;
+    color: #000000;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    width: 80%;
+    height: 40px;
+    text-align: center;
+    display: block;
+    transition: background-color 0.3s ease, transform 0.3s ease;
+    align-items: center;
+}
+
+.favorite-button:hover {
+    background-color: rgba(196, 196, 196, 0.411);
+    transform: scale(1);
+    border-radius: 25px;
+}
+
+.quantity-dropdown {
+    width: 100%;
+    height: 40px;
+    border: none;
+    box-shadow: 0px 0px 5px rgba(0, 0, 0, 0.4);
+    appearance: none;
+    border-radius: 5px;
+    cursor: pointer;
+    padding-left: 8px;
+    font-size: 14px;
+    margin-top: -12px;
+    padding-right: 30px;
+    background: transparent;
+
+}
+
+.quantity-dropdown:hover {
+    box-shadow: 0px 0px 8px rgba(0, 0, 0, 0.5);
+}
+
+
+.dropdown-container {
+    position: relative;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 80%;
+    height: 40px;
+    margin-top: -6px;
+}
+
+.dropdown-icon {
+    position: absolute;
+    right: 20px;
+    margin-bottom: 12px;
+    pointer-events: none;
+
+}
+
+label {
+    font-size: 12px;
+}

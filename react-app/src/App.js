@@ -7,6 +7,11 @@ import { authenticate } from "./store/session";
 import Navigation from "./components/Navigation";
 import ProductsPage from "./components/ProductsPage/index";
 import HomePage from "./components/HomePage/index";
+import FavoritesPage from "./components/FavoritesPage/index";
+import ProductDetailsPage from "./components/ProductDetailsPage/index";
+import ReviewFormPage from "./components/ReviewPage/ReviewPage";
+import CartPage from "./components/CartPage/index";
+
 
 function App() {
   const dispatch = useDispatch();
@@ -20,17 +25,30 @@ function App() {
       <Navigation isLoaded={isLoaded} />
       {isLoaded && (
         <Switch>
+
           <Route exact path="/">
-              <HomePage />
+            <HomePage />
           </Route>
-          <Route path="/login" >
+          <Route path="/login">
             <LoginFormPage />
           </Route>
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/all-products">
+          <Route path="/products/:productId/reviews/new">
+            <ReviewFormPage />
+          </Route>
+          <Route path="/products/:productId">
+            <ProductDetailsPage />
+          </Route>
+          <Route path="/products">
             <ProductsPage />
+          </Route>
+          <Route path="/users/:userId/favorites">
+            <FavoritesPage />
+          </Route>
+          <Route path="/cart">
+            <CartPage />
           </Route>
 
         </Switch>

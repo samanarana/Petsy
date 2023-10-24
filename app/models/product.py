@@ -12,6 +12,10 @@ class Product(db.Model):
     description = db.Column(db.String(), nullable=False)
     price = db.Column(db.Integer(), nullable=False)
     imgUrl = db.Column(db.String(), nullable=False)
+    category = db.Column(db.String(), nullable=False)
+    quantity = db.Column(db.Integer(), nullable=False, default=1)
+
+
 
     user = db.relationship('User', backref=db.backref('product'))
     cartitems = db.relationship('CartItem', back_populates='product')
@@ -25,5 +29,7 @@ class Product(db.Model):
             "productName": self.productName,
             "description": self.description,
             "price": self.price,
-            "imgUrl": self.imgUrl
+            "imgUrl": self.imgUrl,
+            "category": self.category,
+            'quantity': self.quantity
         }
