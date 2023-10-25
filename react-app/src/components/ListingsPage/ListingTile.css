@@ -8,6 +8,7 @@
 }
 
 .listing-tile {
+    position: relative;
     width: calc(100% - 10px);
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     overflow: hidden;
@@ -45,4 +46,27 @@
 .listing-quantity {
     margin-left: 10px;
     margin-top: -5px;
+}
+
+
+.tile-selected-indicator {
+    display: inline-block;
+    width: 15px;
+    height: 15px;
+    border: 1px solid #000;
+    border-radius: 5px;
+    text-align: center;
+    font-weight: bold;
+    cursor: pointer;
+    position: absolute;
+    bottom: 10px;
+    right: 10px;
+    background-color: #FFF;
+    z-index: 10;
+    line-height: 16px;
+}
+
+.selected-tile {
+    border: 2px solid #4285f4; /* This is just an example blue color for highlighting */
+    box-shadow: 0px 0px 10px #4285f4;
 }

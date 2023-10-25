@@ -65,14 +65,25 @@ def update_product(id):
     product.productName = data.get('productName', product.productName)
     product.description = data.get('description', product.description)
     product.price = data.get('price', product.price)
-    product.imgUrl = data.get('imgUrl', product.imgUrl)
     product.category = data.get('category', product.category)
     product.quantity = data.get('quantity', product.quantity)
+
+    # Update images
+    updated_imgUrls = set(data.get('imageUrls', []))
+    existing_imgUrls = set([img.imgUrl for img in product.images])
+
+    # Add new images to the database
+    for url in updated_imgUrls.difference(existing_imgUrls):
+        new_image = ProductImage(productId=product.id, imgUrl=url)
+        db.session.add(new_image)
+
+    # Remove images not in the updated list from the database
+    for url in existing_imgUrls.difference(updated_imgUrls):
+        ProductImage.query.filter_by(productId=product.id, imgUrl=url).delete()
 
     db.session.commit()
 
     return product.to_dict()
-
 
 # Delete a specific product
 @product_routes.route('/<int:id>', methods=['DELETE'])
