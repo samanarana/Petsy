@@ -1,17 +1,18 @@
 import React, { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCartItemsThunk } from '../../store/cartitems';
+import { removeFromCartThunk } from '../../store/cartitems';
 import './CartPage.css';
 
 function CartPage() {
     const dispatch = useDispatch();
+    const userCart = useSelector(state => state.cartitems.currentCart);
 
+    const total = userCart.reduce((acc, item) => acc + (item.quantity * item.price), 0);
     const cartItems = useSelector(state => {
         console.log(state)
         return state.cartitems.cartItems
     });
 
-    const total = cartItems.reduce((acc, item) => acc + (item.quantity * item.price), 0);
 
     useEffect(() => {
         dispatch(fetchCartItemsThunk());
@@ -25,20 +26,19 @@ function CartPage() {
             }
         });
         if (response.ok) {
-            dispatch(fetchCartItemsThunk());
+            dispatch(removeFromCartThunk(productId));
         }
     };
 
-
     return (
         <div className="cart-page">
-            <p>{cartItems.length} items in your cart</p>
+            <p>{userCart.length} items in your cart</p>
 
             <div className="main-content">
                 <div className="order-items-container">
-                    {cartItems.map(item => (
-                        <div key={item.id} className="single-item-container">
-                            <img src={item.product.imgUrl} alt={item.product.productName} className="product-image" />
+                    {userCart.map(item => (
+                        <div key={item.productId} className="single-item-container">
+                            <img src={item.imgUrl} alt={item.productName} className="product-image" />
                             <button
                                 className="remove-button"
                                 onClick={() => handleRemoveItem(item.productId)}
@@ -51,8 +51,9 @@ function CartPage() {
                                         <option key={qty} value={qty}>{qty}</option>
                                     ))}
                                 </select>
-                                <p>{item.product.description}</p>
-                                <p>${item.product.quantity * item.product.price}</p>
+                                <p>{item.description}</p>
+                                <p>${item.quantity * item.price}</p>
+
                             </div>
                         </div>
                     ))}
@@ -64,7 +65,7 @@ function CartPage() {
                         <hr />
                         <p>Shipping: $4.99</p>
                         <hr />
-                        <p>Total ({cartItems.length} items): ${total + 4.99}</p>
+                        <p>Total ({userCart.length} items): ${total + 4.99}</p>
                     </div>
 
                     <button className="checkout-button">Proceed to checkout</button>

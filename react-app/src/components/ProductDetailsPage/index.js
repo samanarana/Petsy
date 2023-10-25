@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory } from "react-router-dom";
+import { useParams} from "react-router-dom";
 
 import { productDetailsThunk } from '../../store/product';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
@@ -19,11 +19,11 @@ import './ProductDetails.css';
 function ProductDetailsPage() {
 
     const [ isLoaded, setIsLoaded ] = useState(false);
-    const [quantity, setQuantity] = useState(1);
+    const [ quantity, setQuantity ] = useState(1);
 
     const { productId } = useParams();
     const dispatch = useDispatch();
-    const history = useHistory();
+    // const history = useHistory();
 
     useEffect(() => {
         dispatch(productDetailsThunk(productId)).then(() => {
@@ -68,15 +68,12 @@ function ProductDetailsPage() {
     };
 
     const handleAddToCart = () => {
-        console.log("handleAddToCart triggered");
 
         dispatch(addToCartThunk({
             productId: product.id,
-            quantity,
+            quantity: 1,
             price: product.price
-        })).then(() => {
-            history.push('/cart');  // Redirect to cart page
-        });
+        }))
     };
 
     const handleDeleteReview = (reviewId) => {
@@ -125,7 +122,7 @@ function ProductDetailsPage() {
                         className="quantity-dropdown"
                         value={quantity}
                         onChange={(e) => setQuantity(Number(e.target.value))}>
-                        <option disabled selected>Select an option</option>
+                        <option disabled defaultValue={1}>Select an option</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
