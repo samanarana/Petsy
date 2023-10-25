@@ -30,7 +30,7 @@ function PurchasedProductsModal() {
 
   return (
     <div className="purchased-products-modal">
-      <button onClick={closeModal}>Close</button>
+
       <h2>Purchased Products</h2>
       <h3>Leave a review on recently purchased products</h3>
       <ul>
@@ -42,6 +42,7 @@ function PurchasedProductsModal() {
           </li>
         ))}
       </ul>
+      <button onClick={closeModal}>Close</button>
     </div>
   );
 }

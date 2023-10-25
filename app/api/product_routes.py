@@ -1,7 +1,8 @@
 from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
-from app.models import Product, Review
+from app.models import Product, Review, ProductImage
 from app import db
+
 
 
 product_routes = Blueprint('products', __name__)
@@ -31,12 +32,21 @@ def add_product():
         productName=data['productName'],
         description=data['description'],
         price=data['price'],
-        imgUrl=data['imgUrl'],
         category=data['category'],
         quantity=data['quantity']
     )
 
+    # Add product to the session first to ensure it gets an ID
     db.session.add(new_product)
+    db.session.flush()
+
+    # Check if 'imgUrls' is in the data and is a list
+    if 'imgUrls' in data and isinstance(data['imgUrls'], list):
+        # Iterate over the provided image URLs, but only take up to 6
+        for img_url in data['imgUrls'][:6]:
+            new_image = ProductImage(productId=new_product.id, imgUrl=img_url)
+            db.session.add(new_image)
+
     db.session.commit()
 
     return new_product.to_dict()
@@ -55,14 +65,25 @@ def update_product(id):
     product.productName = data.get('productName', product.productName)
     product.description = data.get('description', product.description)
     product.price = data.get('price', product.price)
-    product.imgUrl = data.get('imgUrl', product.imgUrl)
     product.category = data.get('category', product.category)
     product.quantity = data.get('quantity', product.quantity)
+
+    # Update images
+    updated_imgUrls = set(data.get('imageUrls', []))
+    existing_imgUrls = set([img.imgUrl for img in product.images])
+
+    # Add new images to the database
+    for url in updated_imgUrls.difference(existing_imgUrls):
+        new_image = ProductImage(productId=product.id, imgUrl=url)
+        db.session.add(new_image)
+
+    # Remove images not in the updated list from the database
+    for url in existing_imgUrls.difference(updated_imgUrls):
+        ProductImage.query.filter_by(productId=product.id, imgUrl=url).delete()
 
     db.session.commit()
 
     return product.to_dict()
-
 
 # Delete a specific product
 @product_routes.route('/<int:id>', methods=['DELETE'])
@@ -131,7 +152,7 @@ def update_review(productId, reviewId):
 
     return review.to_dict()
 
-# Delete a specific review 
+# Delete a specific review
 @product_routes.route('/<int:productId>/reviews/<int:reviewId>', methods=['DELETE'])
 @login_required
 def delete_review(productId, reviewId):

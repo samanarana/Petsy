@@ -17,7 +17,10 @@ def view_cart():
 
 # Add a product to the cart
 @cart_routes.route("", methods=["POST"])
+@login_required
+
 def add_to_cart():
+
     data = request.get_json()
     print(data)
     if "productId" not in data or "quantity" not in data or "price" not in data:

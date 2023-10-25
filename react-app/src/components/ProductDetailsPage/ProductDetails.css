@@ -2,6 +2,7 @@
     display: flex;
     max-width: 1100px;
     margin: 0 auto;
+    padding-bottom: 30px;
 }
 
 .product-images-container {
@@ -20,6 +21,20 @@
 .thumbnail {
     width: 56px;
     height: 56px;
+    border-radius: 8px;
+    border: 1px solid #ccc;
+    overflow: hidden;
+}
+
+.thumbnail img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover; /* Ensure images cover the entire thumbnail */
+}
+
+.thumbnail-placeholder {
+    width: 56px;
+    height: 56px;
     background-color: #eee;
     border-radius: 8px;
     border: 1px solid #ccc;
@@ -29,15 +44,26 @@
     width: 550px;
     height: 400px;
     margin-left: 20px;
-    background-color: #eee;
     border-radius: 8px;
     border: 1px solid #ccc;
+    overflow: hidden; /* To ensure any nested images do not go beyond this div's boundaries */
 }
 
 .main-image img {
     width: 100%;
     height: 100%;
     object-fit: contain;
+}
+
+.main-image-placeholder {
+    width: 100%; /* Ensures it covers the entire parent div */
+    height: 100%;
+    background-color: #eee;
+    display: flex;
+    justify-content: center;
+    align-items: center; /* Centering any potential content, like "No Image" text */
+    font-size: 1.2em;
+    color: #999;
 }
 
 .product-info {
@@ -140,3 +166,9 @@
 label {
     font-size: 12px;
 }
+
+.reviews-section {
+    margin-top: 30px;
+    border-top: 1px solid #ccc;
+    padding-top: 15px;
+  }

@@ -47,7 +47,6 @@ export const addToCartThunk = (item) => async (dispatch) => {
             "Content-Type": "application/json",
         },
         body: JSON.stringify(item),
-
     });
 
     if (response.ok) {
