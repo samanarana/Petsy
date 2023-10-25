@@ -16,7 +16,7 @@ def view_cart():
 
 
 # Add a product to the cart
-@cart_routes.route("/", methods=["POST"])
+@cart_routes.route("", methods=["POST"])
 def add_to_cart():
     data = request.get_json()
     print(data)

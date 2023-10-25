@@ -1,3 +1,9 @@
+// Local Storage -- Cart Persistence
+const savedCart = localStorage.getItem('currentCart');
+const initialState = {
+    currentCart: savedCart ? JSON.parse(savedCart) : [],
+};
+
 // Action Types
 const GET_CART_ITEMS = "cart/GET_CART_ITEMS";
 const ADD_TO_CART = "cart/ADD_TO_CART";
@@ -23,9 +29,6 @@ const removeFromCart = (itemId) => ({
 //Thunks
 export const fetchCartItemsThunk = () => async (dispatch) => {
     const response = await fetch(`/api/cart`, {
-        headers: {
-            "Content-Type": "application/json",
-        },
     });
     
     if (response.ok) {
@@ -47,12 +50,9 @@ export const addToCartThunk = (item) => async (dispatch) => {
 
     });
 
-    console.log('addToCartThunk response', response)
-
     if (response.ok) {
-        const data = await response.json();
-        console.log('ATCT Data, data')
-        dispatch(addToCart(data));
+        console.log('this is our item', item)
+        dispatch(addToCart(item));
     }
 };
 
@@ -68,26 +68,26 @@ export const removeFromCartThunk = (itemId) => async (dispatch) => {
 
 
 //Reducer
-const initialState = {
-    cartItems: [],
-};
 
 function cartReducer(state = initialState, action) {
     let newState = {...state};
 
     switch (action.type) {
         case GET_CART_ITEMS:
-            newState.cartItems = action.payload;
-            return newState;
+            newState.currentCart = action.payload;
         case ADD_TO_CART:
-            newState.cartItems = [...newState.cartItems, action.payload];
-            return newState;
+            newState.currentCart.push(action.payload);
         case REMOVE_CART_ITEM:
-            newState.cartItems = newState.cartItems.filter(item => item.id !== action.payload);
-            return newState;
+            newState.currentCart = newState.currentCart.filter(item => item.id !== action.payload);
         default:
             return state;
     }
-}
+
+    // Save the current cart to localStorage after any change
+    localStorage.setItem('currentCart', JSON.stringify(newState.currentCart));
+    return newState;
+};
+
+
 
   export default cartReducer;

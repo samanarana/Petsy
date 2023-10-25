@@ -16,7 +16,7 @@ import './ProductDetails.css';
 function ProductDetailsPage() {
 
     const [ isLoaded, setIsLoaded ] = useState(false);
-    const [quantity, setQuantity] = useState(1);
+    const [ quantity, setQuantity ] = useState(1);
 
     const { productId } = useParams();
     const dispatch = useDispatch();
@@ -88,7 +88,7 @@ function ProductDetailsPage() {
                         className="quantity-dropdown"
                         value={quantity}
                         onChange={(e) => setQuantity(Number(e.target.value))}>
-                        <option disabled selected>Select an option</option>
+                        <option disabled defaultValue={1}>Select an option</option>
                         <option value="1">1</option>
                         <option value="2">2</option>
                         <option value="3">3</option>
