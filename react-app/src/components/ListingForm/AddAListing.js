@@ -103,7 +103,7 @@ const AddAListing = () => {
 
 
 
-                    <button type="submit" className="submit-listing-btn">Add Listing</button>
+                    <button type="submit" className="submit-listing-button">Add Listing</button>
                 </form>
             </div>
         </div>

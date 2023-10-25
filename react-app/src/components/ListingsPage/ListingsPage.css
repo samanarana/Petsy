@@ -33,5 +33,34 @@
     cursor: pointer;
     font-weight: 600;
     height: 40px;
+    margin-left: auto;
+    margin-right: 30px;
+}
+
+.edit-and-delete {
+    display: flex;
+}
+
+.update-listing-button {
+    background-color: #faf9f5;
+    color: #6c6d6f;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
     margin-left: 5em;
+    border: 2px solid #dbdad6;
+}
+
+.delete-listing-button {
+    background-color: #faf9f5;
+    color: #6c6d6f;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
+    border: 2px solid #dbdad6;
+    margin-left: -2px;
 }

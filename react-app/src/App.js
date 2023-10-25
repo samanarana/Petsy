@@ -13,6 +13,7 @@ import ReviewFormPage from "./components/ReviewPage/ReviewPage";
 import CartPage from "./components/CartPage/index";
 import ListingsPage from "./components/ListingsPage/index";
 import AddAListing from "./components/ListingForm/AddAListing";
+import UpdateListing from "./components/ListingForm/UpdateListing";
 
 function App() {
   const dispatch = useDispatch();
@@ -56,6 +57,9 @@ function App() {
           </Route>
           <Route path="/add-listing">
             <AddAListing />
+          </Route>
+          <Route path="/update/:productId">
+            <UpdateListing />
           </Route>
 
         </Switch>
