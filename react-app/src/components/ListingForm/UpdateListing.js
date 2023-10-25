@@ -20,10 +20,15 @@ const UpdateListing = () => {
     });
 
     useEffect(() => {
-        dispatch(productDetailsThunk(productId));
+        if(!product.productName && productId) {
+            dispatch(productDetailsThunk(productId));
+        }
+    }, [dispatch, productId, product.productName]);
+
+    useEffect(() => {
 
         // Use product details from store to set local state
-        if (product && product.productName) {
+        if (product && product.productName && !productData.productName) {
             setProductData({
                 productName: product.productName,
                 description: product.description,
@@ -33,7 +38,7 @@ const UpdateListing = () => {
                 imageUrls: product.imageUrls || Array(6).fill(''),
             });
         }
-    }, [dispatch, productId, product]);
+    }, [dispatch, productId, product, product.productName, productData.productName]);
 
     const handleUpdateProduct = (event) => {
         event.preventDefault();
