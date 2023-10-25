@@ -11,6 +11,9 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
+import { getReviewThunk } from '../../store/review';
+import { deleteReviewThunk } from '../../store/review';
+
 import './ProductDetails.css';
 
 function ProductDetailsPage() {
@@ -27,12 +30,21 @@ function ProductDetailsPage() {
             //console.log('Product details loaded successfully.');
             setIsLoaded(true);
         });
+        dispatch(getReviewThunk(productId))
     }, [dispatch, productId]);
 
     const product = useSelector(state => state.product.productDetails);
     const favorites = useSelector(state => state.favorite.favorites);
-    const userId = useSelector(state => state.session.user_id);
+    const userId = useSelector(state => {
+        if (state.session.user && (state.session.user.id === null || state.session.user.id === undefined)) {
+          return state.session.user_id;
+        } else {
+          return state.session.user && state.session.user.id;
+        }
+      });
+    console.log(userId)
     const isFavorited = favorites.some((favorite) => favorite.productId === product.id);
+    const reviews = useSelector(state => state.review.reviews)
 
     if (!isLoaded) {
         return <div>Loading...</div>;
@@ -66,6 +78,20 @@ function ProductDetailsPage() {
             history.push('/cart');  // Redirect to cart page
         });
     };
+
+    const handleDeleteReview = (reviewId) => {
+        dispatch(deleteReviewThunk(reviewId)).then(() => {
+            dispatch(getReviewThunk(productId));
+        });
+    };
+
+    const handleUpdateReview = (review) => {
+        history.push({
+          pathname: `/products/${productId}/review/${review.id}`,
+          state: { review }
+        });
+      };
+
 
     return (
         <div className="product-detail-container">
@@ -119,8 +145,33 @@ function ProductDetailsPage() {
                     </button>
 
                 <p>{product.description}</p>
+
           </div>
+          <div className="reviews-section">
+      <h2>Reviews</h2>
+      {reviews && reviews.length > 0 ? (
+        <ul>
+          {reviews.map((review) => (
+            <li key={review.id}>
+              <p>{review.username}</p>
+              <p>{review.description}</p>
+              <p>Rating: {review.rating}</p>
+              {userId === review.userId && (
+                <>
+                <button onClick={() => handleDeleteReview(review.id)}>Delete Review</button>
+                <button onClick={() => handleUpdateReview(review)}>Update Review</button>
+                </>
+              )}
+            </li>
+          ))}
+        </ul>
+      ) : (
+        <p>No reviews yet.</p>
+      )}
+    </div>
+
       </div>
+
   );
 }
 

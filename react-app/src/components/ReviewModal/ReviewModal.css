@@ -1,0 +1,59 @@
+.purchased-products-modal {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 300px;
+    padding: 30px;
+    text-align: left;
+  }
+
+  .purchased-products-modal h2,
+  .purchased-products-modal h3 {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+
+  .purchased-products-modal ul {
+    list-style-type: none;
+    padding: 0;
+  }
+
+  .purchased-products-modal li {
+    border-bottom: 1px solid #eee;
+    padding: 10px 0;
+  }
+
+  .purchased-products-modal button {
+    background-color: #000;
+    color: #fff;
+    border: none;
+    border-radius: 25px;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
+    text-align: center;
+    display: block;
+    width: 100%;
+  }
+
+  .purchased-products-modal button:hover {
+    background-color: #555;
+  }
+
+  .purchased-products-modal button.close-modal {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+  }
+
+  .purchased-products-modal button.close-modal:hover {
+    background-color: #000;
+    color: #fff;
+  }

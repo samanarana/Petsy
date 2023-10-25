@@ -37,6 +37,7 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
+          <Route path="/products/:productId/review/:reviewId"><ReviewFormPage /></Route>
           <Route path="/products/:productId/reviews/new">
             <ReviewFormPage />
           </Route>
