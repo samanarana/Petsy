@@ -68,21 +68,28 @@ function ProductDetailsPage() {
     };
 
     return (
-      <div className="product-detail-container">
-          <div className="product-images-container">
-              <div className="thumbnail-images">
-                  <div className="thumbnail"></div>
-                  <div className="thumbnail"></div>
-                  <div className="thumbnail"></div>
-                  <div className="thumbnail"></div>
-                  <div className="thumbnail"></div>
-                  <div className="thumbnail"></div>
-
-              </div>
-              <div className="main-image">
-                  <img className="main-image-url" src={product.imgUrl} alt={product.productName} />
-              </div>
-          </div>
+        <div className="product-detail-container">
+        <div className="product-images-container">
+            <div className="thumbnail-images">
+                {Array(6).fill(null).map((_, idx) => (
+                    <div className="thumbnail" key={idx}>
+                        {product.imageUrls && product.imageUrls.length > idx ? (
+                            <img src={product.imageUrls[idx]} alt={`${product.productName} Thumbnail ${idx + 1}`} />
+                        ) : (
+                            <div className="thumbnail-placeholder"></div>
+                        )}
+                    </div>
+                ))}
+            </div>
+            <div className="main-image">
+                {product.imageUrls && product.imageUrls.length > 0 ?
+                    <img className="main-image-url" src={product.imageUrls[0]} alt={product.productName} />
+                    :
+                    // Placeholder for the main image when there are no images
+                    <div className="main-image-placeholder">No Image Available</div>
+                }
+            </div>
+        </div>
           <div className="product-info">
                 <p className="detail-product-price">${product.price}</p>
 
