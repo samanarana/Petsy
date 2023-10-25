@@ -9,7 +9,7 @@ import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 import { useModal } from '../../context/Modal';
 import LoginFormModal from "../LoginFormModal";
 
-const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCount, price } }) => {
+const ProductTile = ({ product: { id, imageUrls, productName, avgRating, reviewCount, price } }) => {
     const dispatch = useDispatch();
 
     const { openModal } = useModal();
@@ -44,8 +44,8 @@ const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCoun
         <Link to={`/products/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className='product-tile'>
                 <div className="image-wrapper">
-                    {imgUrl ?
-                        <img src={imgUrl} alt={productName} />
+                    {imageUrls ?
+                        <img className="real-images" src={imageUrls} alt={productName} />
                         :
                         <div className="image-placeholder"></div>
                     }
