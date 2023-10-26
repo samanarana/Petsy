@@ -9,6 +9,7 @@
     display: flex;
     flex-direction: row;
     margin-top: 30px;
+    margin-left: 20px;
 }
 
 .thumbnail-images {
@@ -29,7 +30,7 @@
 .thumbnail img {
     width: 100%;
     height: 100%;
-    object-fit: cover; /* Ensure images cover the entire thumbnail */
+    object-fit: cover;
 }
 
 .thumbnail-placeholder {
@@ -46,7 +47,7 @@
     margin-left: 20px;
     border-radius: 8px;
     border: 1px solid #ccc;
-    overflow: hidden; /* To ensure any nested images do not go beyond this div's boundaries */
+    overflow: hidden;
 }
 
 .main-image img {
@@ -56,12 +57,12 @@
 }
 
 .main-image-placeholder {
-    width: 100%; /* Ensures it covers the entire parent div */
+    width: 100%;
     height: 100%;
     background-color: #eee;
     display: flex;
     justify-content: center;
-    align-items: center; /* Centering any potential content, like "No Image" text */
+    align-items: center;
     font-size: 1.2em;
     color: #999;
 }
@@ -168,7 +169,64 @@ label {
 }
 
 .reviews-section {
-    margin-top: 30px;
-    border-top: 1px solid #ccc;
-    padding-top: 15px;
-  }
+    width: 100%;
+    margin: 0 40px 40px 60px;
+}
+
+.reviews-header {
+    display: flex;
+    align-items: flex-start;
+}
+
+.reviews-title {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+}
+
+.reviews-username {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+}
+
+.button-container {
+    display: flex;
+    margin-left: -70px;
+}
+
+.review-star {
+    font-size: 22px;
+}
+
+.delete-reviews-button {
+    background-color: #faf9f5;
+    color: #6c6d6f;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    height: 20px;
+    margin-left: 5em;
+    border: 2px solid #dbdad6;
+}
+
+.update-reviews-button {
+    background-color: #faf9f5;
+    color: #6c6d6f;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    height: 20px;
+    border: 2px solid #dbdad6;
+    margin-left: -2px;
+}
+
+.review-list-container {
+    list-style-type: none;
+    padding-left: 10px;
+}
+
+.review-list-itself {
+    list-style-type: none;
+    margin-bottom: 50px;
+}

@@ -2,12 +2,13 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams, useHistory} from "react-router-dom";
 
+
 import { productDetailsThunk } from '../../store/product';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 import { addToCartThunk } from '../../store/cartitems';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
+import { faHeart as solidHeart, faStar as fasStar, faStar as farStar } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
@@ -90,84 +91,104 @@ function ProductDetailsPage() {
 
 
     return (
+        <>
         <div className="product-detail-container">
-        <div className="product-images-container">
-            <div className="thumbnail-images">
-                {Array(6).fill(null).map((_, idx) => (
-                    <div className="thumbnail" key={idx}>
-                        {product.imageUrls && product.imageUrls.length > idx ? (
-                            <img src={product.imageUrls[idx]} alt={`${product.productName} Thumbnail ${idx + 1}`} />
-                        ) : (
-                            <div className="thumbnail-placeholder"></div>
-                        )}
-                    </div>
-                ))}
+
+            <div className="product-images-container">
+                <div className="thumbnail-images">
+                    {Array(6).fill(null).map((_, idx) => (
+                        <div className="thumbnail" key={idx}>
+                            {product.imageUrls && product.imageUrls.length > idx ? (
+                                <img src={product.imageUrls[idx]} alt={`${product.productName} Thumbnail ${idx + 1}`} />
+                            ) : (
+                                <div className="thumbnail-placeholder"></div>
+                            )}
+                        </div>
+                    ))}
+                </div>
+                <div className="main-image">
+                    {product.imageUrls && product.imageUrls.length > 0 ?
+                        <img className="main-image-url" src={product.imageUrls[0]} alt={product.productName} />
+                        :
+                        // Placeholder for the main image when there are no images
+                        <div className="main-image-placeholder">No Image Available</div>
+                    }
+                </div>
             </div>
-            <div className="main-image">
-                {product.imageUrls && product.imageUrls.length > 0 ?
-                    <img className="main-image-url" src={product.imageUrls[0]} alt={product.productName} />
-                    :
-                    // Placeholder for the main image when there are no images
-                    <div className="main-image-placeholder">No Image Available</div>
-                }
+
+
+            <div className="product-info">
+                    <p className="detail-product-price">${product.price}</p>
+
+                    <label>Quantity</label>
+                <div className="dropdown-container">
+                        <select
+                            className="quantity-dropdown"
+                            value={quantity}
+                            onChange={(e) => setQuantity(Number(e.target.value))}>
+                            <option disabled defaultValue={1}>Select an option</option>
+                            <option value="1">1</option>
+                            <option value="2">2</option>
+                            <option value="3">3</option>
+                        </select>
+                    <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+                </div>
+
+                    <button className="add-to-cart-button" onClick={handleAddToCart}>Add to cart</button>
+
+                    <button className="favorite-button" onClick={handleHeartClick}>
+                            {isFavorited ?
+                                <FontAwesomeIcon icon={solidHeart} style={{color: "#c70000"}} />
+                                :
+                                <FontAwesomeIcon icon={regularHeart} style={{color: "#000000"}} />
+                            }
+                            <span> Add to favorites</span>
+                        </button>
+
+                    <p>{product.description}</p>
+
             </div>
+
         </div>
-          <div className="product-info">
-                <p className="detail-product-price">${product.price}</p>
 
-                <label>Quantity</label>
-            <div className="dropdown-container">
-                    <select
-                        className="quantity-dropdown"
-                        value={quantity}
-                        onChange={(e) => setQuantity(Number(e.target.value))}>
-                        <option disabled defaultValue={1}>Select an option</option>
-                        <option value="1">1</option>
-                        <option value="2">2</option>
-                        <option value="3">3</option>
-                    </select>
-                <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+        <div className="reviews-section">
+            <div className="reviews-header">
+            <p className="reviews-title">{reviews.length} Reviews</p>
             </div>
 
-                <button className="add-to-cart-button" onClick={handleAddToCart}>Add to cart</button>
 
-                <button className="favorite-button" onClick={handleHeartClick}>
-                        {isFavorited ?
-                            <FontAwesomeIcon icon={solidHeart} style={{color: "#c70000"}} />
-                            :
-                            <FontAwesomeIcon icon={regularHeart} style={{color: "#000000"}} />
-                        }
-                        <span> Add to favorites</span>
-                    </button>
+            {reviews && reviews.length > 0 ? (
+            <ul className="review-list-container">
+            {reviews.map((review) => (
+                <li className="review-list-itself" key={review.id}>
+                <p className="reviews-username">{review.username}</p>
 
-                <p>{product.description}</p>
+                <div className="reviews-rating">
+                    {Array(5).fill(null).map((_, idx) => (
+                        <FontAwesomeIcon
+                            className="review-star"
+                            key={idx}
+                            icon={idx < review.rating ? fasStar : farStar}
+                            style={idx < review.rating ? {color: "#FFD700"} : {}}
+                        />
+                    ))}
+                </div>
 
-          </div>
-          <div className="reviews-section">
-      <h2>Reviews</h2>
-      {reviews && reviews.length > 0 ? (
-        <ul>
-          {reviews.map((review) => (
-            <li key={review.id}>
-              <p>{review.username}</p>
-              <p>{review.description}</p>
-              <p>Rating: {review.rating}</p>
-              {userId === review.userId && (
-                <>
-                <button onClick={() => handleDeleteReview(review.id)}>Delete Review</button>
-                <button onClick={() => handleUpdateReview(review)}>Update Review</button>
-                </>
-              )}
-            </li>
-          ))}
-        </ul>
-      ) : (
-        <p>No reviews yet.</p>
-      )}
-    </div>
-
-      </div>
-
+                <p className="reviews-description">{review.description}</p>
+                {userId === review.userId && (
+                    <div className="button-container">
+                    <button className="delete-reviews-button" onClick={() => handleDeleteReview(review.id)}>Delete Review</button>
+                    <button className="update-reviews-button" onClick={() => handleUpdateReview(review)}>Update Review</button>
+                    </div>
+                )}
+                </li>
+            ))}
+            </ul>
+        ) : (
+            <p>No reviews yet.</p>
+        )}
+        </div>
+    </>
   );
 }
 

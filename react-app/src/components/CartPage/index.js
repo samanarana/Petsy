@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCartThunk, fetchCartItemsThunk } from '../../store/cartitems';
 import { fetchAllProductsThunk } from '../../store/product';
+
 import './CartPage.css';
 
 function CartPage() {
