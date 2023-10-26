@@ -12,36 +12,64 @@
     text-align: left;
   }
 
-  .purchased-products-modal h2,
-  .purchased-products-modal h3 {
+.title-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding-bottom: 30px;
+  border-bottom: 2px solid #000000;
+}
+
+.title {
     font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 30px;
+    margin-top: -5px;
+    margin-bottom: -5px;
   }
 
-  .purchased-products-modal ul {
+.text {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    margin-bottom: -10px;
+  }
+
+  .product-name-review {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 20px;
+    margin-bottom: -10px;
+  }
+
+  .product-description {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+  }
+  .review-list {
     list-style-type: none;
     padding: 0;
   }
 
   .purchased-products-modal li {
-    border-bottom: 1px solid #eee;
-    padding: 10px 0;
+    border-bottom: 2px solid #ff7f27;
+    padding: 0 0 30px 0;
   }
 
   .purchased-products-modal button {
-    background-color: #000;
-    color: #fff;
-    border: none;
     border-radius: 25px;
+    text-align: center;
+    display: block;
+    width: 70%;
+    background-color: black;
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    border: none;
     cursor: pointer;
     font-weight: 600;
     height: 40px;
-    text-align: center;
-    display: block;
-    width: 100%;
+    margin: auto;
   }
 
   .purchased-products-modal button:hover {
-    background-color: #555;
+    background-color: #ff7f27;
   }
 
   .purchased-products-modal button.close-modal {
