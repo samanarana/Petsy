@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useParams} from "react-router-dom";
+import { useParams, useHistory} from "react-router-dom";
 
 import { productDetailsThunk } from '../../store/product';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
@@ -23,11 +23,10 @@ function ProductDetailsPage() {
 
     const { productId } = useParams();
     const dispatch = useDispatch();
-    // const history = useHistory();
+    const history = useHistory();
 
     useEffect(() => {
         dispatch(productDetailsThunk(productId)).then(() => {
-            //console.log('Product details loaded successfully.');
             setIsLoaded(true);
         });
         dispatch(getReviewThunk(productId))
