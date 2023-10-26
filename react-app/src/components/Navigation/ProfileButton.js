@@ -43,6 +43,7 @@ function ProfileButton({ user }) {
   };
 
   const handleOpenPurchasedProductsModal = () => {
+    setShowMenu(false);
     openModal(<PurchasedProductsModal />);
   };
 
