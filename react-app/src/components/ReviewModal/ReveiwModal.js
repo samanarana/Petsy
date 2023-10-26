@@ -30,14 +30,15 @@ function PurchasedProductsModal() {
 
   return (
     <div className="purchased-products-modal">
-
-      <h2>Purchased Products</h2>
-      <h3>Leave a review on recently purchased products</h3>
-      <ul>
+      <div className="title-container">
+        <p className="title">Purchased Products</p>
+        <p className="text">Leave a review on recently purchased products</p>
+      </div>
+      <ul className="review-list">
         {products.map((product) => (
           <li key={product.id}>
-            <h3>{product.name}</h3>
-            <p>{product.description}</p>
+            <p className="product-name-review">{product.productName}</p>
+            <p className="product-description">{product.description}</p>
             <button onClick={() => handleReviewClick(product.id)}>Leave a Review</button>
           </li>
         ))}
