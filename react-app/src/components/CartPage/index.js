@@ -1,70 +1,93 @@
-import React, { useEffect } from 'react';
+import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { fetchCartItemsThunk } from '../../store/cartitems';
+import { removeFromCartThunk, fetchCartItemsThunk } from '../../store/cartitems';
+import { fetchAllProductsThunk } from '../../store/product';
+
 import './CartPage.css';
 
 function CartPage() {
     const dispatch = useDispatch();
 
-    const cartItems = useSelector(state => {
-        console.log(state)
-        return state.cartitems.cartItems
-    });
+    const userCart = useSelector(state => state.cartitems.currentCart);
+    const allProducts = useSelector(state => state.product.allProducts);
 
-    const total = cartItems.reduce((acc, item) => acc + (item.quantity * item.price), 0);
+    //Field-Selector States
+    const [ isLoaded, setIsLoaded ] = useState(false)
+    const [error, setError] = useState(null)
 
     useEffect(() => {
-        dispatch(fetchCartItemsThunk());
-    }, [dispatch])
-
-    const handleRemoveItem = async (productId) => {
-        const response = await fetch(`/api/cart/${productId}`, {
-            method: "DELETE",
-            headers: {
-                "Content-Type": "application/json",
-            }
+        Promise.all([dispatch(fetchAllProductsThunk()), dispatch(fetchCartItemsThunk())])
+        .then(() => setIsLoaded(true))
+        .catch(error => {
+            setError("this is not working");
+            setIsLoaded(true);
         });
-        if (response.ok) {
-            dispatch(fetchCartItemsThunk());
-        }
+    }, [dispatch]);
+
+
+    const handleRemoveItem = (productId) => {
+        dispatch(removeFromCartThunk(productId))
+        .then(() => {
+            dispatch(fetchCartItemsThunk())
+        })
     };
+
+    if(!isLoaded) {
+        return <div>Loading...</div>
+    }
+
+    //Cost-related
+    const totalCost = userCart.reduce((acc, item) => acc + (item.quantity * item.price), 0).toFixed(2);
+    const withShipping = (Number(totalCost) + 4.99).toFixed(2);
 
 
     return (
         <div className="cart-page">
-            <p>{cartItems.length} items in your cart</p>
+            <p>{userCart.length} items in your cart</p>
 
             <div className="main-content">
                 <div className="order-items-container">
-                    {cartItems.map(item => (
-                        <div key={item.id} className="single-item-container">
-                            <img src={item.product.imgUrl} alt={item.product.productName} className="product-image" />
-                            <button
-                                className="remove-button"
-                                onClick={() => handleRemoveItem(item.productId)}
-                            >
-                                Remove
-                            </button>
-                            <div className="order-info">
-                                <select value={item.quantity}>
+                    {userCart.map(item => {
+                        const productDetails = allProducts.find(product => product.id === item.productId);
+                        return productDetails ? (
+                            <div key={item.productId} className="single-item-container">
+                                <img src={productDetails.imageUrls[0]} alt={'missing image'} className="product-image" />
+                                <button
+                                    className="remove-button"
+                                    onClick={() => handleRemoveItem(item.productId)}
+                                >
+                                    Remove
+                                </button>
+                                <div className="order-info">
+
+                                    {/*
+                                This needs an update, it was returning:
+                                You provided a `value` prop to a form field without an `onChange` handler.
+                                This will render a read-only field. If the field should be mutable use `defaultValue`.
+                                Otherwise, set either `onChange` or `readOnly`.
+                                */}
+
+                                {/* <select value={item.quantity}>
                                     {[1, 2, 3, 4, 5].map(qty => (
                                         <option key={qty} value={qty}>{qty}</option>
                                     ))}
-                                </select>
-                                <p>{item.product.description}</p>
-                                <p>${item.product.quantity * item.product.price}</p>
+                                </select> */}
+
+                                    <p>Description: {productDetails.description}</p>
+                                    <p>Price: ${productDetails.price}</p>
+                                </div>
                             </div>
-                        </div>
-                    ))}
+                        ) : null;
+                    })}
                 </div>
 
                 <div className="checkout-section">
                     <div className="payment-section">
-                        <p>Item(s) total: ${total}</p>
+                        <p>Item(s) total: ${totalCost}</p>
                         <hr />
                         <p>Shipping: $4.99</p>
                         <hr />
-                        <p>Total ({cartItems.length} items): ${total + 4.99}</p>
+                        <p>Total ({userCart.length} items): ${withShipping} </p>
                     </div>
 
                     <button className="checkout-button">Proceed to checkout</button>
@@ -72,7 +95,6 @@ function CartPage() {
             </div>
         </div>
     );
-
 }
 
 export default CartPage;

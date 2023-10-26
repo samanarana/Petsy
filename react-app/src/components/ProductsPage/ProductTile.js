@@ -5,11 +5,12 @@ import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
 import { faHeart as regularHeart } from '@fortawesome/free-regular-svg-icons';
 import { Link } from 'react-router-dom';
 import './ProductTile.css';
+import { addToCartThunk } from '../../store/cartitems';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 import { useModal } from '../../context/Modal';
 import LoginFormModal from "../LoginFormModal";
 
-const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCount, price } }) => {
+const ProductTile = ({ product: { id, imageUrls, productName, avgRating, reviewCount, price } }) => {
     const dispatch = useDispatch();
 
     const { openModal } = useModal();
@@ -21,6 +22,15 @@ const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCoun
     }, [favorites, id]);
 
     const [isFavorited, setIsFavorited] = useState(isProductFavorited);
+
+    const handleAddToCart = () => {
+
+        dispatch(addToCartThunk({
+            productId: id,
+            quantity: 1,
+            price: price
+        }))
+    };
 
     const handleHeartClick = (event) => {
         event.stopPropagation();
@@ -44,8 +54,8 @@ const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCoun
         <Link to={`/products/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className='product-tile'>
                 <div className="image-wrapper">
-                    {imgUrl ?
-                        <img src={imgUrl} alt={productName} />
+                    {imageUrls ?
+                        <img className="real-images" src={imageUrls} alt={productName} />
                         :
                         <div className="image-placeholder"></div>
                     }
@@ -63,7 +73,7 @@ const ProductTile = ({ product: { id, imgUrl, productName, avgRating, reviewCoun
                         ★ {avgRating} ({reviewCount})
                     </div>
                     <div className='product-price'>{`$${price}`}</div>
-                    <button className='add-to-cart-btn'>+ Add to cart</button>
+                    <button className='add-to-cart-btn' onClick={handleAddToCart}>+ Add to cart</button>
                 </div>
             </div>
         </Link>

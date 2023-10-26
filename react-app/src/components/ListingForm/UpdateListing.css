@@ -1,0 +1,88 @@
+.main-container {
+    margin-top: 10px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: 145vh;
+    background-color: #ffffff;
+}
+
+.update-listing-container {
+    width: 80%;
+    max-width: 800px;
+    background-color: #ffffff;
+    padding: 20px 40px;
+    box-shadow: 0px 0px 20px rgba(0, 0, 0, 0.1);
+    border-radius: 10px;
+}
+
+.update-listing-title {
+    font-size: 24px;
+    font-weight: 600;
+    text-align: center;
+    margin-bottom: 20px;
+    color: #333;
+}
+
+.update-listing-form {
+    width: 100%;
+}
+
+.input-group {
+    margin-bottom: 20px;
+}
+
+.input-label {
+    display: block;
+    font-weight: 500;
+    margin-bottom: 8px;
+    color: #555;
+}
+
+.text-input,
+.text-area-input,
+.number-input {
+    width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #666;
+}
+
+.text-area-input {
+    resize: vertical;
+}
+
+.image-option-container {
+    margin-bottom: 16px;
+}
+
+.url-or-file-container {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.text-input.url-input {
+    flex: 1;
+}
+
+.or-separator {
+    margin: 0 8px;
+}
+
+.update-listing-button-form {
+    background-color: #000;
+    color: #fff;
+    padding: 10px 20px;
+    margin-top: 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    font-size: 16px;
+    width: 100%;
+    height: 40px;
+    text-align: center;
+    display: block;
+}

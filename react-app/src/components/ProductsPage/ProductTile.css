@@ -1,17 +1,58 @@
 .product-tile-list {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
-    gap: 1rem;
-    padding: 20px;
+    grid-gap: -15px;
+    justify-items: center;
+    align-items: center;
+    margin: 20px;
+
 }
 
 .product-tile {
     display: flex;
     flex-direction: column;
-    align-items: flex-start;
+    align-items: center;
     width: 100%;
     margin-bottom: 1em;
+    box-sizing: border-box;
     position: relative;
+    min-width: 320px;
+    min-height: 375px;
+    border: none !important;
+}
+
+@media (min-width: 1280px) {
+    .product-tile-list {
+        max-width: 1280px;
+        margin-left: auto;
+        margin-right: auto;
+    }
+
+    .product-tile {
+        width: calc((100% - 3*-15px) / 4);
+    }
+}
+
+@media (max-width: 1200px) and (min-width: 901px) {
+    .product-tile-list {
+        grid-template-columns: repeat(3, 1fr);
+    }
+}
+
+/* Adjust to 2 columns when screen width is between 600px and 900px */
+@media (max-width: 900px) {
+    .product-tile-list {
+        grid-template-columns: repeat(2, 1fr);
+    }
+}
+
+/* Adjustments for very small screens */
+@media (max-width: 600px) {
+    .product-tile-list {
+        grid-template-columns: 1fr; /* This will be 1 column */
+        gap: 10px;
+        padding: 10px;
+    }
 }
 
 .image-wrapper {
@@ -19,9 +60,10 @@
     width: 100%;
     padding-bottom: 100%;
     overflow: hidden;
+    box-sizing: border-box;
 }
 
-.image-placeholder, .product-tile img {
+.image-placeholder, .real-images {
     position: absolute;
     top: 0;
     left: 0;
@@ -29,7 +71,7 @@
     height: 100%;
     object-fit: cover;
     background-color: #e0e0e0;
-    border: 1px solid #ccc;
+    box-sizing: border-box;
 }
 
 .favorite-btn {
@@ -71,15 +113,19 @@
 }
 
 .favorite-btn:active, .favorite-btn:focus {
-    outline: none; /* Remove focus outline for aesthetics */
+    outline: none;
 }
 
 .favorite-btn[data-favorited="true"] {
-    color: red; /* Color for filled heart */
+    color: red;
 }
 
 .product-tile:hover .favorite-btn {
     display: block;
+}
+
+.product-details {
+    width: 100%;
 }
 
 .product-name, .product-rating, .product-price, .add-to-cart-btn {
@@ -117,6 +163,7 @@
     padding: 0.5em 1em;
     cursor: pointer;
     font-size: 12px;
+    z-index: 1;
     font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     transition: transform 0.3s ease, box-shadow 0.3s ease;
 }

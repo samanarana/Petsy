@@ -50,3 +50,15 @@ def delete_review(reviewId):
 def get_user_reviews():
     user_reviews = Review.query.filter_by(userId=current_user.id).all()
     return jsonify({'user_reviews': [review.to_dict() for review in user_reviews]})
+
+@review_routes.route('/<int:reviewId>', methods=['GET'])
+@login_required
+def get_review(reviewId):
+    review = Review.query.get(reviewId)
+    if not review:
+        return ('Review not found', 404)
+
+    if review.userId != current_user.id:
+        return ('Not authorized to view this review', 403)
+
+    return jsonify(review.to_dict())
