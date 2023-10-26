@@ -25,10 +25,9 @@ const removeFromCart = (itemId) => ({
     payload: itemId,
 });
 
-
 //Thunks
 export const fetchCartItemsThunk = () => async (dispatch) => {
-    const response = await fetch(`/api/cart`, {
+    const response = await fetch(`/api/cart/`, {
     });
     
     if (response.ok) {
@@ -39,8 +38,6 @@ export const fetchCartItemsThunk = () => async (dispatch) => {
 
 export const addToCartThunk = (item) => async (dispatch) => {
 
-    console.log('addToCartThunk item', item)
-
     const response = await fetch(`/api/cart`, {
         method: "POST",
         headers: {
@@ -50,7 +47,6 @@ export const addToCartThunk = (item) => async (dispatch) => {
     });
 
     if (response.ok) {
-        console.log('this is our item', item)
         dispatch(addToCart(item));
     }
 };
@@ -71,13 +67,34 @@ export const removeFromCartThunk = (itemId) => async (dispatch) => {
 function cartReducer(state = initialState, action) {
     let newState = {...state};
 
+    //breaks after are required or we won't be hitting the code that allows us to put things in local storage.
+
     switch (action.type) {
         case GET_CART_ITEMS:
             newState.currentCart = action.payload;
+            return newState;
+
+            break;
         case ADD_TO_CART:
             newState.currentCart.push(action.payload);
+            return newState;
+
+            break;
         case REMOVE_CART_ITEM:
-            newState.currentCart = newState.currentCart.filter(item => item.id !== action.payload);
+            const productIdToRemove = action.payload;
+            const cartItemIndex = newState.currentCart.findIndex(item => item.productId === productIdToRemove);
+            const cartItem = newState.currentCart[cartItemIndex];
+        
+            if (cartItem && cartItem.quantity > 1) {
+                newState.currentCart[cartItemIndex].quantity -= 1;
+            }
+            else if (cartItem) {
+                newState.currentCart.splice(cartItemIndex, 1);
+            }
+            return newState;
+
+            break;
+            
         default:
             return state;
     }
