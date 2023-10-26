@@ -14,12 +14,24 @@ def seed_users():
         username='layla', email='layla@aa.io', password='password')
     chewy = User(
         username='chewy', email='chewy@aa.io', password='password')
+    carlos = User(
+        username='Carlos', email='carlos@gmail.com', password='password'
+    )
+    mayu = User(
+        username='Mayu', email='mayu@hotmail.com', password='password'
+    )
+    alex = User(
+        username='Alex', email='alex@gmail.com', password='password'
+    )
+    jordan = User(
+        username='Jordan', email='jordan@yahoo.com', password='password'
+    )
+    taylor = User(
+        username='Taylor', email='taylor@outlook.com', password='password'
+    )
 
-    db.session.add(demo)
-    db.session.add(marnie)
-    db.session.add(bobbie)
-    db.session.add(layla)
-    db.session.add(chewy)
+    db.session.add_all([demo, marnie, bobbie, layla, chewy, carlos, mayu, alex, jordan, taylor])
+
     db.session.commit()
 
 
