@@ -23,6 +23,13 @@ function PurchasedProductsModal() {
     fetchData();
   }, [sessionUser]);
 
+  useEffect(() => {
+    document.body.classList.add('modal-open');
+    return () => {
+        document.body.classList.remove('modal-open');
+    };
+  }, []);
+
   const handleReviewClick = (productId) => {
     history.push(`/products/${productId}/reviews/new`);
     closeModal()
@@ -43,7 +50,6 @@ function PurchasedProductsModal() {
           </li>
         ))}
       </ul>
-      <button onClick={closeModal}>Close</button>
     </div>
   );
 }
