@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeFromCartThunk, fetchCartItemsThunk, clearCartThunk } from '../../store/cartitems';
+import { removeFromCartThunk, fetchCartItemsThunk } from '../../store/cartitems';
 import { fetchAllProductsThunk } from '../../store/product';
 
 import './CartPage.css';
@@ -20,7 +20,7 @@ function CartPage() {
         .then(() => setIsLoaded(true))
         .catch(error => {
             setError("this is not working");
-            setIsLoaded(false);
+            setIsLoaded(true);
         });
     }, [dispatch]);
 
@@ -29,13 +29,8 @@ function CartPage() {
         dispatch(removeFromCartThunk(productId))
         .then(() => {
             dispatch(fetchCartItemsThunk())
-        });
+        })
     };
-
-    const handleClearCart = () => {
-        dispatch(clearCartThunk())
-       };
-    
 
     if(!isLoaded) {
         return <div>Loading...</div>
@@ -51,16 +46,12 @@ function CartPage() {
             <p>{userCart.length} items in your cart</p>
 
             <div className="main-content">
-                <button
-                    className='clear-button'
-                    onClick={() => handleClearCart()}
-                > Clear Cart</button>
                 <div className="order-items-container">
                     {userCart.map(item => {
                         const productDetails = allProducts.find(product => product.id === item.productId);
                         return productDetails ? (
                             <div key={item.productId} className="single-item-container">
-                                <img src={productDetails.imageUrls[0]} alt={productDetails.productName} className="product-image" />
+                                <img src={productDetails.imageUrls[0]} alt={'missing image'} className="product-image" />
                                 <button
                                     className="remove-button"
                                     onClick={() => handleRemoveItem(item.productId)}
