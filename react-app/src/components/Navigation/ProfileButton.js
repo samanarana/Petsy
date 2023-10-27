@@ -60,7 +60,7 @@ function ProfileButton({ user }) {
             <FontAwesomeIcon icon={arrowIcon} className={`arrow-icon ${showMenu ? "arrow-down" : "arrow-up"}`} />
           </button>
           <ul className={ulClassName} ref={ulRef}>
-            <li>{user.username}</li>
+            <li>Hello, {user.username}</li>
             <li>{user.email}</li>
             <li>
               <button onClick={handleOpenPurchasedProductsModal}>Leave a Review</button>

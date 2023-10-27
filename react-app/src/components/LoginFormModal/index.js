@@ -33,17 +33,27 @@ function LoginFormModal() {
     // Validate email format
     const emailRegex = /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i;
     if (!emailRegex.test(email)) {
-        validationErrors.email = "Please enter a valid email address.";
+        validationErrors.email = "The provided credentials were invalid.";
     }
 
     // Check if email and password fields are not empty
     if (!email) {
-        validationErrors.email = "Email address is required.";
+        validationErrors.email = "The provided credentials were invalid.";
     }
 
+    // Username Length - we are not using the username in login, only email
+		// if (username.length < 4) {
+		// 	validationErrors.username = "Username should be at least 4 characters.";
+		// }
+
     if (!password) {
-        validationErrors.password = "Password is required.";
+        validationErrors.password = "The provided credentials were invalid.";
     }
+
+    // Password Strength
+		if (password.length < 6) {
+			validationErrors.password = "The provided credentials were invalid.";
+		}
 
     // If frontend validation fails, display the errors
     if (Object.keys(validationErrors).length > 0) {
@@ -83,6 +93,9 @@ function LoginFormModal() {
         </button>
 
         <form onSubmit={handleSubmit}>
+        {errors.email && <div className="error-message">{errors.email}</div>}
+        {errors.password && <div className="error-message">{errors.password}</div>}
+
           <label>
               Email address
               <input
@@ -92,7 +105,7 @@ function LoginFormModal() {
                   className={errors.email ? "input-error" : ""}
                   required
               />
-              {errors.email && <div className="error-message">{errors.email}</div>}
+
           </label>
           <label>
               Password
@@ -103,9 +116,8 @@ function LoginFormModal() {
                   className={errors.password ? "input-error" : ""}
                   required
               />
-              {errors.password && <div className="error-message">{errors.password}</div>}
           </label>
-          <button className="login-button" type="submit" disabled={!email || !password}>Sign in</button>
+          <button className="login-button" type="submit" disabled={!email || password.length < 6}>Sign in</button>
 
           <div className="login-button-div">
               <button
