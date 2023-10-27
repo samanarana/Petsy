@@ -61,7 +61,6 @@ export const getReviewThunk = (productId) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json();
         dispatch(getReviews(data.reviews))
-        return data.reviews;
     }
 }
 

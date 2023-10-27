@@ -88,5 +88,7 @@
 
 .error-message {
   color: #e74c3c;
-  font-size: .9em !important;
+  font-size: 1em;
+  padding: 3px 0;
+  text-align: left;
 }
