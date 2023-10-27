@@ -108,7 +108,7 @@ function SignupFormModal() {
 					<button
 						className="signup-button"
 						type="submit"
-						disabled={!email || !username || !password || !confirmPassword}>
+						disabled={!email.includes('@') || username.length < 4 || password.length < 6 || password !== confirmPassword}>
 						Register
 					</button>
 				</form>

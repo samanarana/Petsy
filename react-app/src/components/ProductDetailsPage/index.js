@@ -152,9 +152,18 @@ function ProductDetailsPage() {
         </div>
 
         <div className="reviews-section">
-            <div className="reviews-header">
-            <p className="reviews-title">{reviews.length} Reviews</p>
-            </div>
+        <div className="reviews-header">
+            {reviews && reviews.length > 0 ? (
+                <p className="reviews-title">
+                {reviews.length} {reviews.length === 1 ? "Review" : "Reviews"}
+                </p>
+            ) : (
+                <p className="reviews-title">
+                    <FontAwesomeIcon className="new-listing-star" icon={farStar} />
+                    New Listing
+                </p>
+            )}
+        </div>
 
 
             {reviews && reviews.length > 0 ? (
@@ -185,7 +194,7 @@ function ProductDetailsPage() {
             ))}
             </ul>
         ) : (
-            <p>No reviews yet.</p>
+            <p className="no-reviews-yet">No reviews yet.</p>
         )}
         </div>
     </>
