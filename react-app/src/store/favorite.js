@@ -81,9 +81,9 @@ export default function favoriteReducer(state = initialState, action) {
             newState.favorites = action.payload
             return newState
 
-		case ADD_FAVORITE:
-            newState.favorites[action.payload.id] = action.payload
-            return newState
+        case ADD_FAVORITE:
+            newState.favorites = [...newState.favorites, action.payload];
+            return newState;
 
         case REMOVE_FAVORITE:
             newState.favorites = newState.favorites.filter(favorite => favorite.productId !== action.payload);
