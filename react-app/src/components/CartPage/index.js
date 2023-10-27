@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeFromCartThunk, fetchCartItemsThunk, clearCartThunk } from '../../store/cartitems';
+import { removeFromCartThunk, fetchCartItemsThunk } from '../../store/cartitems';
 import { fetchAllProductsThunk } from '../../store/product';
 
 import './CartPage.css';
@@ -20,7 +20,7 @@ function CartPage() {
         .then(() => setIsLoaded(true))
         .catch(error => {
             setError("this is not working");
-            setIsLoaded(false);
+            setIsLoaded(true);
         });
     }, [dispatch]);
 
@@ -29,13 +29,8 @@ function CartPage() {
         dispatch(removeFromCartThunk(productId))
         .then(() => {
             dispatch(fetchCartItemsThunk())
-        });
+        })
     };
-
-    const handleClearCart = () => {
-        dispatch(clearCartThunk())
-       };
-    
 
     if(!isLoaded) {
         return <div>Loading...</div>
@@ -48,19 +43,15 @@ function CartPage() {
 
     return (
         <div className="cart-page">
-            <p className="items-in-cart">{userCart.length} items in your cart</p>
+            <p>{userCart.length} items in your cart</p>
 
             <div className="main-content">
-                <button
-                    className='clear-button'
-                    onClick={() => handleClearCart()}
-                > Clear Cart</button>
                 <div className="order-items-container">
                     {userCart.map(item => {
                         const productDetails = allProducts.find(product => product.id === item.productId);
                         return productDetails ? (
                             <div key={item.productId} className="single-item-container">
-                                <img src={productDetails.imageUrls[0]} alt={productDetails.productName} className="product-image" />
+                                <img src={productDetails.imageUrls[0]} alt={'missing image'} className="product-image" />
                                 <button
                                     className="remove-button"
                                     onClick={() => handleRemoveItem(item.productId)}
@@ -82,7 +73,7 @@ function CartPage() {
                                     ))}
                                 </select> */}
 
-                                    <p>{productDetails.productName}</p>
+                                    <p>Description: {productDetails.description}</p>
                                     <p>Price: ${productDetails.price}</p>
                                 </div>
                             </div>
@@ -91,20 +82,13 @@ function CartPage() {
                 </div>
 
                 <div className="checkout-section">
-                <div className="checkout-line">
-                    <span className="checkout-label">Item(s) total:</span>
-                    <span className="checkout-value">${totalCost}</span>
-                </div>
-                <hr />
-                <div className="checkout-line">
-                    <span className="checkout-label">Shipping:</span>
-                    <span className="checkout-value">$4.99</span>
-                </div>
-                <hr />
-                <div className="checkout-line">
-                    <span className="checkout-label">Total ({userCart.length} items):</span>
-                    <span className="checkout-value">${withShipping}</span>
-                </div>
+                    <div className="payment-section">
+                        <p>Item(s) total: ${totalCost}</p>
+                        <hr />
+                        <p>Shipping: $4.99</p>
+                        <hr />
+                        <p>Total ({userCart.length} items): ${withShipping} </p>
+                    </div>
 
                     <button className="checkout-button">Proceed to checkout</button>
                 </div>

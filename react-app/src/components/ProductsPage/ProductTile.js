@@ -1,4 +1,4 @@
-import React, { useState, useMemo, useEffect } from 'react';
+import React, { useState, useMemo } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faHeart as solidHeart } from '@fortawesome/free-solid-svg-icons';
@@ -7,30 +7,11 @@ import { Link } from 'react-router-dom';
 import './ProductTile.css';
 import { addToCartThunk } from '../../store/cartitems';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
-import { getReviewThunk } from './../../store/review';
 import { useModal } from '../../context/Modal';
 import LoginFormModal from "../LoginFormModal";
 
-const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price } }) => {
+const ProductTile = ({ product: { id, imageUrls, productName, avgRating, reviewCount, price } }) => {
     const dispatch = useDispatch();
-
-    const [reviews, setReviews] = useState([]); // Store fetched reviews
-    const [avgRating, setAvgRating] = useState(0); // Store calculated average rating
-
-    useEffect(() => {
-        const fetchReviews = async () => {
-            const response = await dispatch(getReviewThunk(id));
-            console.log('Fetched reviews for product', id, response);
-            if (response && response.length) {
-                setReviews(response);
-                // Calculate average rating
-                const totalRating = response.reduce((acc, review) => acc + review.rating, 0);
-                setAvgRating((totalRating / response.length).toFixed(1));
-            }
-        };
-
-        fetchReviews();
-    }, [dispatch, id]);
 
     const { openModal } = useModal();
     const userId = useSelector(state => state.session.user && state.session.user.id);
@@ -89,17 +70,7 @@ const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price
                 <div className="product-details">
                     <div className='product-name'>{productName}</div>
                     <div className='product-rating'>
-                        {reviews.length > 0
-                            ? (
-                                <>
-                                    {avgRating}★ · ({reviews.length})
-                                </>
-                            )
-                            : (
-                                <>
-                                    NEW★
-                                </>
-                              )}
+                        ★ {avgRating} ({reviewCount})
                     </div>
                     <div className='product-price'>{`$${price}`}</div>
                     <button className='add-to-cart-btn' onClick={handleAddToCart}>+ Add to cart</button>
