@@ -230,3 +230,11 @@ label {
     list-style-type: none;
     margin-bottom: 50px;
 }
+
+.new-listing-star {
+    margin-right: 8px;
+}
+
+.no-reviews-yet {
+    margin-left: 45px;
+}
