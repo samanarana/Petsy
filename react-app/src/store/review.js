@@ -137,16 +137,15 @@ export default function reducer(state = initialState, action) {
             newState.reviews = action.payload
             return newState
         case ADD_REVIEW:
-            newState.reviews.push(action.payload);
+            newState.reviews = [...newState.reviews, action.payload];
             return newState;
         case DELETE_REVIEW:
             newState.reviews = newState.reviews.filter(review => review.id !== action.payload);
             return newState;
         case UPDATE_REVIEW:
-            const index = newState.reviews.findIndex(review => review.id === action.payload);
-            if (index !== -1) {
-                newState.reviews[index] = action.payload;
-            }
+            newState.reviews = newState.reviews.map(review => 
+                review.id === action.payload.id ? action.payload : review
+            );            
             return newState;
         default:
             return state;
