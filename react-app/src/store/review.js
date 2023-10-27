@@ -61,7 +61,6 @@ export const getReviewThunk = (productId) => async (dispatch) => {
     if (response.ok) {
         const data = await response.json();
         dispatch(getReviews(data.reviews))
-        return data.reviews;
     }
 }
 
@@ -137,7 +136,7 @@ export default function reducer(state = initialState, action) {
             newState.reviews = action.payload
             return newState
         case ADD_REVIEW:
-            newState.reviews.push(action.payload);
+            newState.reviews = [...newState.reviews, action.payload];
             return newState;
         case DELETE_REVIEW:
             newState.reviews = newState.reviews.filter(review => review.id !== action.payload);
