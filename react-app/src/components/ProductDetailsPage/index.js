@@ -14,17 +14,19 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import { getReviewThunk } from '../../store/review';
 import { deleteReviewThunk } from '../../store/review';
+import UpdateReviewModal from '../UpdateReviewModal/UpdateReviewModal';
 
 import './ProductDetails.css';
+import { useModal } from '../../context/Modal';
 
 function ProductDetailsPage() {
 
     const [ isLoaded, setIsLoaded ] = useState(false);
     const [ quantity, setQuantity ] = useState(1);
+    const { openModal } = useModal()
 
     const { productId } = useParams();
     const dispatch = useDispatch();
-    const history = useHistory();
 
     useEffect(() => {
         dispatch(productDetailsThunk(productId)).then(() => {
@@ -83,11 +85,10 @@ function ProductDetailsPage() {
     };
 
     const handleUpdateReview = (review) => {
-        history.push({
-          pathname: `/products/${productId}/review/${review.id}`,
-          state: { review }
-        });
-      };
+        openModal(<UpdateReviewModal productId={productId} reviewId={review.id} />);
+    };
+
+
 
 
     return (
