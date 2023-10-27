@@ -48,7 +48,7 @@ function CartPage() {
 
     return (
         <div className="cart-page">
-            <p>{userCart.length} items in your cart</p>
+            <p className="items-in-cart">{userCart.length} items in your cart</p>
 
             <div className="main-content">
                 <button
@@ -82,7 +82,7 @@ function CartPage() {
                                     ))}
                                 </select> */}
 
-                                    <p>Description: {productDetails.description}</p>
+                                    <p>{productDetails.productName}</p>
                                     <p>Price: ${productDetails.price}</p>
                                 </div>
                             </div>
@@ -91,13 +91,20 @@ function CartPage() {
                 </div>
 
                 <div className="checkout-section">
-                    <div className="payment-section">
-                        <p>Item(s) total: ${totalCost}</p>
-                        <hr />
-                        <p>Shipping: $4.99</p>
-                        <hr />
-                        <p>Total ({userCart.length} items): ${withShipping} </p>
-                    </div>
+                <div className="checkout-line">
+                    <span className="checkout-label">Item(s) total:</span>
+                    <span className="checkout-value">${totalCost}</span>
+                </div>
+                <hr />
+                <div className="checkout-line">
+                    <span className="checkout-label">Shipping:</span>
+                    <span className="checkout-value">$4.99</span>
+                </div>
+                <hr />
+                <div className="checkout-line">
+                    <span className="checkout-label">Total ({userCart.length} items):</span>
+                    <span className="checkout-value">${withShipping}</span>
+                </div>
 
                     <button className="checkout-button">Proceed to checkout</button>
                 </div>
