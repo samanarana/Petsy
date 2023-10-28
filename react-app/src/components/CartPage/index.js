@@ -28,17 +28,16 @@ function CartPage() {
         });
     }, [dispatch]);
 
-
     const handleRemoveItem = (productId) => {
         dispatch(removeFromCartThunk(productId))
-        dispatch(fetchCartItemsThunk());
+        .then( () => {
+            dispatch(fetchCartItemsThunk());
+        });
     };
-
 
     const handleClearCart = () => {
         dispatch(clearCartThunk())
     };
-
 
     const handleUpdateCartItemQuantity = (productId, newQuantity) => {
         const productDetails = allProducts.find(product => product.id === productId);
@@ -146,10 +145,10 @@ function CartPage() {
                                         </div>
                                     </div>
                                     <button
-                                            className="remove-button"
-                                            onClick={() => handleRemoveItem(item.productId)}
-                                            >
-                                            Remove
+                                        className="remove-button"
+                                        onClick={() => handleRemoveItem(item.productId)}
+                                        >
+                                        Remove
                                     </button>
                                 </div>
                             </div>

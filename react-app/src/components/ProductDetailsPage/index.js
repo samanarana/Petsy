@@ -23,13 +23,10 @@ function ProductDetailsPage() {
 
     const [ isLoaded, setIsLoaded ] = useState(false);
     const [ quantity, setQuantity ] = useState(1);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-    const [cartMessage, setCartMessage] = useState("");
-
+    const [ currentImageIndex, setCurrentImageIndex ] = useState(0);
+    const [ cartMessage, setCartMessage ] = useState("");
+    const [ error, setError ] = useState(null);
     const { openModal } = useModal()
-    const [error, setError] = useState(null);
-
-
     const { productId } = useParams();
     const dispatch = useDispatch();
 
@@ -70,8 +67,9 @@ function ProductDetailsPage() {
 
         if (isFavorited) {
             const favoriteToRemove = favorites.find((favorite) => favorite.productId === product.id);
+            console.log('favoritetoRemove in ProductDetailsPage --------------------', favoriteToRemove)
             if (favoriteToRemove) {
-                dispatch(removeFavoriteThunk(favoriteToRemove.id));
+                dispatch(removeFavoriteThunk(favoriteToRemove.userId, favoriteToRemove.productId));
             }
         } else {
             dispatch(addFavoriteThunk(userId, product.id));
@@ -81,7 +79,7 @@ function ProductDetailsPage() {
     const handleAddToCart = () => {
         const existingItem = cartItems.find(item => item.productId === product.id);
 
-        const currentTotalQuantity = existingItem ? existingItem.quantity + quantity : quantity;
+        // const currentTotalQuantity = existingItem ? existingItem.quantity + quantity : quantity;
 
         dispatch(addToCartThunk({
             productId: product.id,
