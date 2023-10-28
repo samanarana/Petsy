@@ -5,7 +5,6 @@ const ListingTile = ({ product, onTileSelected, isSelected }) => {
 
     const handleSelectClick = (event) => {
         event.stopPropagation();
-        console.log('Tile clicked:', product);
         if (isSelected) {
             onTileSelected(null);
         } else {

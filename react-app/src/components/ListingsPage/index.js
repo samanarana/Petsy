@@ -26,7 +26,6 @@ const ListingsPage = () => {
 
     const handleUpdateClick = () => {
         if (selectedTile) {
-            console.log('Selected product ID:', selectedTile.id);
             // Navigate to the update page with selectedTile's details
             history.push(`/update/${selectedTile.id}`);
         }

@@ -241,3 +241,11 @@ label {
 .no-reviews-yet {
     margin-left: 45px;
 }
+
+.success-message {
+    color: red;
+    display: flex;
+    text-align: center;
+    justify-content: center;
+    margin-right: 55px;
+}
