@@ -10,15 +10,13 @@ import './CartPage.css';
 
 function CartPage() {
     const dispatch = useDispatch();
-
     const userCart = useSelector(state => state.cartitems.currentCart);
     const allProducts = useSelector(state => state.product.allProducts);
 
     //Field-Selector States
     const [ isLoaded, setIsLoaded ] = useState(false)
-    const [error, setError] = useState(null)
-    const [selectedQuantities, setSelectedQuantities] = useState({});
-
+    const [ error, setError ] = useState(null)
+    const [ selectedQuantities, setSelectedQuantities ] = useState({});
 
     useEffect(() => {
         Promise.all([dispatch(fetchAllProductsThunk()), dispatch(fetchCartItemsThunk())])
@@ -38,16 +36,19 @@ function CartPage() {
 
     const handleClearCart = () => {
         dispatch(clearCartThunk())
-       };
+    };
 
 
-       const handleUpdateCartItemQuantity = (productId, newQuantity) => {
-        if (newQuantity <= MAX_QUANTITY) {
+    const handleUpdateCartItemQuantity = (productId, newQuantity) => {
+        const productDetails = allProducts.find(product => product.id === productId);
+        const availableQuantity = productDetails ? productDetails.quantity : 0;
+
+        if (newQuantity <= availableQuantity) {
             dispatch(updateCartItemQuantityThunk(productId, newQuantity));
         } else {
-            setError(`You can't have more than ${MAX_QUANTITY} of this product in your cart.`);
+            setError(`You can't have more than ${availableQuantity} of this product in your cart.`);
         }
-    }
+    };
 
     if(!isLoaded) {
         return <div>Loading...</div>
@@ -57,10 +58,10 @@ function CartPage() {
     const totalCost = userCart.reduce((acc, item) => acc + (item.quantity * item.price), 0).toFixed(2);
     const withShipping = (Number(totalCost) + 4.99).toFixed(2);
     const totalItems = userCart.reduce((acc, item) => acc + item.quantity, 0);
-    const MAX_QUANTITY = 10;
 
     return (
         <div className="cart-page">
+            {error && <div className="error-message">{error}</div>}
             {userCart.length === 0 ? (
                 <>
                     <p className="cart-is-empty">Your cart is empty.</p>
@@ -80,6 +81,7 @@ function CartPage() {
                 <div className="order-items-container">
                     {userCart.map(item => {
                         const productDetails = allProducts.find(product => product.id === item.productId);
+                        const availableQuantity = productDetails ? productDetails.quantity : 0;
                         return productDetails ? (
 
                             <div key={item.productId} className="single-item-container">
@@ -92,24 +94,25 @@ function CartPage() {
                                     </div>
                                     <div className="bottom-section">
                                         <div className="dropdown-container">
-                                            <select
-                                                className="quantity-dropdown-cart"
-                                                value={selectedQuantities[item.productId] || item.quantity}
-                                                onChange={(e) => {
-                                                    const updatedQuantities = {
-                                                        ...selectedQuantities,
-                                                        [item.productId]: Number(e.target.value)
-                                                    };
-                                                    setSelectedQuantities(updatedQuantities);
-                                                    handleUpdateCartItemQuantity(item.productId, Number(e.target.value));
-                                                }}
-                                            >
-                                                {
-                                                    Array.from({ length: Math.min(MAX_QUANTITY, item.quantity + 1) }, (_, i) => i + 1).map(qty => (
-                                                        <option key={qty} value={qty}>{qty}</option>
-                                                    ))
-                                                }
-                                            </select>
+                                        <select
+                                            className="quantity-dropdown-cart"
+                                            value={selectedQuantities[item.productId] || item.quantity}
+                                            onChange={(e) => {
+                                                console.log('dropdown value changed:', e.target.value)
+                                                const updatedQuantities = {
+                                                    ...selectedQuantities,
+                                                    [item.productId]: Number(e.target.value)
+                                                };
+                                                setSelectedQuantities(updatedQuantities);
+                                                handleUpdateCartItemQuantity(item.productId, Number(e.target.value));
+                                            }}
+                                        >
+                                            {
+                                                Array.from({ length: availableQuantity }, (_, i) => i + 1).map(qty => (
+                                                    <option key={qty} value={qty}>{qty}</option>
+                                                ))
+                                            }
+                                        </select>
 
                                             <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                                         </div>

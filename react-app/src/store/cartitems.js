@@ -45,21 +45,6 @@ export const fetchCartItemsThunk = () => async (dispatch) => {
     }
 };
 
-export const addToCartThunk = (item) => async (dispatch) => {
-
-    const response = await fetch(`/api/cart`, {
-        method: "POST",
-        headers: {
-            "Content-Type": "application/json",
-        },
-        body: JSON.stringify(item),
-    });
-
-    if (response.ok) {
-        dispatch(addToCart(item));
-    }
-};
-
 export const removeFromCartThunk = (itemId) => async (dispatch) => {
     const response = await fetch(`/api/cart/${itemId}`, {
         method: "DELETE",
@@ -80,7 +65,66 @@ export const clearCartThunk = () => async (dispatch) => {
     };
 }
 
-export const updateCartItemQuantityThunk = (itemId, quantity) => async (dispatch) => {
+// export const addToCartThunk = (item) => async (dispatch) => {
+
+//     const response = await fetch(`/api/cart`, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(item),
+//     });
+
+//     if (response.ok) {
+//         dispatch(addToCart(item));
+//     }
+// };
+
+// export const updateCartItemQuantityThunk = (itemId, quantity) => async (dispatch) => {
+//     const response = await fetch(`/api/cart/${itemId}`, {
+//         method: "PUT",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ quantity }),
+//     });
+
+//     if (response.ok) {
+//         dispatch(updateCartItemQuantity(itemId, quantity));
+//     }
+// };
+
+export const addToCartThunk = (item) => async (dispatch, getState) => {
+    const { product } = getState();
+    const productItem = product.allProducts.find(p => p.id === item.productId);
+
+    if (productItem.quantity < item.quantity) {
+        alert("Cannot add more items than available in stock!");
+        item.quantity = productItem.quantity;
+    }
+
+    const response = await fetch(`/api/cart`, {
+        method: "POST",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify(item),
+    });
+
+    if (response.ok) {
+        dispatch(addToCart(item));
+    }
+};
+
+export const updateCartItemQuantityThunk = (itemId, quantity) => async (dispatch, getState) => {
+    const { product } = getState();
+    const productItem = product.allProducts.find(p => p.id === itemId);
+
+    if (productItem.quantity < quantity) {
+        alert("Cannot update quantity beyond available stock!");
+        quantity = productItem.quantity; 
+    }
+
     const response = await fetch(`/api/cart/${itemId}`, {
         method: "PATCH",
         headers: {
