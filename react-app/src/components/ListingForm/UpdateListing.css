@@ -1,13 +1,13 @@
-.main-container {
-    margin-top: 10px;
+.main-container-update {
+    margin: 40px 40px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 145vh;
+    align-items: flex-start;
     background-color: #ffffff;
 }
 
 .update-listing-container {
+    margin: 20px 40px;
     width: 80%;
     max-width: 800px;
     background-color: #ffffff;

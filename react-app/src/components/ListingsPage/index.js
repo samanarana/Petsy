@@ -1,24 +1,23 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 
 import './ListingsPage.css';
 import ListingTile from './ListingTile';
-import { fetchAllProductsThunk, deleteProductThunk } from '../../store/product';
+import { fetchUserProductsThunk, deleteProductThunk } from '../../store/product';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faPlus, faHome, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
+import { faPlus, faEdit, faTrash } from '@fortawesome/free-solid-svg-icons';
 
 const ListingsPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
-
-    const products = useSelector((state) => state.product.allProducts);
+    const userProducts = useSelector(state => state.product.userProducts);
 
     const [selectedTile, setSelectedTile] = useState(null);
 
     useEffect(() => {
-        dispatch(fetchAllProductsThunk());
+        dispatch(fetchUserProductsThunk());
     }, [dispatch]);
 
     const handleAddListingClick = () => {
@@ -27,6 +26,7 @@ const ListingsPage = () => {
 
     const handleUpdateClick = () => {
         if (selectedTile) {
+            console.log('Selected product ID:', selectedTile.id);
             // Navigate to the update page with selectedTile's details
             history.push(`/update/${selectedTile.id}`);
         }
@@ -60,7 +60,7 @@ const ListingsPage = () => {
 
             <div className="user-listings">
                 <div className="product-tiles-container">
-                    {products.map(product => (
+                    {userProducts.map(product => (
                         <ListingTile
                             className="product-tile"
                             key={product.id}

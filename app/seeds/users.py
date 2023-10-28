@@ -29,8 +29,21 @@ def seed_users():
     taylor = User(
         username='Taylor', email='taylor@outlook.com', password='password'
     )
+    chris = User(
+        username='Chris', email='chris@yahoo.com', password='password'
+    )
+    charles = User(
+        username='Charles', email='charles@gmail.com', password='password'
+    )
+    rosa = User(
+        username='Rosa', email='Rosa@hotmail.com', password='password'
+    )
+    jessica = User(
+        username='Jessica', email='jessica@example.com', password='password123'
+    )
 
-    db.session.add_all([demo, marnie, bobbie, layla, chewy, carlos, mayu, alex, jordan, taylor])
+
+    db.session.add_all([demo, marnie, bobbie, layla, chewy, carlos, mayu, alex, jordan, taylor, chris, charles, rosa, jessica])
 
     db.session.commit()
 

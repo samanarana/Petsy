@@ -26,5 +26,6 @@ class Review(db.Model):
             'productId': self.productId,
             'description': self.description,
             'rating': self.rating,
-            'dateCreated': self.dateCreated
+            'dateCreated': self.dateCreated,
+            'username': self.user.username
         }

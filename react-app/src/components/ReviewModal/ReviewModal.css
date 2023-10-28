@@ -11,8 +11,22 @@
     padding: 15px;
     text-align: left;
     margin-bottom: 30px;
+    overflow-y: auto;
+    height: 425px !important;
 
   }
+
+  .purchased-products-modal::-webkit-scrollbar {
+    width: 10px;
+    background-color: transparent;
+    border-radius: 4px;
+}
+
+.purchased-products-modal::-webkit-scrollbar-thumb {
+    background-color: #ff7f27;
+    border-radius: 4px;
+}
+
 
 .title-container {
   display: flex;

@@ -74,7 +74,7 @@ const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price
             <div className='product-tile'>
                 <div className="image-wrapper">
                     {imageUrls ?
-                        <img className="real-images" src={imageUrls} alt={productName} />
+                        <img className="real-images" src={imageUrls[0]} alt={productName} />
                         :
                         <div className="image-placeholder"></div>
                     }
