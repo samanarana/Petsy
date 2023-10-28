@@ -42,11 +42,6 @@ const ListingsPage = () => {
     return (
         <div className="page-container">
             <div className="navigation-buttons">
-
-                    <Link to="/" className="home-button"> {/* takes the user to the home page */}
-                        <FontAwesomeIcon icon={faHome} style={{ color: '#000', fontSize: '30px', marginRight: '10px' }} />
-                    </Link>
-
                 <div className="edit-and-delete">
                     <button className="update-listing-button" onClick={handleUpdateClick} disabled={!selectedTile}>
                     <FontAwesomeIcon icon={faEdit} style={{ color: selectedTile ? '#6c6d6f' : 'gray', fontSize: '20px', marginRight: '10px' }} /> Update

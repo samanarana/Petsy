@@ -16,9 +16,6 @@ function Navigation({ isLoaded }){
 	const sessionUser = useSelector(state => state.session.user);
 	const location = useLocation();
 
-	if (location.pathname === '/listings') {
-		return null;
-	}
 
 	return (
 		<>
@@ -44,9 +41,11 @@ function Navigation({ isLoaded }){
 								<FontAwesomeIcon icon={regularHeart} style={{ color: '#000000' }} />
 							</NavLink>
 
-							<NavLink to="/listings" className="shop-button">
-                                <FontAwesomeIcon icon={faShop} style={{ color: '#000000' }} />
-                            </NavLink>
+                            {sessionUser && (
+                                <NavLink to="/listings" className="shop-button">
+                                    <FontAwesomeIcon icon={faShop} style={{ color: '#000000' }} />
+                                </NavLink>
+                            )}
 
 							<div className="profile-button-wrapper">
 								<ProfileButton user={sessionUser} />
@@ -60,7 +59,7 @@ function Navigation({ isLoaded }){
                 	</>
 				)}
 			</ul>
-			{location.pathname !== '/cart' && location.pathname !== '/add-listing' && <CategoryNav />}
+			{location.pathname !== '/cart' && location.pathname !== '/add-listing' && location.pathname !== '/listings' && <CategoryNav />}
 		</>
 	);
 }
