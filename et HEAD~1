@@ -1,0 +1,21 @@
+[33mfe12193[m[33m ([m[1;36mHEAD -> [m[1;32msaman10/28[m[33m)[m Merge branch 'development' of https://github.com/samanarana/Petsy into saman10/28
+[33m3aebff4[m[33m ([m[1;31morigin/saman10/28[m[33m)[m add to cart fixes and success message, delete listing working
+[33ma41b909[m[33m ([m[1;31morigin/development[m[33m)[m Merge pull request #77 from samanarana/ChrisOCt28
+[33m7a42890[m Fixed Cart functionality
+[33m63e7035[m Merge pull request #75 from samanarana/review-bug-fixes
+[33m0716311[m added a basic pop up for delete review
+[33m2b72078[m Merge pull request #74 from samanarana/saman10/28
+[33m6038ca5[m add a listing and update form working
+[33m753dccd[m Merge pull request #73 from samanarana/cjs-1028
+[33mb7997c8[m added review username and date. Add seed data for reviews.
+[33m7f4b4ac[m Merge pull request #72 from samanarana/saman10/28
+[33m9a5c3ba[m image and modal fixes
+[33mb5d39b1[m Merge pull request #70 from samanarana/saman10/28
+[33mf0afc36[m css changes and navbar changes
+[33m16d34e6[m Merge pull request #69 from samanarana/correct-review-modal-1027
+[33m113b17b[m Merge branch 'development' into correct-review-modal-1027
+[33ma658fa4[m Merge pull request #68 from samanarana/ChrisOct27#3
+[33ma993ea2[m Checkout Logic + Stock-related fixes
+[33m3f5d43e[m Merge pull request #67 from samanarana/newtest
+[33ma0f9f59[m[33m ([m[1;31morigin/newtest[m[33m, [m[1;32mnewtest[m[33m)[m quantity in cart works, as well as cart css
+[33m9a2734a[m Turned the review pages into Modals. Also add the feature to check if user has already reviewed a product
