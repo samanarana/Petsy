@@ -23,6 +23,8 @@ function ProductDetailsPage() {
 
     const [ isLoaded, setIsLoaded ] = useState(false);
     const [ quantity, setQuantity ] = useState(1);
+    const [currentImageIndex, setCurrentImageIndex] = useState(0);
+
 
     const { openModal } = useModal()
     const [error, setError] = useState(null);
@@ -106,6 +108,9 @@ function ProductDetailsPage() {
         openModal(<UpdateReviewModal productId={productId} reviewId={review.id} />);
     };
 
+    const handleThumbnailClick = (index) => {
+        setCurrentImageIndex(index);
+    };
 
 
 
@@ -115,32 +120,28 @@ function ProductDetailsPage() {
 
             <div className="product-images-container">
                 <div className="thumbnail-images">
-                    {Array(6).fill(null).map((_, idx) => (
-                        <div className="thumbnail" key={idx}>
-                            {product.imageUrls && product.imageUrls.length > idx ? (
-                                <img src={product.imageUrls[idx]} alt={`${product.productName} Thumbnail ${idx + 1}`} />
-                            ) : (
-                                <div className="thumbnail-placeholder"></div>
-                            )}
+                    {product.imageUrls.map((imageUrl, idx) => (
+                        <div className="thumbnail" key={idx} onClick={() => handleThumbnailClick(idx)}>
+                            <img src={imageUrl} alt={`${product.productName} Thumbnail ${idx + 1}`} />
                         </div>
                     ))}
                 </div>
-                <div className="main-image">
-                    {product.imageUrls && product.imageUrls.length > 0 ?
-                        <img className="main-image-url" src={product.imageUrls[0]} alt={product.productName} />
-                        :
-                        // Placeholder for the main image when there are no images
-                        <div className="main-image-placeholder">No Image Available</div>
-                    }
-                </div>
-            </div>
 
+                <div className="main-image">
+                    {product.imageUrls && product.imageUrls[currentImageIndex] ? (
+                        <img className="main-image-url" src={product.imageUrls[currentImageIndex]} alt={product.productName} />
+                    ) : (
+                        <div className="main-image-placeholder">No Images Available</div>
+                    )}
+                </div>
+
+            </div>
 
             <div className="product-info">
                     <p className="detail-product-price">${product.price}</p>
 
                     <label>Quantity</label>
-                <div className="dropdown-container">
+                <div className="dropdown-container-details">
                         <select
                             className="quantity-dropdown"
                             value={quantity}

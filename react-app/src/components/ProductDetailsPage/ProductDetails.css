@@ -25,12 +25,18 @@
     border-radius: 8px;
     border: 1px solid #ccc;
     overflow: hidden;
+    cursor: pointer;
 }
 
 .thumbnail img {
     width: 100%;
     height: 100%;
     object-fit: cover;
+    transition: transform 0.3s;
+}
+
+.thumbnail:hover img {
+    transform: scale(1.1);
 }
 
 .thumbnail-placeholder {
@@ -43,7 +49,7 @@
 
 .main-image {
     width: 550px;
-    height: 400px;
+    height: 500px;
     margin-left: 20px;
     border-radius: 8px;
     border: 1px solid #ccc;
@@ -53,18 +59,14 @@
 .main-image img {
     width: 100%;
     height: 100%;
-    object-fit: contain;
+    object-fit: cover;
 }
 
 .main-image-placeholder {
-    width: 100%;
-    height: 100%;
-    background-color: #eee;
     display: flex;
     justify-content: center;
     align-items: center;
-    font-size: 1.2em;
-    color: #999;
+
 }
 
 .product-info {
@@ -133,11 +135,12 @@
     appearance: none;
     border-radius: 5px;
     cursor: pointer;
-    padding-left: 8px;
+    padding-left: 15px;
     font-size: 14px;
     margin-top: -12px;
     padding-right: 30px;
     background: transparent;
+
 }
 
 .quantity-dropdown:hover {
@@ -145,7 +148,7 @@
 }
 
 
-.dropdown-container {
+.dropdown-container-details {
     position: relative;
     display: flex;
     justify-content: center;
@@ -168,8 +171,9 @@ label {
 }
 
 .reviews-section {
-    width: 100%;
-    margin: 0 40px 40px 60px;
+    max-width: 900px;
+    margin: auto;
+    padding-bottom: 30px;
 }
 
 .reviews-header {
@@ -236,9 +240,4 @@ label {
 
 .no-reviews-yet {
     margin-left: 45px;
-}
-
-.error-message {
-    color: #e74c3c;
-    font-size: .7em !important;
 }
