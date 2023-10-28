@@ -16,10 +16,6 @@ function ReviewFormModal({ productId }) {
   const [errorMessage, setErrorMessage] = useState(null);
 
 
-  const handleStarClick = (starRating) => {
-    setRating(starRating);
-  };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     console.log("handleSubmit triggered");

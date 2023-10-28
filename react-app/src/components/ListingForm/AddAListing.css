@@ -1,13 +1,13 @@
-.main-container {
-    margin-top: 10px;
+.main-container-add-listing {
+    margin: 40px 40px;
     display: flex;
     justify-content: center;
-    align-items: center;
-    height: 210vh;
+    align-items: flex-start;
     background-color: #ffffff;
 }
 
 .add-listing-container {
+    margin: 20px 40px;
     width: 80%;
     max-width: 800px;
     background-color: #ffffff;
@@ -43,6 +43,15 @@
 .text-area-input,
 .number-input {
     width: 100%;
+    padding: 10px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 16px;
+    color: #666;
+}
+
+.text-input-select-category {
+    width: 103%;
     padding: 10px;
     border: 1px solid #ddd;
     border-radius: 4px;
@@ -86,3 +95,14 @@
     text-align: center;
     display: block;
 }
+
+.error-message {
+    color: #e74c3c;
+    font-size: .9em !important;
+  }
+
+  .error-message-images {
+    color: #e74c3c;
+    font-size: .9em !important;
+    margin-top: 5px;
+  }
