@@ -99,9 +99,12 @@ function ProductDetailsPage() {
 
 
     const handleDeleteReview = (reviewId) => {
-        dispatch(deleteReviewThunk(reviewId)).then(() => {
-            dispatch(getReviewThunk(productId));
-        });
+        const deteleIt = window.confirm("Are you sure you want to delete this review?");
+        if (deteleIt) {
+            dispatch(deleteReviewThunk(reviewId)).then(() => {
+                dispatch(getReviewThunk(productId));
+            });
+        }
     };
 
     const handleUpdateReview = (review) => {
