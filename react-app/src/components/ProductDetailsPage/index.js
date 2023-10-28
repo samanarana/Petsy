@@ -194,6 +194,7 @@ function ProductDetailsPage() {
             {reviews.map((review) => (
                 <li className="review-list-itself" key={review.id}>
                 <p className="reviews-username">{review.username}</p>
+                <p className="reviews-date">{new Date(review.dateCreated).toLocaleDateString()}</p>
 
                 <div className="reviews-rating">
                     {Array(5).fill(null).map((_, idx) => (

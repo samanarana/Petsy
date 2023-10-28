@@ -13,6 +13,8 @@ function ReviewFormModal({ productId }) {
   const [description, setDescription] = useState('');
   const [rating, setRating] = useState(1);
   const [hoveredStar, setHoveredStar] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+
 
   const handleStarClick = (starRating) => {
     setRating(starRating);
@@ -20,6 +22,14 @@ function ReviewFormModal({ productId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    console.log("handleSubmit triggered");
+
+    if (description.length < 10) {
+      console.log("Setting error message...");
+      setErrorMessage("Give us a little bit longer of a review.");
+      return;
+  }
+
     const newReview = {
       description,
       rating
@@ -35,11 +45,14 @@ function ReviewFormModal({ productId }) {
       </div>
       <form onSubmit={handleSubmit}>
         <textarea
+
         className="description-review"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
         />
+        {errorMessage && <p className="error-message">{errorMessage}</p>}
+
         <div className="rating-container">
             {Array(5).fill(null).map((_, idx) => (
                 <FontAwesomeIcon
@@ -53,7 +66,7 @@ function ReviewFormModal({ productId }) {
                 />
             ))}
         </div>
-        <button type="submit">Submit</button>
+        <button type="submit" >Submit</button>
       </form>
     </div>
   );
