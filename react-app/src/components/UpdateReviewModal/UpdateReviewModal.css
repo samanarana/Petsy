@@ -1,0 +1,94 @@
+.update-review-modal {
+    position: fixed;
+    top: 51%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+    z-index: 1001;
+    background-color: #fff;
+    border-radius: 20px;
+    box-shadow: 0px 4px 6px rgba(0, 0, 0, 0.1);
+    width: 320px;
+    padding: 15px;
+    text-align: left;
+    margin-bottom: 30px;
+}
+
+.update-review-modal p {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+}
+
+.update-review-modal label {
+    display: block;
+    margin-bottom: 20px;
+}
+
+.update-review-modal textarea,
+.update-review-modal select {
+    width: 85%;
+    height: 100px;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: 1px solid #ccc;
+    border-radius: 5px;
+
+}
+
+.update-review-modal .input-error {
+    border-color: red;
+}
+
+.error-message {
+    color: red;
+    font-size: 12px;
+    margin-bottom: 10px;
+}
+
+.update-review-modal button {
+    border-radius: 25px;
+    text-align: center;
+    display: block;
+    width: 70%;
+    background-color: black;
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
+    margin: auto;
+}
+
+.update-review-modal button:hover {
+    background-color: #ff7f27;
+}
+
+.update-review-modal button.close-modal {
+    background-color: #fff;
+    color: #000;
+    border: 2px solid #000;
+    position: absolute;
+    top: 20px;
+    right: 20px;
+}
+
+.update-review-modal button.close-modal:hover {
+    background-color: #000;
+    color: #fff;
+}
+
+.rating-container {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start;
+    margin-bottom: 10px;
+}
+
+.review-star {
+    margin-right: 5px;
+    font-size: 24px;
+    cursor: pointer;
+}
+
+.review-star.selected {
+    color: #FFD700;
+}

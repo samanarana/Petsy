@@ -14,25 +14,24 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 
 import { getReviewThunk } from '../../store/review';
 import { deleteReviewThunk } from '../../store/review';
+import UpdateReviewModal from '../UpdateReviewModal/UpdateReviewModal';
 
 import './ProductDetails.css';
+import { useModal } from '../../context/Modal';
 
 function ProductDetailsPage() {
 
     const [ isLoaded, setIsLoaded ] = useState(false);
     const [ quantity, setQuantity ] = useState(1);
 
+    const { openModal } = useModal()
+    const [error, setError] = useState(null);
+
+
     const { productId } = useParams();
     const dispatch = useDispatch();
-    const history = useHistory();
 
-    useEffect(() => {
-        dispatch(productDetailsThunk(productId)).then(() => {
-            setIsLoaded(true);
-        });
-        dispatch(getReviewThunk(productId))
-    }, [dispatch, productId]);
-
+    const cartItems = useSelector(state => state.cartitems.currentCart);
     const product = useSelector(state => state.product.productDetails);
     const favorites = useSelector(state => state.favorite.favorites);
     const userId = useSelector(state => {
@@ -43,8 +42,18 @@ function ProductDetailsPage() {
         }
       });
     console.log(userId)
-    const isFavorited = favorites.some((favorite) => favorite.productId === product.id);
     const reviews = useSelector(state => state.review.reviews)
+
+
+
+    useEffect(() => {
+        dispatch(productDetailsThunk(productId)).then(() => {
+            setIsLoaded(true);
+        });
+        dispatch(getReviewThunk(productId))
+    }, [dispatch, productId]);
+
+    const isFavorited = favorites.some((favorite) => favorite.productId === product.id);
 
     if (!isLoaded) {
         return <div>Loading...</div>;
@@ -68,13 +77,24 @@ function ProductDetailsPage() {
     };
 
     const handleAddToCart = () => {
+        const existingItem = cartItems.find(item => item.productId === product.id);
+
+        const currentTotalQuantity = existingItem ? existingItem.quantity + quantity : quantity;
+
+        if (currentTotalQuantity > 10) {
+            setError("You can't add more than 10 of this product to your cart.");
+            return;
+        } else {
+            setError(null);
+        }
 
         dispatch(addToCartThunk({
             productId: product.id,
-            quantity: 1,
+            quantity: quantity,
             price: product.price
-        }))
+        }));
     };
+
 
     const handleDeleteReview = (reviewId) => {
         dispatch(deleteReviewThunk(reviewId)).then(() => {
@@ -83,11 +103,10 @@ function ProductDetailsPage() {
     };
 
     const handleUpdateReview = (review) => {
-        history.push({
-          pathname: `/products/${productId}/review/${review.id}`,
-          state: { review }
-        });
-      };
+        openModal(<UpdateReviewModal productId={productId} reviewId={review.id} />);
+    };
+
+
 
 
     return (
@@ -130,11 +149,14 @@ function ProductDetailsPage() {
                             <option value="1">1</option>
                             <option value="2">2</option>
                             <option value="3">3</option>
+                            <option value="4">4</option>
+                            <option value="5">5</option>
                         </select>
                     <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
                 </div>
 
                     <button className="add-to-cart-button" onClick={handleAddToCart}>Add to cart</button>
+                    {error && <div className="error-message">{error}</div>}
 
                     <button className="favorite-button" onClick={handleHeartClick}>
                             {isFavorited ?
