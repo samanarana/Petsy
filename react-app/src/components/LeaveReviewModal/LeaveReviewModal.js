@@ -1,8 +1,7 @@
 import React, { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faStar as solidStar } from '@fortawesome/free-solid-svg-icons';
-import { faStar as regularStar } from '@fortawesome/free-regular-svg-icons';
+import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { addReviewThunk } from '../../store/review';
 import { useModal } from "../../context/Modal";
 import "./LeaveReviewModal.css"
@@ -13,6 +12,7 @@ function ReviewFormModal({ productId }) {
 
   const [description, setDescription] = useState('');
   const [rating, setRating] = useState(1);
+  const [hoveredStar, setHoveredStar] = useState(null);
 
   const handleStarClick = (starRating) => {
     setRating(starRating);
@@ -35,19 +35,23 @@ function ReviewFormModal({ productId }) {
       </div>
       <form onSubmit={handleSubmit}>
         <textarea
+        className="description-review"
           value={description}
           onChange={(e) => setDescription(e.target.value)}
           required
         />
-        <div className="star-rating">
-          {[1, 2, 3, 4, 5].map((starValue) => (
-            <FontAwesomeIcon
-              key={starValue}
-              icon={starValue <= rating ? solidStar : regularStar}
-              onClick={() => handleStarClick(starValue)}
-              className="star-icon"
-            />
-          ))}
+        <div className="rating-container">
+            {Array(5).fill(null).map((_, idx) => (
+                <FontAwesomeIcon
+                    key={idx}
+                    icon={fasStar}
+                    className={`review-star ${idx < rating ? "selected" : ""}`}
+                    onMouseEnter={() => setHoveredStar(idx + 1)}
+                    onMouseLeave={() => setHoveredStar(null)}
+                    onClick={() => setRating(idx + 1)}
+                    style={idx < (hoveredStar || rating) ? {color: "#FFD700"} : {}}
+                />
+            ))}
         </div>
         <button type="submit">Submit</button>
       </form>
