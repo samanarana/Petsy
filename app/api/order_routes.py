@@ -1,6 +1,6 @@
 from flask import Blueprint, jsonify, request
 from flask_login import login_required, current_user
-from app.models import Order, OrderItem, Product, Review
+from app.models import Order, OrderItem, Product, Review, CartItem
 from app import db
 
 order_routes = Blueprint('orders', __name__, url_prefix='/api/orders')
@@ -63,3 +63,43 @@ def get_user_reviews():
             if not Review.query.filter(Review.productId == product.id , Review.userId == current_user.id).first():
                 products.append(product)
     return jsonify([product.to_dict() for product in products])
+
+#Get that order placed -- yass queen.
+@order_routes.route('/checkout', methods=['POST'])
+@login_required
+def checkout():
+    cart_items = CartItem.query.filter_by(userId=current_user.id).all()
+
+    if not cart_items:
+        return jsonify(status="error", error_type="empty_cart", message="Your cart is empty"), 400
+
+    total_price = sum(item.price * item.quantity for item in cart_items)
+
+    #Hard-coded Placeholders for Data + Error Handler
+    shipping_address = 'The Forbidden Cats Treehouse, Sky Island'
+    billing_address = 'The Forbidden Cats Treehouse, Sky Island'
+    payment_method = 'Credit Card'
+    if not all([shipping_address, billing_address, payment_method]):
+        return jsonify(status="error", error_type="missing_data", message="Hard-coded Shipping and Billing Details-related error"), 400
+
+    new_order = Order(
+        userId=current_user.id,
+        totalPrice=total_price,
+        shippingAddress=shipping_address,
+        billingAddress=billing_address,
+        paymentMethod=payment_method,
+        orderStatus="processing"
+    )
+
+    db.session.add(new_order)
+    db.session.commit()
+
+    #May need to adjust this to actually just use clearCart also.
+    for cart_item in cart_items:
+        order_item = OrderItem(orderId=new_order.id, productId=cart_item.productId)
+        db.session.add(order_item)
+        db.session.delete(cart_item)
+
+    db.session.commit()
+
+    return jsonify(status="success", message="Checkout successful", data=new_order.to_dict()), 200

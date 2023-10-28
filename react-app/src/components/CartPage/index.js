@@ -1,35 +1,53 @@
 import React, { useEffect, useState } from 'react';
+import { Link } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import { removeFromCartThunk, fetchCartItemsThunk } from '../../store/cartitems';
+import { removeFromCartThunk, fetchCartItemsThunk, updateCartItemQuantityThunk, clearCartThunk } from '../../store/cartitems';
 import { fetchAllProductsThunk } from '../../store/product';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import './CartPage.css';
 
 function CartPage() {
     const dispatch = useDispatch();
-
     const userCart = useSelector(state => state.cartitems.currentCart);
     const allProducts = useSelector(state => state.product.allProducts);
 
     //Field-Selector States
     const [ isLoaded, setIsLoaded ] = useState(false)
-    const [error, setError] = useState(null)
+    const [ error, setError ] = useState(null)
+    const [ selectedQuantities, setSelectedQuantities ] = useState({});
 
     useEffect(() => {
         Promise.all([dispatch(fetchAllProductsThunk()), dispatch(fetchCartItemsThunk())])
         .then(() => setIsLoaded(true))
         .catch(error => {
             setError("this is not working");
-            setIsLoaded(true);
+            setIsLoaded(false);
         });
     }, [dispatch]);
 
 
     const handleRemoveItem = (productId) => {
         dispatch(removeFromCartThunk(productId))
-        .then(() => {
-            dispatch(fetchCartItemsThunk())
-        })
+        dispatch(fetchCartItemsThunk());
+    };
+
+
+    const handleClearCart = () => {
+        dispatch(clearCartThunk())
+    };
+
+
+    const handleUpdateCartItemQuantity = (productId, newQuantity) => {
+        const productDetails = allProducts.find(product => product.id === productId);
+        const availableQuantity = productDetails ? productDetails.quantity : 0;
+
+        if (newQuantity <= availableQuantity) {
+            dispatch(updateCartItemQuantityThunk(productId, newQuantity));
+        } else {
+            setError(`You can't have more than ${availableQuantity} of this product in your cart.`);
+        }
     };
 
     if(!isLoaded) {
@@ -39,42 +57,72 @@ function CartPage() {
     //Cost-related
     const totalCost = userCart.reduce((acc, item) => acc + (item.quantity * item.price), 0).toFixed(2);
     const withShipping = (Number(totalCost) + 4.99).toFixed(2);
-
+    const totalItems = userCart.reduce((acc, item) => acc + item.quantity, 0);
 
     return (
         <div className="cart-page">
-            <p>{userCart.length} items in your cart</p>
+            {error && <div className="error-message">{error}</div>}
+            {userCart.length === 0 ? (
+                <>
+                    <p className="cart-is-empty">Your cart is empty.</p>
+                    <Link to="/products" className="link-all-products">Discover something unique to fill it up</Link>
+                </>
 
+            ) : (
+            <>
+                <p className="items-in-cart">
+                    {totalItems} {totalItems === 1 ? 'item' : 'items'} in your cart
+                </p>
+            <button
+                    className="clear-button"
+                    onClick={() => handleClearCart()}
+                > Clear Cart</button>
             <div className="main-content">
                 <div className="order-items-container">
                     {userCart.map(item => {
                         const productDetails = allProducts.find(product => product.id === item.productId);
+                        const availableQuantity = productDetails ? productDetails.quantity : 0;
                         return productDetails ? (
+
                             <div key={item.productId} className="single-item-container">
-                                <img src={productDetails.imageUrls[0]} alt={'missing image'} className="product-image" />
-                                <button
-                                    className="remove-button"
-                                    onClick={() => handleRemoveItem(item.productId)}
-                                >
-                                    Remove
-                                </button>
+                                <img src={productDetails.imageUrls[0]} alt={productDetails.productName} className="product-image" />
+
                                 <div className="order-info">
+                                    <div className="top-section">
+                                        <span className="product-name-cart">{productDetails.productName}</span>
+                                        <span className="product-price">${(productDetails.price * item.quantity).toFixed(2)}</span>
+                                    </div>
+                                    <div className="bottom-section">
+                                        <div className="dropdown-container">
+                                        <select
+                                            className="quantity-dropdown-cart"
+                                            value={selectedQuantities[item.productId] || item.quantity}
+                                            onChange={(e) => {
+                                                console.log('dropdown value changed:', e.target.value)
+                                                const updatedQuantities = {
+                                                    ...selectedQuantities,
+                                                    [item.productId]: Number(e.target.value)
+                                                };
+                                                setSelectedQuantities(updatedQuantities);
+                                                handleUpdateCartItemQuantity(item.productId, Number(e.target.value));
+                                            }}
+                                        >
+                                            {
+                                                Array.from({ length: availableQuantity }, (_, i) => i + 1).map(qty => (
+                                                    <option key={qty} value={qty}>{qty}</option>
+                                                ))
+                                            }
+                                        </select>
 
-                                    {/*
-                                This needs an update, it was returning:
-                                You provided a `value` prop to a form field without an `onChange` handler.
-                                This will render a read-only field. If the field should be mutable use `defaultValue`.
-                                Otherwise, set either `onChange` or `readOnly`.
-                                */}
-
-                                {/* <select value={item.quantity}>
-                                    {[1, 2, 3, 4, 5].map(qty => (
-                                        <option key={qty} value={qty}>{qty}</option>
-                                    ))}
-                                </select> */}
-
-                                    <p>Description: {productDetails.description}</p>
-                                    <p>Price: ${productDetails.price}</p>
+                                            <FontAwesomeIcon icon={faChevronDown} className="dropdown-icon" />
+                                        </div>
+                                    </div>
+                                    <button
+                                            className="remove-button"
+                                            onClick={() => handleRemoveItem(item.productId)}
+                                            >
+                                            Remove
+                                    </button>
                                 </div>
                             </div>
                         ) : null;
@@ -82,17 +130,26 @@ function CartPage() {
                 </div>
 
                 <div className="checkout-section">
-                    <div className="payment-section">
-                        <p>Item(s) total: ${totalCost}</p>
-                        <hr />
-                        <p>Shipping: $4.99</p>
-                        <hr />
-                        <p>Total ({userCart.length} items): ${withShipping} </p>
-                    </div>
+                <div className="checkout-line">
+                    <span className="checkout-label">Item(s) total:</span>
+                    <span className="checkout-value">${totalCost}</span>
+                </div>
+                <hr />
+                <div className="checkout-line">
+                    <span className="checkout-label">Shipping:</span>
+                    <span className="checkout-value">$4.99</span>
+                </div>
+                <hr />
+                <div className="checkout-line">
+                    <span className="checkout-label">Total ({totalItems} {totalItems === 1 ? 'item' : 'items'}):</span>
+                    <span className="checkout-value">${withShipping}</span>
+                </div>
 
                     <button className="checkout-button">Proceed to checkout</button>
                 </div>
             </div>
+            </>
+        )}
         </div>
     );
 }

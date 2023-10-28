@@ -1,19 +1,15 @@
-// Local Storage -- Cart Persistence
-const savedCart = localStorage.getItem('currentCart');
-const initialState = {
-    currentCart: savedCart ? JSON.parse(savedCart) : [],
-};
-
 // Action Types
 const GET_CART_ITEMS = "cart/GET_CART_ITEMS";
 const ADD_TO_CART = "cart/ADD_TO_CART";
 const REMOVE_CART_ITEM = "cart/REMOVE_CART_ITEM";
+const CLEAR_CART = "cart/CLEAR_CART"
+const UPDATE_CART_ITEM_QUANTITY = "cart/UPDATE_CART_ITEM_QUANTITY";
 
 //Action Creators
 const getCartItems = (cartItems) => ({
     type: GET_CART_ITEMS,
     payload: cartItems,
-  });
+});
 
 const addToCart = (item) => ({
     type: ADD_TO_CART,
@@ -25,18 +21,87 @@ const removeFromCart = (itemId) => ({
     payload: itemId,
 });
 
+const clearCart = () => ({
+    type: CLEAR_CART,
+    payload: null
+});
+
+const updateCartItemQuantity = (productId, quantity) => ({
+    type: UPDATE_CART_ITEM_QUANTITY,
+    payload: {
+        productId,
+        quantity
+    },
+});
+
 //Thunks
 export const fetchCartItemsThunk = () => async (dispatch) => {
     const response = await fetch(`/api/cart/`, {
     });
-    
+
     if (response.ok) {
         const data = await response.json();
         dispatch(getCartItems(data.cart));
     }
 };
 
-export const addToCartThunk = (item) => async (dispatch) => {
+export const removeFromCartThunk = (itemId) => async (dispatch) => {
+    const response = await fetch(`/api/cart/${itemId}`, {
+        method: "DELETE",
+    });
+
+    if (response.ok) {
+            dispatch(removeFromCart(itemId));
+    }
+};
+
+export const clearCartThunk = () => async (dispatch) => {
+    const response = await fetch(`/api/cart/clear`, {
+        method: "DELETE"
+    });
+
+    if (response.ok) {
+        dispatch(clearCart())
+    };
+}
+
+// export const addToCartThunk = (item) => async (dispatch) => {
+
+//     const response = await fetch(`/api/cart`, {
+//         method: "POST",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify(item),
+//     });
+
+//     if (response.ok) {
+//         dispatch(addToCart(item));
+//     }
+// };
+
+// export const updateCartItemQuantityThunk = (itemId, quantity) => async (dispatch) => {
+//     const response = await fetch(`/api/cart/${itemId}`, {
+//         method: "PUT",
+//         headers: {
+//             "Content-Type": "application/json",
+//         },
+//         body: JSON.stringify({ quantity }),
+//     });
+
+//     if (response.ok) {
+//         dispatch(updateCartItemQuantity(itemId, quantity));
+//     }
+// };
+
+export const addToCartThunk = (item) => async (dispatch, getState) => {
+    const { product } = getState();
+    const productItem = product.allProducts.find(p => p.id === item.productId);
+
+    if (productItem.quantity < item.quantity) {
+        alert("Cannot add more items than available in stock!");
+        item.quantity = productItem.quantity;
+    }
 
     const response = await fetch(`/api/cart`, {
         method: "POST",
@@ -51,14 +116,33 @@ export const addToCartThunk = (item) => async (dispatch) => {
     }
 };
 
-export const removeFromCartThunk = (itemId) => async (dispatch) => {
+export const updateCartItemQuantityThunk = (itemId, quantity) => async (dispatch, getState) => {
+    const { product } = getState();
+    const productItem = product.allProducts.find(p => p.id === itemId);
+
+    if (productItem.quantity < quantity) {
+        alert("Cannot update quantity beyond available stock!");
+        quantity = productItem.quantity; 
+    }
+
     const response = await fetch(`/api/cart/${itemId}`, {
-        method: "DELETE",
+        method: "PATCH",
+        headers: {
+            "Content-Type": "application/json",
+        },
+        body: JSON.stringify({ quantity }),
     });
 
     if (response.ok) {
-            dispatch(removeFromCart(itemId));
+        dispatch(updateCartItemQuantity(itemId, quantity));
     }
+};
+
+
+// State
+
+const initialState = {
+    currentCart: [],
 };
 
 
@@ -67,43 +151,40 @@ export const removeFromCartThunk = (itemId) => async (dispatch) => {
 function cartReducer(state = initialState, action) {
     let newState = {...state};
 
-    //breaks after are required or we won't be hitting the code that allows us to put things in local storage.
-
     switch (action.type) {
         case GET_CART_ITEMS:
             newState.currentCart = action.payload;
             return newState;
 
-            break;
         case ADD_TO_CART:
-            newState.currentCart.push(action.payload);
+            newState.currentCart = [...newState.currentCart, action.payload];
             return newState;
 
-            break;
         case REMOVE_CART_ITEM:
             const productIdToRemove = action.payload;
-            const cartItemIndex = newState.currentCart.findIndex(item => item.productId === productIdToRemove);
-            const cartItem = newState.currentCart[cartItemIndex];
-        
-            if (cartItem && cartItem.quantity > 1) {
-                newState.currentCart[cartItemIndex].quantity -= 1;
-            }
-            else if (cartItem) {
-                newState.currentCart.splice(cartItemIndex, 1);
-            }
+            newState.currentCart = newState.currentCart.map(item => {
+                if (item.productId === productIdToRemove && item.quantity > 1) {
+                    return { ...item, quantity: item.quantity - 1 };
+                }
+                return item;
+            }).filter(item => !(item.productId === productIdToRemove && item.quantity <= 1));
             return newState;
 
-            break;
-            
+        case UPDATE_CART_ITEM_QUANTITY:
+            newState.currentCart = newState.currentCart.map(item => {
+                if (item.productId === action.payload.productId) {
+                    return { ...item, quantity: action.payload.quantity };
+                }
+                return item;
+            });
+                return newState;
+
+        case CLEAR_CART:
+            newState.currentCart = [];
+            return newState;
         default:
             return state;
-    }
-
-    // Save the current cart to localStorage after any change
-    localStorage.setItem('currentCart', JSON.stringify(newState.currentCart));
-    return newState;
+    };
 };
 
-
-
-  export default cartReducer;
+export default cartReducer;
