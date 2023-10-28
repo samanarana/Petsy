@@ -138,7 +138,6 @@
     margin-top: -12px;
     padding-right: 30px;
     background: transparent;
-
 }
 
 .quantity-dropdown:hover {
@@ -237,4 +236,9 @@ label {
 
 .no-reviews-yet {
     margin-left: 45px;
+}
+
+.error-message {
+    color: #e74c3c;
+    font-size: .7em !important;
 }
