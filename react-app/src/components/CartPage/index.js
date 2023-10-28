@@ -14,9 +14,10 @@ function CartPage() {
     const allProducts = useSelector(state => state.product.allProducts);
 
     //Field-Selector States
-    const [ isLoaded, setIsLoaded ] = useState(false)
-    const [ error, setError ] = useState(null)
+    const [ isLoaded, setIsLoaded ] = useState(false);
+    const [ error, setError ] = useState(null);
     const [ selectedQuantities, setSelectedQuantities ] = useState({});
+    const [ orderSubmitted, setOrderSubmitted ] = useState(false);
 
     useEffect(() => {
         Promise.all([dispatch(fetchAllProductsThunk()), dispatch(fetchCartItemsThunk())])
@@ -50,8 +51,35 @@ function CartPage() {
         }
     };
 
+    const handleCheckout = async () => {
+        try {
+            const response = await fetch('/api/orders/checkout', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+            });
+    
+            const responseData = await response.json();
+    
+            if (responseData.status === "success") {
+                setOrderSubmitted(true);
+                handleClearCart();
+            } else {
+                setError(responseData.message);
+            }
+        } catch (error) {
+            setError('An error occurred during checkout. Please try again.');
+        }
+    };
+    
+
     if(!isLoaded) {
         return <div>Loading...</div>
+    }
+
+    if (orderSubmitted) {
+        return <div className="cart-is-empty">Order submitted successfully!</div>;
     }
 
     //Cost-related
@@ -145,7 +173,9 @@ function CartPage() {
                     <span className="checkout-value">${withShipping}</span>
                 </div>
 
-                    <button className="checkout-button">Proceed to checkout</button>
+                    <button className="checkout-button" onClick={handleCheckout}>
+                        Proceed to checkout
+                    </button>
                 </div>
             </div>
             </>
