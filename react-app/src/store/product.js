@@ -1,5 +1,6 @@
 // Action Types
 const ALL_PRODUCTS = "products/ALL_PRODUCTS";
+const USER_PRODUCTS = "products/USER_PRODUCTS";
 const GET_PRODUCT_DETAILS = "products/GET_PRODUCT_DETAILS";
 const CREATE_PRODUCT = "products/CREATE_PRODUCT";
 const UPDATE_PRODUCT = "products/UPDATE_PRODUCT";
@@ -9,6 +10,11 @@ const DELETE_PRODUCT = "products/DELETE_PRODUCT";
 const loadProducts = (products) => ({
 	type: ALL_PRODUCTS,
 	payload: products
+});
+
+const loadUserProducts = (userProducts) => ({
+    type: USER_PRODUCTS,
+    payload: userProducts
 });
 
 const productDetails = (product) => ({
@@ -44,6 +50,22 @@ export const fetchAllProductsThunk = () => async (dispatch) => {
 		dispatch(loadProducts(data.products));
 	}
 };
+
+export const fetchUserProductsThunk = () => async (dispatch) => {
+    const response = await fetch(`/api/products/current`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(loadUserProducts(data.user_products));
+    } else {
+        console.error("Failed to fetch user products");
+    }
+};
+
+
 
 export const productDetailsThunk = (productId) => async (dispatch) => {
     try {
@@ -139,6 +161,9 @@ export default function reducer(state = initialState, action) {
 		case ALL_PRODUCTS:
 			newState.allProducts = action.payload;
 			return newState
+        case USER_PRODUCTS:
+            newState.userProducts = action.payload;
+            return newState;
 		case GET_PRODUCT_DETAILS:
 			newState.productDetails = action.payload;
 			return newState

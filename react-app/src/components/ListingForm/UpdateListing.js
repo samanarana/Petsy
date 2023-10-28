@@ -19,26 +19,45 @@ const UpdateListing = () => {
         imageUrls: Array(6).fill(''),
     });
 
+    const ensureImageUrls = (imageUrls = []) => {
+        const defaultArray = Array(6).fill('');
+        for (let i = 0; i < 6; i++) {
+            defaultArray[i] = imageUrls[i] || '';
+        }
+        return defaultArray;
+    };
+
     useEffect(() => {
-        if(!product.productName && productId) {
+        if(productId) {
             dispatch(productDetailsThunk(productId));
         }
-    }, [dispatch, productId, product.productName]);
+    }, [dispatch, productId]);
 
     useEffect(() => {
-
-        // Use product details from store to set local state
-        if (product && product.productName && !productData.productName) {
+        if (product && product.productName) {
             setProductData({
-                productName: product.productName,
-                description: product.description,
-                price: product.price,
-                category: product.category,
-                quantity: product.quantity,
-                imageUrls: product.imageUrls || Array(6).fill(''),
+                productName: product.productName || '',
+                description: product.description || '',
+                price: product.price || '',
+                category: product.category || '',
+                quantity: product.quantity || '',
+                imageUrls: ensureImageUrls(product.imageUrls),
             });
         }
-    }, [dispatch, productId, product, product.productName, productData.productName]);
+    }, [product]);
+
+    useEffect(() => {
+        return () => {
+            setProductData({
+                productName: '',
+                description: '',
+                price: '',
+                category: '',
+                quantity: '',
+                imageUrls: Array(6).fill(''),
+            });
+        }
+    }, []);
 
     const handleUpdateProduct = (event) => {
         event.preventDefault();
@@ -50,7 +69,7 @@ const UpdateListing = () => {
     };
 
     return (
-        <div className="main-container">
+        <div className="main-container-update">
             <div className="update-listing-container">
                 <form className="update-listing-form" onSubmit={handleUpdateProduct}>
                     <h2 className="update-listing-title">Update Listing</h2>

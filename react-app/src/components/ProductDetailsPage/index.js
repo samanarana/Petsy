@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
-import { useParams, useHistory} from "react-router-dom";
+import { useParams} from "react-router-dom";
 
 
 import { productDetailsThunk } from '../../store/product';
