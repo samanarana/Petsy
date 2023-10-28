@@ -73,12 +73,13 @@ def checkout():
     if not cart_items:
         return jsonify(status="error", error_type="empty_cart", message="Your cart is empty"), 400
 
+    #Update this
     total_price = sum(item.price * item.quantity for item in cart_items)
 
     #Hard-coded Placeholders for Data + Error Handler
     shipping_address = 'The Forbidden Cats Treehouse, Sky Island'
     billing_address = 'The Forbidden Cats Treehouse, Sky Island'
-    payment_method = 'Credit Card'
+    payment_method = 'A handful of Acorns'
     if not all([shipping_address, billing_address, payment_method]):
         return jsonify(status="error", error_type="missing_data", message="Hard-coded Shipping and Billing Details-related error"), 400
 
