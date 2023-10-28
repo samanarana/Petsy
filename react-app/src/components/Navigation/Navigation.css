@@ -214,3 +214,14 @@ body, html {
   border-radius: 15px;
   transition: background-color 0.3s ease;
 }
+
+.cart-count {
+  position: absolute;
+  top: 3px;
+  right: 0;
+  background-color: red;
+  color: white;
+  padding: 1px 5px;
+  border-radius: 50%;
+  font-size: 12px;
+}

@@ -24,7 +24,7 @@ function ProductDetailsPage() {
     const [ isLoaded, setIsLoaded ] = useState(false);
     const [ quantity, setQuantity ] = useState(1);
     const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
+    const [cartMessage, setCartMessage] = useState("");
 
     const { openModal } = useModal()
     const [error, setError] = useState(null);
@@ -83,20 +83,14 @@ function ProductDetailsPage() {
 
         const currentTotalQuantity = existingItem ? existingItem.quantity + quantity : quantity;
 
-        if (currentTotalQuantity > 10) {
-            setError("You can't add more than 10 of this product to your cart.");
-            return;
-        } else {
-            setError(null);
-        }
-
         dispatch(addToCartThunk({
             productId: product.id,
             quantity: quantity,
             price: product.price
-        }));
+        })).then(() => {
+            setCartMessage(`${quantity > 1 ? "Items" : "Item"} added successfully!`);
+        });
     };
-
 
     const handleDeleteReview = (reviewId) => {
         const deteleIt = window.confirm("Are you sure you want to delete this review?");
@@ -161,6 +155,7 @@ function ProductDetailsPage() {
 
                     <button className="add-to-cart-button" onClick={handleAddToCart}>Add to cart</button>
                     {error && <div className="error-message">{error}</div>}
+                    {cartMessage && <div className="success-message">{cartMessage}</div>}
 
                     <button className="favorite-button" onClick={handleHeartClick}>
                             {isFavorited ?

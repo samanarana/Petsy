@@ -107,6 +107,7 @@ export const createProductThunk = (productData) => async (dispatch) => {
 
 export const updateProductThunk = (productId, productData) => async (dispatch) => {
     try {
+        console.log('product id***************', productId)
         const response = await fetch(`/api/products/${productId}`, {
             method: "PUT",
             headers: {

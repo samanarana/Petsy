@@ -70,14 +70,15 @@ const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price
     };
 
     return (
-        <Link to={`/products/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className='product-tile'>
                 <div className="image-wrapper">
-                    {imageUrls ?
-                        <img className="real-images" src={imageUrls[0]} alt={productName} />
-                        :
-                        <div className="image-placeholder"></div>
-                    }
+                    <Link to={`/products/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        {imageUrls ?
+                            <img className="real-images" src={imageUrls[0]} alt={productName} />
+                            :
+                            <div className="image-placeholder"></div>
+                        }
+                    </Link>
                     <button className='favorite-btn' onClick={handleHeartClick}>
                         {isFavorited ?
                             <FontAwesomeIcon icon={solidHeart} style={{color: "#c70000"}} />
@@ -105,7 +106,6 @@ const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price
                     <button className='add-to-cart-btn' onClick={handleAddToCart}>+ Add to cart</button>
                 </div>
             </div>
-        </Link>
     );
 }
 
