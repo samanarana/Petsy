@@ -107,11 +107,12 @@ def get_user_products():
 
     return jsonify({'user_products': [product.to_dict() for product in user_products]})
 
-#Retrieve reviews for a specific product
+#Retrieve reviews for a  product
 @product_routes.route('/<int:productId>/reviews', methods=['GET'])
 def get_reviews(productId):
-    reviews = Review.query.filter_by(productId=productId).all()
+    reviews = Review.query.filter_by(productId=productId).order_by(Review.dateCreated.desc()).all()
     return {'reviews': [review.to_dict() for review in reviews]}
+
 
 # Add a review for a specific product
 @product_routes.route('/<int:productId>/reviews', methods=['POST'])
