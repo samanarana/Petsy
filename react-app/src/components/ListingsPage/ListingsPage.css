@@ -41,6 +41,17 @@
     display: flex;
 }
 
+.view-listing-button {
+    background-color: #faf9f5;
+    color: #6c6d6f;
+    padding: 10px 20px;
+    border: none;
+    cursor: pointer;
+    font-weight: 600;
+    height: 40px;
+    border: 2px solid #dbdad6;
+}
+
 .update-listing-button {
     background-color: #faf9f5;
     color: #6c6d6f;
@@ -50,6 +61,7 @@
     font-weight: 600;
     height: 40px;
     border: 2px solid #dbdad6;
+    margin-left: -2px;
 }
 
 .delete-listing-button {

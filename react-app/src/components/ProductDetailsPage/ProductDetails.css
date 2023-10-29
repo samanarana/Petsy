@@ -16,12 +16,12 @@
     display: flex;
     flex-direction: column;
     border-radius: 20px;
-    gap: 10px;
+    gap: 16px;
 }
 
 .thumbnail {
-    width: 56px;
-    height: 56px;
+    width: 64px;
+    height: 64px;
     border-radius: 8px;
     border: 1px solid #ccc;
     overflow: hidden;
@@ -33,6 +33,7 @@
     height: 100%;
     object-fit: cover;
     transition: transform 0.3s;
+    background-color: #6c6d6f;
 }
 
 .thumbnail:hover img {
@@ -48,8 +49,8 @@
 }
 
 .main-image {
-    width: 550px;
-    height: 500px;
+    width: 525px;
+    height: 475px;
     margin-left: 20px;
     border-radius: 8px;
     border: 1px solid #ccc;
@@ -104,6 +105,13 @@
 .add-to-cart-button:hover {
     transform: scale(1.05);
     border-radius: 25px;
+}
+
+.product-description {
+    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    overflow-wrap: break-word;
+    max-width: 80%;
+    margin-top: 0;
 }
 
 .favorite-button {

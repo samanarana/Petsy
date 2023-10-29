@@ -11,7 +11,7 @@ import { getReviewThunk } from './../../store/review';
 import { useModal } from '../../context/Modal';
 import LoginFormModal from "../LoginFormModal";
 
-const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price } }) => {
+const ProductTile = ({ product: { id, imageUrls, productName, price } }) => {
     const dispatch = useDispatch();
 
     const [reviews, setReviews] = useState([]); // Store fetched reviews
@@ -20,7 +20,6 @@ const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price
     useEffect(() => {
         const fetchReviews = async () => {
             const response = await dispatch(getReviewThunk(id));
-            console.log('Fetched reviews for product', id, response);
             if (response && response.length) {
                 setReviews(response);
                 // Calculate average rating

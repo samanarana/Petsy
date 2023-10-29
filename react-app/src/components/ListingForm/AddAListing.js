@@ -42,31 +42,20 @@ const AddAListing = () => {
             newErrors.push({ field: 'quantity', message: 'Quantity must be a minimum of 1.' });
         }
 
-        // Collect image files and validate them
+        // Collect image urls and validate them
+        const imgUrls = [];
         for (let i = 1; i <= 6; i++) {
             const imageUrl = event.target[`imageUrl${i}`].value;
-            const file = event.target[`imageFile${i}`].files[0];
 
-            // If neither a URL nor file is provided, skip to the next iteration
-            if (!imageUrl && !file) continue;
-
-            // Check for valid URL if provided
             if (imageUrl) {
                 try {
                     new URL(imageUrl);
+                    imgUrls.push(imageUrl);
                 } catch (_) {
-                    newErrors.push({ field: `image${i}`, message: 'Invalid URL provided.' });
-                    continue;  // Move to the next iteration  no need to check for file validity
+                    newErrors.push({ field: `imageUrl${i}`, message: 'Invalid URL provided.' });
                 }
             }
-
-            // If a file is provided and it doesn't end with .jpg, push an error
-            if (file && !file.name.endsWith('.jpg')) {
-                newErrors.push({ field: `image${i}`, message: 'Only .jpg files are allowed.' });
-            }
         }
-
-
 
         if (newErrors.length > 0) {
             setErrors(newErrors);
@@ -80,6 +69,7 @@ const AddAListing = () => {
             price: parseFloat(event.target.price.value),
             category: event.target.category.value,
             quantity: parseInt(event.target.quantity.value),
+            imgUrls: imgUrls
         };
 
         dispatch(createProductThunk(productData))
@@ -133,32 +123,20 @@ const AddAListing = () => {
                     </div>
 
                     <div className="input-group images-input-group">
-                        <label className="input-label">Product Images (up to 6):</label>
+                        <label className="input-label">Product Image URLs (up to 6):</label>
                         {Array.from({ length: 6 }).map((_, index) => (
                             <div key={index} className="image-option-container">
-                                <div className="url-or-file-container">
-                                    <input
-                                        type="text"
-                                        id={`imageUrl${index + 1}`}
-                                        name={`imageUrl${index + 1}`}
-                                        className="text-input url-input"
-                                        placeholder="Paste image URL here"
-                                    />
-                                    <span className="or-separator">or</span>
-                                    <input
-                                        type="file"
-                                        id={`imageFile${index + 1}`}
-                                        name={`imageFile${index + 1}`}
-                                        className="file-input"
-                                        accept=".jpg"
-                                    />
-                                </div>
-                                <div className="error-message-images">{getErrorMessage(`image${index + 1}`)}</div>
+                                <input
+                                    type="text"
+                                    id={`imageUrl${index + 1}`}
+                                    name={`imageUrl${index + 1}`}
+                                    className="text-input url-input"
+                                    placeholder="Paste image URL here"
+                                />
+                                <div className="error-message-images">{getErrorMessage(`imageUrl${index + 1}`)}</div>
                             </div>
                         ))}
                     </div>
-
-
 
                     <button type="submit" className="submit-listing-button">Add Listing</button>
                 </form>

@@ -58,9 +58,9 @@ function CartPage() {
                     'Content-Type': 'application/json'
                 },
             });
-    
+
             const responseData = await response.json();
-    
+
             if (responseData.status === "success") {
                 setOrderSubmitted(true);
                 handleClearCart();
@@ -71,14 +71,14 @@ function CartPage() {
             setError('An error occurred during checkout. Please try again.');
         }
     };
-    
+
 
     if(!isLoaded) {
         return <div>Loading...</div>
     }
 
     if (orderSubmitted) {
-        return <div className="cart-is-empty">Order submitted successfully!</div>;
+        return <div className="cart-is-empty-submitted">Order submitted successfully!</div>;
     }
 
     //Cost-related

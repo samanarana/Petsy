@@ -100,6 +100,10 @@ export const createProductThunk = (productData) => async (dispatch) => {
 
         const data = await response.json();
         dispatch(createProduct(data));
+
+        // Return the new product's ID
+        return data.id;
+
     } catch (error) {
         console.error("There was an error creating the product:", error);
     }

@@ -79,8 +79,6 @@ function ProductDetailsPage() {
     const handleAddToCart = () => {
         const existingItem = cartItems.find(item => item.productId === product.id);
 
-        // const currentTotalQuantity = existingItem ? existingItem.quantity + quantity : quantity;
-
         dispatch(addToCartThunk({
             productId: product.id,
             quantity: quantity,
@@ -135,6 +133,8 @@ function ProductDetailsPage() {
             <div className="product-info">
                     <p className="detail-product-price">${product.price}</p>
 
+                    <p className="product-description">{product.description}</p>
+
                     <label>Quantity</label>
                 <div className="dropdown-container-details">
                         <select
@@ -163,8 +163,6 @@ function ProductDetailsPage() {
                             }
                             <span> Add to favorites</span>
                         </button>
-
-                    <p>{product.description}</p>
 
             </div>
 
