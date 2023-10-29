@@ -155,6 +155,13 @@
   text-align: center;
 }
 
+.cart-is-empty-submitted {
+  font-family: 'Luxurious Roman', serif;
+  font-size: 45px;
+  text-align: center;
+  margin-top: 10%;
+}
+
 .link-all-products {
   text-align: center;
   margin-top: -10px;
