@@ -39,20 +39,21 @@ function ReviewFormModal({ productId }) {
   };
 
   return (
-    <div className="purchased-products-modal">
+    <div className="purchased-products-modal-new">
       <div className="title-container">
         <p className="title">Leave a Review</p>
       </div>
       <form onSubmit={handleSubmit}>
-        <textarea
-
-        className="description-review"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-
+      <label className="description-label-form">
+          Leave a review:
+          <textarea
+          className="description-review"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+        </label>
         <div className="rating-container">
             {Array(5).fill(null).map((_, idx) => (
                 <FontAwesomeIcon
@@ -66,7 +67,7 @@ function ReviewFormModal({ productId }) {
                 />
             ))}
         </div>
-        <button type="submit" >Submit</button>
+        <button className="submit-button" type="submit" >Submit</button>
       </form>
     </div>
   );
