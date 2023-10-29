@@ -66,6 +66,12 @@ def seed_productimages():
     image63 = ProductImage(productId=16, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698278627/dog_collar_2_nerfu3.webp")
     image64 = ProductImage(productId=16, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698278627/dog_collar_5_jgyucc.webp")
     image65 = ProductImage(productId=16, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698278627/dog_collar_3_pdscvs.webp")
+    image66 = ProductImage(productId=15, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698548007/dog_sampoo_6_o4nqrf.png")
+    image67 = ProductImage(productId=15, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698548007/dog_sampoo_4_qyhafb.png")
+    image68 = ProductImage(productId=15, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698548007/dog_sampoo_3_blpwxe.png")
+    image69 = ProductImage(productId=15, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698548007/dog_sampoo_5_iis17o.png")
+    image70 = ProductImage(productId=15, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698548007/dog_sampoo_2_zc6fch.png")
+    image71 = ProductImage(productId=15, imgUrl="https://res.cloudinary.com/dj6kld6sh/image/upload/v1698548007/dog_sampoo_1_of6dhi.png")
 
 
     images = [image1, image2, image3, image4, image5, image6, image7, image8, image9, image10,
@@ -74,7 +80,7 @@ def seed_productimages():
                 image31, image32, image33, image34, image35, image36, image37, image38, image39, image40,
                 image41, image42, image43, image44, image45, image46, image47, image48, image49, image50,
                 image51, image52, image53, image54, image55, image56, image57, image58, image60, image61,
-                image62, image63, image64, image65]
+                image62, image63, image64, image65, image66, image67, image68, image69, image70, image71]
 
     for image in images:
         db.session.add(image)
