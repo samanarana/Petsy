@@ -5,6 +5,7 @@ import { useModal } from "../../context/Modal";
 import "./UpdateReviewModal.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
+import { useHistory } from "react-router-dom";
 
 
 function UpdateReviewModal({ productId, reviewId }) {
@@ -15,6 +16,7 @@ function UpdateReviewModal({ productId, reviewId }) {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const [hoveredStar, setHoveredStar] = useState(null);
+  const history = useHistory()
 
 
   useEffect(() => {
@@ -41,6 +43,8 @@ function UpdateReviewModal({ productId, reviewId }) {
     } else {
         dispatch(getReviewThunk(productId));
         closeModal();
+        history.push(`/products/${productId}`)
+
     }
   };
 
