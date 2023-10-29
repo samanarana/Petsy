@@ -43,6 +43,11 @@ const ProductTile = ({ product: { id, imageUrls, productName, price } }) => {
 
     const handleAddToCart = () => {
 
+        if (!userId) {
+            openModal(<LoginFormModal />);
+            return;
+        }
+
         dispatch(addToCartThunk({
             productId: id,
             quantity: 1,

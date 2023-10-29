@@ -18,6 +18,7 @@ import UpdateReviewModal from '../UpdateReviewModal/UpdateReviewModal';
 
 import './ProductDetails.css';
 import { useModal } from '../../context/Modal';
+import LoginFormModal from '../LoginFormModal';
 
 function ProductDetailsPage() {
 
@@ -30,7 +31,7 @@ function ProductDetailsPage() {
     const { productId } = useParams();
     const dispatch = useDispatch();
 
-    const cartItems = useSelector(state => state.cartitems.currentCart);
+    // const cartItems = useSelector(state => state.cartitems.currentCart);
     const product = useSelector(state => state.product.productDetails);
     const favorites = useSelector(state => state.favorite.favorites);
     const userId = useSelector(state => {
@@ -40,7 +41,6 @@ function ProductDetailsPage() {
           return state.session.user && state.session.user.id;
         }
       });
-    console.log(userId)
     const reviews = useSelector(state => state.review.reviews)
 
 
@@ -65,9 +65,13 @@ function ProductDetailsPage() {
         event.stopPropagation();
         event.preventDefault();
 
+        if (!userId) {
+            openModal(<LoginFormModal />);
+            return;
+        };
+
         if (isFavorited) {
             const favoriteToRemove = favorites.find((favorite) => favorite.productId === product.id);
-            console.log('favoritetoRemove in ProductDetailsPage --------------------', favoriteToRemove)
             if (favoriteToRemove) {
                 dispatch(removeFavoriteThunk(favoriteToRemove.userId, favoriteToRemove.productId));
             }
@@ -77,7 +81,12 @@ function ProductDetailsPage() {
     };
 
     const handleAddToCart = () => {
-        const existingItem = cartItems.find(item => item.productId === product.id);
+        // const existingItem = cartItems.find(item => item.productId === product.id);
+
+        if (!userId) {
+            openModal(<LoginFormModal />);
+            return;
+        };
 
         dispatch(addToCartThunk({
             productId: product.id,
