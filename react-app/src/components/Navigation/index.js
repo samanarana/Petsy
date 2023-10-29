@@ -39,35 +39,40 @@ function Navigation({ isLoaded }){
 
 						<li className="nav-center-item">
 							<div className="search-container">
-							<input className="search-input" placeholder="Search for anything" />
-							<FontAwesomeIcon icon={faSearch} className="search-icon" />
+								<input className="search-input" placeholder="Search for anything" />
+								<FontAwesomeIcon icon={faSearch} className="search-icon" />
 							</div>
 						</li>
 
 						<li className="nav-item">
 
-							<NavLink to={`/users/${sessionUser?.id}/favorites`} className="favorites-button">
-								<FontAwesomeIcon icon={regularHeart} style={{ color: '#000000' }} />
-							</NavLink>
+							{sessionUser && (
+								<>
+									<NavLink to={`/users/${sessionUser.id}/favorites`} className="favorites-button">
+										<FontAwesomeIcon icon={regularHeart} style={{ color: '#000000' }} />
+									</NavLink>
 
-                            {sessionUser && (
-                                <NavLink to="/listings" className="shop-button">
-                                    <FontAwesomeIcon icon={faShop} style={{ color: '#000000' }} />
-                                </NavLink>
-                            )}
+									<NavLink to="/listings" className="shop-button">
+										<FontAwesomeIcon icon={faShop} style={{ color: '#000000' }} />
+									</NavLink>
+								</>
+							)}
 
 							<div className="profile-button-wrapper">
 								<ProfileButton user={sessionUser} />
 							</div>
 
-							<NavLink to="/cart" className="cart-button">
-								<FontAwesomeIcon icon={faShoppingCart} style={{ color: '#000000' }} />
-								{totalItems > 0 && <span className="cart-count">{totalItems}</span>}
-							</NavLink>
+							{sessionUser && (
+								<NavLink to="/cart" className="cart-button">
+									<FontAwesomeIcon icon={faShoppingCart} style={{ color: '#000000' }} />
+									{totalItems > 0 && <span className="cart-count">{totalItems}</span>}
+								</NavLink>
+							)}
 
 						</li>
-                	</>
+					</>
 				)}
+
 			</ul>
 			{location.pathname !== '/cart' && location.pathname !== '/add-listing' && location.pathname !== '/listings' && <CategoryNav />}
 		</>
