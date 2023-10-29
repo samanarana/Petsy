@@ -168,3 +168,14 @@ def delete_review(productId, reviewId):
     db.session.commit()
 
     return {'message': 'Review deleted'}
+
+
+# Retrieve a list of products for a specific category
+@product_routes.route('/category/<category_name>', methods=['GET'])
+def get_products_by_category(category_name):
+    # Check if the category_name is valid
+    if category_name not in ["Holiday", "Home", "Travel", "Accessories", "Food", "Toys"]:
+        return ('Invalid category', 400)
+
+    products_by_category = Product.query.filter_by(category=category_name).all()
+    return {'products': [product.to_dict() for product in products_by_category]}

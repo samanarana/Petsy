@@ -26,12 +26,11 @@ function ProductDetailsPage() {
     const [ quantity, setQuantity ] = useState(1);
     const [ currentImageIndex, setCurrentImageIndex ] = useState(0);
     const [ cartMessage, setCartMessage ] = useState("");
-    const [ error, setError ] = useState(null);
+    const [ error] = useState(null);
     const { openModal } = useModal()
     const { productId } = useParams();
     const dispatch = useDispatch();
 
-    // const cartItems = useSelector(state => state.cartitems.currentCart);
     const product = useSelector(state => state.product.productDetails);
     const favorites = useSelector(state => state.favorite.favorites);
     const userId = useSelector(state => {
@@ -81,12 +80,6 @@ function ProductDetailsPage() {
     };
 
     const handleAddToCart = () => {
-        // const existingItem = cartItems.find(item => item.productId === product.id);
-
-        if (!userId) {
-            openModal(<LoginFormModal />);
-            return;
-        };
 
         dispatch(addToCartThunk({
             productId: product.id,

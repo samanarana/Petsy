@@ -17,7 +17,7 @@ class Review(db.Model):
     dateCreated = db.Column(db.DateTime(timezone=True), nullable=False)
 
     user = db.relationship('User', backref=db.backref('reviews'))
-    product = db.relationship('Product', backref=db.backref('reviews'))
+    product = db.relationship('Product', back_populates='reviews')
 
     def to_dict(self):
         return {
