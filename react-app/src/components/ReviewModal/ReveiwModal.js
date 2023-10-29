@@ -3,6 +3,7 @@ import { useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./ReviewModal.css";
 import ReviewFormModal from "../LeaveReviewModal/LeaveReviewModal";
+import { Link } from "react-router-dom";
 
 function PurchasedProductsModal() {
   const [products, setProducts] = useState([]);
@@ -15,7 +16,16 @@ function PurchasedProductsModal() {
       const response = await fetch(`/api/orders/users/products`);
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
+        const uniqueProducts = [];
+        const productIds = new Set();
+        for (let i = 0; i < data.length; i++) {
+          const product = data[i];
+          if (!productIds.has(product.id)) {
+            uniqueProducts.push(product);
+            productIds.add(product.id);
+          }
+        }
+        setProducts(uniqueProducts);
       }
     };
 
@@ -55,7 +65,11 @@ function PurchasedProductsModal() {
           const hasReviewed = Boolean(matchingReview);
           return (
             <li key={product.id}>
-              <p className="product-name-review">{product.productName}</p>
+              <Link to={`/products/${product.id}`} className="product-name-review"
+                onClick={closeModal}>
+              {product.productName}
+            </Link>
+
               <p className="product-description">{product.description}</p>
               <button
                 onClick={() => handleReviewClick(product.id)}

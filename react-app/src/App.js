@@ -9,7 +9,7 @@ import ProductsPage from "./components/ProductsPage/index";
 import HomePage from "./components/HomePage/index";
 import FavoritesPage from "./components/FavoritesPage/index";
 import ProductDetailsPage from "./components/ProductDetailsPage/index";
-import ReviewFormPage from "./components/ReviewPage/ReviewPage";
+// import ReviewFormPage from "./components/ReviewPage/ReviewPage";
 import CartPage from "./components/CartPage/index";
 import ListingsPage from "./components/ListingsPage/index";
 import AddAListing from "./components/ListingForm/AddAListing";
@@ -37,10 +37,10 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          <Route path="/products/:productId/review/:reviewId"><ReviewFormPage /></Route>
+          {/* <Route path="/products/:productId/review/:reviewId"><ReviewFormPage /></Route>
           <Route path="/products/:productId/reviews/new">
             <ReviewFormPage />
-          </Route>
+          </Route> */}
           <Route path="/products/:productId">
             <ProductDetailsPage />
           </Route>
