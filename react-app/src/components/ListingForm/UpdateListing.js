@@ -64,7 +64,7 @@ const UpdateListing = () => {
 
         dispatch(updateProductThunk(productId, productData))
         .then(() => {
-            history.push("/listings");
+            history.push(`/products/${productId}`);
         });
     };
 

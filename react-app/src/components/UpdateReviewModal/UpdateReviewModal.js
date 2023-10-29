@@ -5,6 +5,7 @@ import { useModal } from "../../context/Modal";
 import "./UpdateReviewModal.css"
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
+import { useHistory } from "react-router-dom";
 
 
 function UpdateReviewModal({ productId, reviewId }) {
@@ -15,6 +16,7 @@ function UpdateReviewModal({ productId, reviewId }) {
   const [errors, setErrors] = useState({});
   const { closeModal } = useModal();
   const [hoveredStar, setHoveredStar] = useState(null);
+  const history = useHistory()
 
 
   useEffect(() => {
@@ -41,15 +43,19 @@ function UpdateReviewModal({ productId, reviewId }) {
     } else {
         dispatch(getReviewThunk(productId));
         closeModal();
+        history.push(`/products/${productId}`)
+
     }
   };
 
   return (
     <div className="update-review-modal">
-      <p>Update Review</p>
+      <div className="title-container">
+      <p className="title">Update Review</p>
+    </div>
       <form onSubmit={handleSubmit}>
-        <label>
-            Description
+        <label className="description-label-form">
+            Update your review:
             <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -71,8 +77,6 @@ function UpdateReviewModal({ productId, reviewId }) {
                 />
             ))}
         </div>
-
-
         <button type="submit">Update</button>
       </form>
     </div>

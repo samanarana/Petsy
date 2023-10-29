@@ -65,35 +65,6 @@ export const clearCartThunk = () => async (dispatch) => {
     };
 }
 
-// export const addToCartThunk = (item) => async (dispatch) => {
-
-//     const response = await fetch(`/api/cart`, {
-//         method: "POST",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify(item),
-//     });
-
-//     if (response.ok) {
-//         dispatch(addToCart(item));
-//     }
-// };
-
-// export const updateCartItemQuantityThunk = (itemId, quantity) => async (dispatch) => {
-//     const response = await fetch(`/api/cart/${itemId}`, {
-//         method: "PUT",
-//         headers: {
-//             "Content-Type": "application/json",
-//         },
-//         body: JSON.stringify({ quantity }),
-//     });
-
-//     if (response.ok) {
-//         dispatch(updateCartItemQuantity(itemId, quantity));
-//     }
-// };
-
 export const addToCartThunk = (item) => async (dispatch, getState) => {
     const { product } = getState();
     const productItem = product.allProducts.find(p => p.id === item.productId);

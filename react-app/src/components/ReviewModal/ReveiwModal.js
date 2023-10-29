@@ -3,6 +3,8 @@ import { useSelector } from "react-redux";
 import { useModal } from "../../context/Modal";
 import "./ReviewModal.css";
 import ReviewFormModal from "../LeaveReviewModal/LeaveReviewModal";
+import { Link } from "react-router-dom";
+import UpdateReviewModal from "../UpdateReviewModal/UpdateReviewModal";
 
 function PurchasedProductsModal() {
   const [products, setProducts] = useState([]);
@@ -15,15 +17,25 @@ function PurchasedProductsModal() {
       const response = await fetch(`/api/orders/users/products`);
       if (response.ok) {
         const data = await response.json();
-        setProducts(data);
+        const uniqueProducts = [];
+        const productIds = new Set();
+        for (let i = 0; i < data.length; i++) {
+          const product = data[i];
+          if (!productIds.has(product.id)) {
+            uniqueProducts.push(product);
+            productIds.add(product.id);
+          }
+        }
+        setProducts(uniqueProducts);
       }
     };
 
     const fetchUserReviews = async () => {
-      const response = await fetch('/api/reviews/user');
+      const response = await fetch("/api/reviews/user");
       if (response.ok) {
         const data = await response.json();
         setUserReviews(data.user_reviews);
+        // console.log("User Reviews:", data.user_reviews)
       }
     };
 
@@ -32,15 +44,22 @@ function PurchasedProductsModal() {
   }, [sessionUser]);
 
   useEffect(() => {
-    document.body.classList.add('modal-open');
+    document.body.classList.add("modal-open");
     return () => {
-        document.body.classList.remove('modal-open');
+      document.body.classList.remove("modal-open");
     };
   }, []);
 
   const handleReviewClick = (productId) => {
     closeModal();
     openModal(<ReviewFormModal productId={productId} />);
+  };
+
+  const updateReviewClick = (product, review) => {
+    closeModal();
+    openModal(
+      <UpdateReviewModal productId={product.id} reviewId={review.id} />
+    );
   };
 
   return (
@@ -51,18 +70,37 @@ function PurchasedProductsModal() {
       </div>
       <ul className="review-list">
         {products.map((product) => {
-          const matchingReview = userReviews.find(review => review.productId === product.id);
+          const matchingReview = userReviews.find(
+            (review) => review.productId === product.id
+          );
           const hasReviewed = Boolean(matchingReview);
+
           return (
             <li key={product.id}>
-              <p className="product-name-review">{product.productName}</p>
-              <p className="product-description">{product.description}</p>
-              <button
-                onClick={() => handleReviewClick(product.id)}
-                disabled={hasReviewed}
+              <Link
+                to={`/products/${product.id}`}
+                className="product-name-review"
+                onClick={closeModal}
               >
-                {hasReviewed ? 'Already Reviewed' : 'Leave a Review'}
-              </button>
+                {product.productName}
+              </Link>
+              {!hasReviewed ? (
+                <div>
+                  <p className="product-description">{product.description}</p>
+                  <button onClick={() => handleReviewClick(product.id)}>
+                    Leave a review
+                  </button>
+                </div>
+              ) : (
+                <div>
+                  <p className="product-description">{product.description}</p>
+                  <button
+                    onClick={() => updateReviewClick(product, matchingReview)}
+                  >
+                    Update Review
+                  </button>
+                </div>
+              )}
             </li>
           );
         })}

@@ -5,10 +5,12 @@ import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { addReviewThunk } from '../../store/review';
 import { useModal } from "../../context/Modal";
 import "./LeaveReviewModal.css"
+import { useHistory } from 'react-router-dom';
 
 function ReviewFormModal({ productId }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
+  const history = useHistory()
 
   const [description, setDescription] = useState('');
   const [rating, setRating] = useState(1);
@@ -32,23 +34,26 @@ function ReviewFormModal({ productId }) {
     };
     await dispatch(addReviewThunk(productId, newReview));
     closeModal();
+    history.push(`products/${productId}`)
+
   };
 
   return (
-    <div className="purchased-products-modal">
+    <div className="purchased-products-modal-new">
       <div className="title-container">
         <p className="title">Leave a Review</p>
       </div>
       <form onSubmit={handleSubmit}>
-        <textarea
-
-        className="description-review"
-          value={description}
-          onChange={(e) => setDescription(e.target.value)}
-          required
-        />
-        {errorMessage && <p className="error-message">{errorMessage}</p>}
-
+      <label className="description-label-form">
+          Leave a review:
+          <textarea
+          className="description-review"
+            value={description}
+            onChange={(e) => setDescription(e.target.value)}
+            required
+          />
+          {errorMessage && <p className="error-message">{errorMessage}</p>}
+        </label>
         <div className="rating-container">
             {Array(5).fill(null).map((_, idx) => (
                 <FontAwesomeIcon
@@ -62,7 +67,7 @@ function ReviewFormModal({ productId }) {
                 />
             ))}
         </div>
-        <button type="submit" >Submit</button>
+        <button className="submit-button" type="submit" >Submit</button>
       </form>
     </div>
   );

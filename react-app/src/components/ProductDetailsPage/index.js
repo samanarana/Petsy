@@ -23,13 +23,10 @@ function ProductDetailsPage() {
 
     const [ isLoaded, setIsLoaded ] = useState(false);
     const [ quantity, setQuantity ] = useState(1);
-    const [currentImageIndex, setCurrentImageIndex] = useState(0);
-
-
+    const [ currentImageIndex, setCurrentImageIndex ] = useState(0);
+    const [ cartMessage, setCartMessage ] = useState("");
+    const [ error, setError ] = useState(null);
     const { openModal } = useModal()
-    const [error, setError] = useState(null);
-
-
     const { productId } = useParams();
     const dispatch = useDispatch();
 
@@ -70,8 +67,9 @@ function ProductDetailsPage() {
 
         if (isFavorited) {
             const favoriteToRemove = favorites.find((favorite) => favorite.productId === product.id);
+            console.log('favoritetoRemove in ProductDetailsPage --------------------', favoriteToRemove)
             if (favoriteToRemove) {
-                dispatch(removeFavoriteThunk(favoriteToRemove.id));
+                dispatch(removeFavoriteThunk(favoriteToRemove.userId, favoriteToRemove.productId));
             }
         } else {
             dispatch(addFavoriteThunk(userId, product.id));
@@ -81,22 +79,14 @@ function ProductDetailsPage() {
     const handleAddToCart = () => {
         const existingItem = cartItems.find(item => item.productId === product.id);
 
-        const currentTotalQuantity = existingItem ? existingItem.quantity + quantity : quantity;
-
-        if (currentTotalQuantity > 10) {
-            setError("You can't add more than 10 of this product to your cart.");
-            return;
-        } else {
-            setError(null);
-        }
-
         dispatch(addToCartThunk({
             productId: product.id,
             quantity: quantity,
             price: product.price
-        }));
+        })).then(() => {
+            setCartMessage(`${quantity > 1 ? "Items" : "Item"} added successfully!`);
+        });
     };
-
 
     const handleDeleteReview = (reviewId) => {
         const deteleIt = window.confirm("Are you sure you want to delete this review?");
@@ -143,6 +133,8 @@ function ProductDetailsPage() {
             <div className="product-info">
                     <p className="detail-product-price">${product.price}</p>
 
+                    <p className="product-description">{product.description}</p>
+
                     <label>Quantity</label>
                 <div className="dropdown-container-details">
                         <select
@@ -161,6 +153,7 @@ function ProductDetailsPage() {
 
                     <button className="add-to-cart-button" onClick={handleAddToCart}>Add to cart</button>
                     {error && <div className="error-message">{error}</div>}
+                    {cartMessage && <div className="success-message">{cartMessage}</div>}
 
                     <button className="favorite-button" onClick={handleHeartClick}>
                             {isFavorited ?
@@ -170,8 +163,6 @@ function ProductDetailsPage() {
                             }
                             <span> Add to favorites</span>
                         </button>
-
-                    <p>{product.description}</p>
 
             </div>
 

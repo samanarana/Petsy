@@ -11,7 +11,7 @@ import { getReviewThunk } from './../../store/review';
 import { useModal } from '../../context/Modal';
 import LoginFormModal from "../LoginFormModal";
 
-const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price } }) => {
+const ProductTile = ({ product: { id, imageUrls, productName, price } }) => {
     const dispatch = useDispatch();
 
     const [reviews, setReviews] = useState([]); // Store fetched reviews
@@ -20,7 +20,6 @@ const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price
     useEffect(() => {
         const fetchReviews = async () => {
             const response = await dispatch(getReviewThunk(id));
-            console.log('Fetched reviews for product', id, response);
             if (response && response.length) {
                 setReviews(response);
                 // Calculate average rating
@@ -70,14 +69,15 @@ const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price
     };
 
     return (
-        <Link to={`/products/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
             <div className='product-tile'>
                 <div className="image-wrapper">
-                    {imageUrls ?
-                        <img className="real-images" src={imageUrls[0]} alt={productName} />
-                        :
-                        <div className="image-placeholder"></div>
-                    }
+                    <Link to={`/products/${id}`} style={{ textDecoration: 'none', color: 'inherit' }}>
+                        {imageUrls ?
+                            <img className="real-images" src={imageUrls[0]} alt={productName} />
+                            :
+                            <div className="image-placeholder"></div>
+                        }
+                    </Link>
                     <button className='favorite-btn' onClick={handleHeartClick}>
                         {isFavorited ?
                             <FontAwesomeIcon icon={solidHeart} style={{color: "#c70000"}} />
@@ -105,7 +105,6 @@ const ProductTile = ({ product: { id, imageUrls, productName, reviewCount, price
                     <button className='add-to-cart-btn' onClick={handleAddToCart}>+ Add to cart</button>
                 </div>
             </div>
-        </Link>
     );
 }
 
