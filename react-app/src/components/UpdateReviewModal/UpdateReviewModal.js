@@ -50,10 +50,12 @@ function UpdateReviewModal({ productId, reviewId }) {
 
   return (
     <div className="update-review-modal">
-      <p>Update Review</p>
+      <div className="title-container">
+      <p className="title">Update Review</p>
+    </div>
       <form onSubmit={handleSubmit}>
-        <label>
-            Description
+        <label className="description-label-form">
+            Update your review:
             <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
@@ -75,8 +77,6 @@ function UpdateReviewModal({ productId, reviewId }) {
                 />
             ))}
         </div>
-
-
         <button type="submit">Update</button>
       </form>
     </div>
