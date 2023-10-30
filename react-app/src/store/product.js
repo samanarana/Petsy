@@ -5,6 +5,7 @@ const GET_PRODUCT_DETAILS = "products/GET_PRODUCT_DETAILS";
 const CREATE_PRODUCT = "products/CREATE_PRODUCT";
 const UPDATE_PRODUCT = "products/UPDATE_PRODUCT";
 const DELETE_PRODUCT = "products/DELETE_PRODUCT";
+const PRODUCTS_BY_CATEGORY = "products/PRODUCTS_BY_CATEGORY";
 
 // Action Creators
 const loadProducts = (products) => ({
@@ -35,6 +36,12 @@ const updateProduct = (product) => ({
 const deleteProduct = (productId) => ({
     type: DELETE_PRODUCT,
     payload: productId
+});
+
+const loadProductsByCategory = (category, products) => ({
+    type: PRODUCTS_BY_CATEGORY,
+    category,
+    payload: products
 });
 
 // Thunks
@@ -150,6 +157,36 @@ export const deleteProductThunk = (productId) => async (dispatch) => {
 
 
 
+export function convertToBackendCategory(frontendName) {
+    switch(frontendName) {
+        case 'The Holiday Shop': return 'Holiday';
+        case 'Home & Living': return 'Home';
+        case 'Travel & Outdoor': return 'Travel';
+        case 'Collars & Accessories': return 'Accessories';
+        case 'Food & Treats': return 'Food';
+        default: return frontendName;
+    }
+}
+
+export const fetchProductsByCategoryThunk = (categoryName) => async (dispatch) => {
+    const backendCategory = convertToBackendCategory(categoryName);
+    console.log("backendCategory:", backendCategory);
+
+    const response = await fetch(`/api/products/category/${backendCategory}`, {
+        headers: {
+            "Content-Type": "application/json",
+        },
+    });
+
+    if (response.ok) {
+        const data = await response.json();
+        dispatch(loadProductsByCategory(backendCategory, data.products));
+    } else {
+        console.error("Failed to fetch products by category");
+    }
+};
+
+
 //reducer
 const initialState = {
     allProducts: [],
@@ -184,6 +221,9 @@ export default function reducer(state = initialState, action) {
             newState.allProducts = newState.allProducts.filter(product =>
             product.id !== action.payload
             );
+            return newState;
+        case PRODUCTS_BY_CATEGORY:
+            newState.list = action.payload;
             return newState;
 		default:
 			return state;
