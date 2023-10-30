@@ -1,0 +1,67 @@
+.holiday-tile {
+    position: relative;
+    width: 128px;
+    height: 128px;
+    overflow: hidden;
+    border-radius: 5px;
+    border: 1px solid #d8d4d4;
+}
+
+.large-holiday-tile {
+    position: relative;
+    width: 350px;
+    height: 350px;
+    overflow: hidden;
+    border-radius: 0 5px 5px 0;
+}
+
+.holiday-tile-image {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.holiday-tile-overlay {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    display: flex;
+    justify-content: space-between;
+    align-items: flex-start;
+    opacity: 0;
+    transition: opacity 0.3s;
+}
+
+.holiday-tile:hover .holiday-tile-overlay {
+    opacity: 1;
+}
+
+.holiday-tile-price {
+    background: rgb(255, 255, 255);
+    padding: 5px 10px;
+    border-radius: 10px;
+    position: absolute;
+    bottom: 0;
+    left: 4px;
+    color: rgb(0, 0, 0);
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 12px;
+}
+
+.holiday-tile-heart {
+    background: rgba(0, 0, 0, 0.7);
+    padding: 5px 10px;
+    border-radius: 0 5px 0 5px;
+    position: absolute;
+    top: 0;
+    right: 0;
+    color: white;
+    border: none;
+    cursor: pointer;
+}
+
+.holiday-tile-heart:focus {
+    outline: none;
+}

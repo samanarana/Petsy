@@ -1,6 +1,7 @@
 .header {
 	background-image: linear-gradient(to bottom, #fbdbbc 50%, #ffffff 50%);
 	padding: 1px 0 90px 0;
+	margin-bottom: -40px;
 }
 
 .header-content {
