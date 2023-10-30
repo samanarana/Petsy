@@ -81,6 +81,11 @@ function ProductDetailsPage() {
 
     const handleAddToCart = () => {
 
+        if (!userId) {
+            openModal(<LoginFormModal />);
+            return;
+        };
+
         dispatch(addToCartThunk({
             productId: product.id,
             quantity: quantity,
