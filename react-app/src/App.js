@@ -14,6 +14,7 @@ import CartPage from "./components/CartPage/index";
 import ListingsPage from "./components/ListingsPage/index";
 import AddAListing from "./components/ListingForm/AddAListing";
 import UpdateListing from "./components/ListingForm/UpdateListing";
+import CategoryProductsPage from "./components/CategoryProductsPage/index"
 
 function App() {
   const dispatch = useDispatch();
@@ -41,6 +42,9 @@ function App() {
           <Route path="/products/:productId/reviews/new">
             <ReviewFormPage />
           </Route> */}
+          <Route path="/category/:category">
+            <CategoryProductsPage />
+          </Route>
           <Route path="/products/:productId">
             <ProductDetailsPage />
           </Route>
@@ -62,6 +66,7 @@ function App() {
           <Route path="/update/:productId">
             <UpdateListing />
           </Route>
+
 
         </Switch>
       )}

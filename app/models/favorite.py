@@ -11,7 +11,7 @@ class Favorite(db.Model):
     productId = db.Column(db.Integer(), db.ForeignKey(add_prefix_for_prod('products.id')), nullable=False)
 
     user = db.relationship('User', backref=db.backref('favorites'))
-    product = db.relationship('Product', backref=db.backref('favorites'))
+    product = db.relationship('Product', back_populates='favorites')
 
     def to_dict(self):
         return {
