@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { Link } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCartThunk, fetchCartItemsThunk, updateCartItemQuantityThunk, clearCartThunk } from '../../store/cartitems';
 import { fetchAllProductsThunk } from '../../store/product';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import './CartPage.css';
@@ -62,10 +61,8 @@ function CartPage() {
             const responseData = await response.json();
 
             if (responseData.status === "success") {
-                setOrderSubmitted(true)
-                .then(() => {
-                    handleClearCart();
-                })
+                await handleClearCart();
+                setOrderSubmitted(true);
             } else {
                 setError(responseData.message);
             }
@@ -80,8 +77,18 @@ function CartPage() {
     }
 
     if (orderSubmitted) {
-        return <div className="cart-is-empty-submitted">Order submitted successfully!</div>;
+        return (
+            <div className="centered-container">
+                <p className="cart-is-empty-submitted">
+                    Order submitted successfully!
+                </p>
+                <Link to="/products" className="link-all-products-2">
+                    See more goodies!
+                </Link>
+            </div>
+        );
     }
+
 
     //Cost-related
     const totalCost = userCart.reduce((acc, item) => acc + (item.quantity * item.price), 0).toFixed(2);

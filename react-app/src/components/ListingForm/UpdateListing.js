@@ -27,6 +27,16 @@ const UpdateListing = () => {
         return defaultArray;
     };
 
+    const handlePriceChange = e => {
+        let priceValue = e.target.value;
+
+        // Check if the price has more than 2 decimal places
+        if (/\.\d{3,}/.test(priceValue)) {
+            priceValue = parseFloat(priceValue).toFixed(2);
+        }
+        setProductData({ ...productData, price: priceValue });
+    };
+
     useEffect(() => {
         if(productId) {
             dispatch(productDetailsThunk(productId));
@@ -111,7 +121,7 @@ const UpdateListing = () => {
                             className="number-input"
                             placeholder="0.00"
                             value={productData.price}
-                            onChange={e => setProductData({ ...productData, price: e.target.value })}
+                            onChange={handlePriceChange}
                             step="0.01"
                             required
                         />
@@ -149,29 +159,19 @@ const UpdateListing = () => {
                         <label className="input-label">Product Images (up to 6):</label>
                         {Array.from({ length: 6 }).map((_, index) => (
                             <div key={index} className="image-option-container">
-                                <div className="url-or-file-container">
-                                    <input
-                                        type="text"
-                                        id={`imageUrl${index + 1}`}
-                                        name={`imageUrl${index + 1}`}
-                                        className="text-input url-input"
-                                        placeholder="Paste image URL here"
-                                        value={productData.imageUrls[index]}
-                                        onChange={e => {
-                                            let newImageUrls = [...productData.imageUrls];
-                                            newImageUrls[index] = e.target.value;
-                                            setProductData({ ...productData, imageUrls: newImageUrls });
-                                        }}
-                                    />
-                                    <span className="or-separator">or</span>
-                                    <input
-                                        type="file"
-                                        id={`imageFile${index + 1}`}
-                                        name={`imageFile${index + 1}`}
-                                        className="file-input"
-                                        accept=".jpg, .jpeg, .png"
-                                    />
-                                </div>
+                                <input
+                                    type="text"
+                                    id={`imageUrl${index + 1}`}
+                                    name={`imageUrl${index + 1}`}
+                                    className="text-input url-input"
+                                    placeholder="Paste image URL here"
+                                    value={productData.imageUrls[index]}
+                                    onChange={e => {
+                                        let newImageUrls = [...productData.imageUrls];
+                                        newImageUrls[index] = e.target.value;
+                                        setProductData({ ...productData, imageUrls: newImageUrls });
+                                    }}
+                                />
                             </div>
                         ))}
                     </div>
