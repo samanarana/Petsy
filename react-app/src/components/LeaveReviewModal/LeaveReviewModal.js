@@ -5,12 +5,13 @@ import { faStar as fasStar } from '@fortawesome/free-solid-svg-icons';
 import { addReviewThunk } from '../../store/review';
 import { useModal } from "../../context/Modal";
 import "./LeaveReviewModal.css"
-import { useHistory } from 'react-router-dom';
+import { useHistory, useNavigate } from 'react-router-dom';
+
 
 function ReviewFormModal({ productId }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
-  const history = useHistory()
+  const navigate = useNavigate();
 
   const [description, setDescription] = useState('');
   const [rating, setRating] = useState(1);
@@ -33,8 +34,11 @@ function ReviewFormModal({ productId }) {
       rating
     };
     await dispatch(addReviewThunk(productId, newReview));
+
     closeModal();
-    history.push(`products/${productId}`)
+
+    navigate(`/products/${productId}`);
+
 
   };
 
