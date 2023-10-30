@@ -1,0 +1,77 @@
+.holiday-page-thing {
+    display: flex;
+    align-items: center; /* Center the items vertically */
+    justify-content: center; /* Center the items horizontally */
+    margin-bottom: 50px;
+}
+
+.holiday-section-container {
+    display: flex;
+    justify-content: space-between;
+    width: 62%;
+    height: 330px;
+    border: 1px solid #d8d4d4;
+    padding-left: 0;
+    border-radius: 5px 0 0 5px;
+}
+
+.holiday-section-container-right {
+    display: flex;
+    width: 30%;
+    height: 330px;
+    border: 1px solid #d8d4d4;
+    margin-left: -1px;
+    border-radius: 0 5px 5px 0;
+}
+
+.small-tiles {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    flex-wrap: wrap;
+    gap: 15px;
+    margin: 20px 15px 10px 30px;
+}
+
+.large-holiday-tile {
+    width: 100%;
+    height: 100%;
+
+}
+
+.large-tile {
+    height: 330px;
+    width: 330px;
+    padding: 0 !important; /* No padding */
+
+}
+
+.holiday-header {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 12px;
+    display: flex;
+    flex-direction: column;  /* Makes the children stack vertically */
+    justify-content: flex-start; /* Aligns items vertically in the middle. You can adjust as per your needs */
+    align-items: flex-start;     /* Centers the items horizontally */
+    margin-bottom: 20px;
+    margin-right: 28px;
+}
+
+.second-header {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 21px;
+    margin-top: -4px;
+}
+
+.see-more {
+    font-family:'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
+    font-size: 15px;
+    font-style: italic;
+    margin-left: -5px;
+}
+
+.holiday-random-section {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+}

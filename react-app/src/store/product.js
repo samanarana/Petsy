@@ -170,7 +170,6 @@ export function convertToBackendCategory(frontendName) {
 
 export const fetchProductsByCategoryThunk = (categoryName) => async (dispatch) => {
     const backendCategory = convertToBackendCategory(categoryName);
-    console.log("backendCategory:", backendCategory);
 
     const response = await fetch(`/api/products/category/${backendCategory}`, {
         headers: {
