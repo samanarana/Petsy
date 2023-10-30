@@ -1,5 +1,4 @@
 import React from 'react';
-import { NavLink } from 'react-router-dom';
 import './HeaderBubbles.css';
 
 const categories = [
@@ -39,10 +38,7 @@ function HeaderBubbles(){
 			    <ul className="bubble-nav">
 				    {categories.map((category) => (
 					    <li key={category.name} className="bubble-item">
-						    <NavLink to={`/${category.name.toLowerCase()}`} activeClassName="active">
-							    <div className="bubble" style={{ backgroundImage: `url(${category.image})` }}></div>
-							    <span>{category.name}</span>
-						    </NavLink>
+						    <div className="bubble" style={{ backgroundImage: `url(${category.image})` }}></div>
 					    </li>
 				    ))}
 			    </ul>
