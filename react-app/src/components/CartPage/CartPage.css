@@ -217,3 +217,9 @@
     font-weight: bold;
     margin-left: 5px;
 }
+
+
+.error-message {
+    color: red;
+    font-size: 15px;
+}

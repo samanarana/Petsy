@@ -86,6 +86,11 @@ function ProductDetailsPage() {
             return;
         };
 
+        if (quantity > product.quantity) {
+            setCartMessage("Out of stock :(");
+            return;
+        }
+
         dispatch(addToCartThunk({
             productId: product.id,
             quantity: quantity,
@@ -159,8 +164,11 @@ function ProductDetailsPage() {
                 </div>
 
                     <button className="add-to-cart-button" onClick={handleAddToCart}>Add to cart</button>
-                    {error && <div className="error-message">{error}</div>}
-                    {cartMessage && <div className="success-message">{cartMessage}</div>}
+                        {cartMessage && (
+                            cartMessage === "Insufficient stock available." ?
+                                <div className="error-message">{cartMessage}</div> :
+                                <div className="success-message">{cartMessage}</div>
+                        )}
 
                     <button className="favorite-button" onClick={handleHeartClick}>
                             {isFavorited ?
