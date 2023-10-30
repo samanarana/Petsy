@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
 import { useModal } from "../../context/Modal";
-import { signUp } from "../../store/session";
+import { signUp, login } from "../../store/session";
 import "./SignupForm.css";
 
 function SignupFormModal() {
@@ -52,6 +52,7 @@ function SignupFormModal() {
 	// console.log('errors:', errors);
 
 	} else if (status === 200) {
+    await dispatch(login(email, password));
 	closeModal();
 	}
   };
