@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCartThunk, fetchCartItemsThunk, updateCartItemQuantityThunk, clearCartThunk } from '../../store/cartitems';
 import { fetchAllProductsThunk } from '../../store/product';
@@ -11,7 +11,6 @@ function CartPage() {
     const dispatch = useDispatch();
     const userCart = useSelector(state => state.cartitems.currentCart);
     const allProducts = useSelector(state => state.product.allProducts);
-    const history = useHistory();
 
     //Field-Selector States
     const [ isLoaded, setIsLoaded ] = useState(false);
