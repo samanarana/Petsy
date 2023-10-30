@@ -42,7 +42,23 @@ def add_to_cart():
     return jsonify(status="success", message="Item added to cart successfully", data={}), 201
 
 
+# Update Quantity of a product in the cart
+@cart_routes.route('/<int:productId>', methods=['PATCH'])
+@login_required
+def update_cart_item_quantity(productId):
+    data = request.get_json()
 
+    if "quantity" not in data:
+        return jsonify(status="error", error_type="data_missing", message="Quantity not provided"), 400
+
+    cart_item = CartItem.query.filter_by(userId=current_user.id, productId=productId).first()
+    if not cart_item:
+        return jsonify(status="error", error_type="not_found", message="Item not found in cart"), 404
+
+    cart_item.quantity = data["quantity"]
+    db.session.commit()
+
+    return jsonify(status="success", message="Item quantity updated successfully", data={}), 200
 
 # Remove a product from the cart
 @cart_routes.route('/<int:productId>', methods=['DELETE'])
@@ -53,12 +69,11 @@ def remove_from_cart(productId):
     ).first()
     if not cart_item:
         return jsonify(status="error", error_type="not_found", message="Item not found"), 404
-    if cart_item.quantity > 1:
-        cart_item.quantity -= 1
-    else:
-        db.session.delete(cart_item)
+    
+    db.session.delete(cart_item)
     db.session.commit()
-    return jsonify(status="success", message='Item updated in cart', data={}), 200
+    return jsonify(status="success", message='Item removed from cart', data={}), 200
+
 
 
 
@@ -80,24 +95,3 @@ def delete_all_items():
     db.session.commit()
     return jsonify(status="success", message="Cart cleared", data={}), 200
 
-
-@cart_routes.route('/<int:productId>', methods=['PATCH'])
-@login_required
-def update_cart_item_quantity(productId):
-    data = request.get_json()
-
-    # Validate if "quantity" is provided in the request
-    if "quantity" not in data:
-        return jsonify(status="error", error_type="data_missing", message="Quantity not provided"), 400
-
-    # Look for the item in the user's cart
-    cart_item = CartItem.query.filter_by(userId=current_user.id, productId=productId).first()
-    if not cart_item:
-        return jsonify(status="error", error_type="not_found", message="Item not found in cart"), 404
-
-    # Update the quantity
-    cart_item.quantity = data["quantity"]
-
-    db.session.commit()
-
-    return jsonify(status="success", message="Item quantity updated successfully", data={}), 200
