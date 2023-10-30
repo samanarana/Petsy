@@ -62,8 +62,10 @@ function CartPage() {
             const responseData = await response.json();
 
             if (responseData.status === "success") {
-                setOrderSubmitted(true);
-                handleClearCart();
+                setOrderSubmitted(true)
+                .then(() => {
+                    handleClearCart();
+                })
             } else {
                 setError(responseData.message);
             }

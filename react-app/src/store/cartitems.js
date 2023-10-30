@@ -51,9 +51,10 @@ export const removeFromCartThunk = (itemId) => async (dispatch) => {
     });
 
     if (response.ok) {
-            dispatch(removeFromCart(itemId));
+        dispatch(removeFromCart(itemId));
     }
 };
+
 
 export const clearCartThunk = () => async (dispatch) => {
     const response = await fetch(`/api/cart/clear`, {
@@ -108,6 +109,7 @@ export const updateCartItemQuantityThunk = (itemId, quantity) => async (dispatch
         dispatch(updateCartItemQuantity(itemId, quantity));
     }
 };
+
 
 
 // State

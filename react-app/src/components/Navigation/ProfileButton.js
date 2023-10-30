@@ -9,6 +9,7 @@ import OpenModalButton from "../OpenModalButton";
 import LoginFormModal from "../LoginFormModal";
 import PurchasedProductsModal from "../ReviewModal/ReveiwModal";
 import { useModal } from "../../context/Modal";
+import { clearCartThunk } from "../../store/cartitems";
 
 function ProfileButton({ user }) {
   const dispatch = useDispatch();
@@ -38,7 +39,10 @@ function ProfileButton({ user }) {
 
   const handleLogout = (e) => {
     e.preventDefault();
-    dispatch(logout());
+    dispatch(logout())
+    .then(() => {
+      dispatch(clearCartThunk())
+    })
     history.push("/");
   };
 
