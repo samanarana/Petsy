@@ -78,16 +78,17 @@ function CartPage() {
 
     if (orderSubmitted) {
         return (
-            <>
+            <div className="centered-container">
                 <p className="cart-is-empty-submitted">
                     Order submitted successfully!
                 </p>
-                <Link to="/products" className="link-all-products">
-                    See more goodies
+                <Link to="/products" className="link-all-products-2">
+                    See more goodies!
                 </Link>
-            </>            
+            </div>
         );
     }
+
 
     //Cost-related
     const totalCost = userCart.reduce((acc, item) => acc + (item.quantity * item.price), 0).toFixed(2);
