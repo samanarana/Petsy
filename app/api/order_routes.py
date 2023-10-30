@@ -73,10 +73,23 @@ def checkout():
     if not cart_items:
         return jsonify(status="error", error_type="empty_cart", message="Your cart is empty"), 400
 
-    #Update this
+    # Check if there's enough stock
+    for cart_item in cart_items:
+        product = Product.query.get(cart_item.productId)
+        if not product:
+            return jsonify(status="error", message=f"Product with ID {cart_item.productId} not found"), 404
+
+        if product.quantity < cart_item.quantity:
+            return jsonify(status="error", message=f"Not enough stock for product {product.productName}"), 400
+
+    # Update the product's available quantity
+    for cart_item in cart_items:
+        product = Product.query.get(cart_item.productId)
+        product.quantity -= cart_item.quantity
+
     total_price = sum(item.price * item.quantity for item in cart_items)
 
-    #Hard-coded Placeholders for Data + Error Handler
+    # Hard-coded Placeholders for Data + Error Handler
     shipping_address = 'The Forbidden Cats Treehouse, Sky Island'
     billing_address = 'The Forbidden Cats Treehouse, Sky Island'
     payment_method = 'A handful of Acorns'
@@ -95,7 +108,6 @@ def checkout():
     db.session.add(new_order)
     db.session.commit()
 
-    #May need to adjust this to actually just use clearCart also.
     for cart_item in cart_items:
         order_item = OrderItem(orderId=new_order.id, productId=cart_item.productId)
         db.session.add(order_item)
@@ -104,3 +116,4 @@ def checkout():
     db.session.commit()
 
     return jsonify(status="success", message="Checkout successful", data=new_order.to_dict()), 200
+
