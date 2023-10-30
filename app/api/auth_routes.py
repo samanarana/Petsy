@@ -89,10 +89,10 @@ def sign_up():
         existing_username = User.query.filter_by(username=form.data['username']).first()
 
         if existing_email:
-            return {'errors': ['Email is already in use.']}, 401
+            return jsonify({'errors': ['Email is already in use.']}), 401
 
         if existing_username:
-            return {'errors': ['Username is already taken.']}, 401
+            return jsonify({'errors': ['Username is already taken.']}), 401
 
         db.session.add(user)
         db.session.commit()
