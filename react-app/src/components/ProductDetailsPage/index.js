@@ -120,9 +120,9 @@ function ProductDetailsPage() {
 
             <div className="product-images-container">
                 <div className="thumbnail-images">
-                    {product.imageUrls.map((imageUrl, idx) => (
+                    {product.imageUrls.filter(url => url.trim() !== '').map((imageUrl, idx) => (
                         <div className="thumbnail" key={idx} onClick={() => handleThumbnailClick(idx)}>
-                            <img src={imageUrl} alt={`${product.productName} Thumbnail ${idx + 1}`} />
+                            <img src={imageUrl} alt="" />
                         </div>
                     ))}
                 </div>
@@ -139,7 +139,7 @@ function ProductDetailsPage() {
 
             <div className="product-info">
                     <p className="detail-product-price">${product.price}</p>
-
+                    <p className="product-name-detail">{product.productName}</p>
                     <p className="product-description">{product.description}</p>
 
                     <label>Quantity</label>
