@@ -1,12 +1,11 @@
-//react-app/src/components/Navigation/index.js
-
-import React, { useEffect } from 'react';
-import { NavLink, useLocation } from 'react-router-dom';
+import React, { useState, useEffect } from 'react';
+import { NavLink, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import ProfileButton from './ProfileButton';
 import './Navigation.css';
 import CategoryNav from './CategoryNav.js';
 import { fetchCartItemsThunk } from '../../store/cartitems';
+import { fetchSearchResultsThunk } from '../../store/product';
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faShoppingCart, faSearch } from '@fortawesome/free-solid-svg-icons';
@@ -17,6 +16,8 @@ function Navigation({ isLoaded }){
 	const dispatch = useDispatch();
 	const sessionUser = useSelector(state => state.session.user);
 	const location = useLocation();
+	const history = useHistory();
+	const [searchQuery, setSearchQuery] = useState('');
 
 	// Fetch cart items when the component is mounted
 	useEffect(() => {
@@ -25,6 +26,18 @@ function Navigation({ isLoaded }){
 
 	const userCart = useSelector(state => state.cartitems.currentCart);
 	const totalItems = userCart.reduce((acc, item) => acc + item.quantity, 0);
+
+	const handleSearchChange = (e) => {
+		setSearchQuery(e.target.value);
+	};
+
+	// Dispatch and navigate to search results page
+	const handleSearchSubmit = (e) => {
+		e.preventDefault();
+		dispatch(fetchSearchResultsThunk(searchQuery));
+		history.push('/search');
+	};
+
 
 	return (
 		<>
@@ -38,10 +51,17 @@ function Navigation({ isLoaded }){
 					<>
 
 						<li className="nav-center-item">
-							<div className="search-container">
-								<input className="search-input" placeholder="Search for anything" />
-								<FontAwesomeIcon icon={faSearch} className="search-icon" />
-							</div>
+							<form onSubmit={handleSearchSubmit} className="search-container">
+								<input
+									className="search-input"
+									placeholder="Search for anything"
+									value={searchQuery}
+									onChange={handleSearchChange}
+								/>
+								<button type="submit" className="search-icon-button">
+									<FontAwesomeIcon icon={faSearch} className="search-icon" />
+								</button>
+							</form>
 						</li>
 
 						<li className="nav-item">

@@ -24,10 +24,8 @@ function ReviewFormModal({ productId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handleSubmit triggered");
 
     if (description.length < 10) {
-      console.log("Setting error message...");
       setErrorMessage("Give us a little bit longer of a review.");
       return;
   }

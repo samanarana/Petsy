@@ -25,7 +25,6 @@ function UpdateReviewModal({ productId, reviewId }) {
         setDescription(review.description);
         setRating(review.rating);
       })
-      .catch((e) => console.log(e));
   }, [dispatch, reviewId]);
 
   const handleSubmit = async (e) => {
