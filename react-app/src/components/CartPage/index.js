@@ -134,7 +134,6 @@ function CartPage() {
                                             className="quantity-dropdown-cart"
                                             value={selectedQuantities[item.productId] || item.quantity}
                                             onChange={(e) => {
-                                                console.log('dropdown value changed:', e.target.value)
                                                 const updatedQuantities = {
                                                     ...selectedQuantities,
                                                     [item.productId]: Number(e.target.value)

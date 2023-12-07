@@ -6,6 +6,8 @@ const CREATE_PRODUCT = "products/CREATE_PRODUCT";
 const UPDATE_PRODUCT = "products/UPDATE_PRODUCT";
 const DELETE_PRODUCT = "products/DELETE_PRODUCT";
 const PRODUCTS_BY_CATEGORY = "products/PRODUCTS_BY_CATEGORY";
+const SEARCH_PRODUCTS = "products/SEARCH_PRODUCTS";
+
 
 // Action Creators
 const loadProducts = (products) => ({
@@ -44,8 +46,13 @@ const loadProductsByCategory = (category, products) => ({
     payload: products
 });
 
-// Thunks
+const loadSearchResults = (searchResults) => ({
+    type: SEARCH_PRODUCTS,
+    payload: searchResults
+});
 
+
+// Thunks
 export const fetchAllProductsThunk = () => async (dispatch) => {
 	const response = await fetch("/api/products/", {
 		headers: {
@@ -118,7 +125,6 @@ export const createProductThunk = (productData) => async (dispatch) => {
 
 export const updateProductThunk = (productId, productData) => async (dispatch) => {
     try {
-        console.log('product id***************', productId)
         const response = await fetch(`/api/products/${productId}`, {
             method: "PUT",
             headers: {
@@ -185,6 +191,26 @@ export const fetchProductsByCategoryThunk = (categoryName) => async (dispatch) =
     }
 };
 
+export const fetchSearchResultsThunk = (searchQuery) => async (dispatch) => {
+    try {
+        const response = await fetch(`/api/products/search?query=${encodeURIComponent(searchQuery)}`, {
+            headers: {
+                "Content-Type": "application/json",
+            },
+        });
+
+        if (!response.ok) {
+            throw new Error("Failed to fetch search results");
+        }
+
+        const data = await response.json();
+        dispatch(loadSearchResults(data.products));
+    } catch (error) {
+        console.error("There was an error fetching the search results:", error);
+    }
+};
+
+
 
 //reducer
 const initialState = {
@@ -192,6 +218,7 @@ const initialState = {
     userProducts: [],
     productDetails: [],
     list: [],
+    searchResults: [],
 };
 
 export default function reducer(state = initialState, action) {
@@ -223,6 +250,9 @@ export default function reducer(state = initialState, action) {
             return newState;
         case PRODUCTS_BY_CATEGORY:
             newState.list = action.payload;
+            return newState;
+        case SEARCH_PRODUCTS:
+            newState.searchResults = action.payload;
             return newState;
 		default:
 			return state;

@@ -30,7 +30,7 @@ function SignupFormModal() {
 
     // Check Confirm Password
     if (password !== confirmPassword) {
-      validationErrors.confirmPassword = "Confirm Password field must be the same as the Password field.";
+      validationErrors.confirmPassword = "Confirm Password field does not match Password field.";
     }
 
     // Username Length
@@ -44,12 +44,9 @@ function SignupFormModal() {
     }
 
     const { data, status } = await dispatch(signUp(username, email, password));
-	// console.log('status:', status);
-	// console.log('data:', data);
 
 	if (status === 401) {
 	setErrors({ general: data.errors });
-	// console.log('errors:', errors);
 
 	} else if (status === 200) {
     await dispatch(login(email, password));
@@ -131,8 +128,7 @@ function SignupFormModal() {
           disabled={
             !email.includes("@") ||
             username.length < 4 ||
-            password.length < 6 ||
-            password !== confirmPassword
+            password.length < 6
           }
         >
           Register

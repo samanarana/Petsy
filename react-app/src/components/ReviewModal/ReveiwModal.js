@@ -35,7 +35,6 @@ function PurchasedProductsModal() {
       if (response.ok) {
         const data = await response.json();
         setUserReviews(data.user_reviews);
-        // console.log("User Reviews:", data.user_reviews)
       }
     };
 

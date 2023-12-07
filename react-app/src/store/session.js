@@ -51,7 +51,6 @@ export const login = (email, password) => async (dispatch) => {
 		return null;
 	} else if (response.status < 500) {
 		const data = await response.json();
-		console.log("response error:", data)
 		if (data.errors) {
 			return data.errors;
 		}
