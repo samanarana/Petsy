@@ -23,7 +23,7 @@ function SignupFormPage() {
           setErrors(data)
         }
     } else {
-        setErrors(['Confirm Password field must be the same as the Password field']);
+        setErrors(['Confirm Password field does not match Password field.']);
     }
   };
 

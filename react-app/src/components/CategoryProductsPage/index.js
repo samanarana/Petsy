@@ -8,7 +8,6 @@ function CategoryProductsPage() {
     const dispatch = useDispatch();
     const { category } = useParams();
     const productsByCategory = useSelector(state => state.product.list);
-    console.log("Rendering CategoryProductsPage for category:", category);
 
     useEffect(() => {
         const backendCategory = convertToBackendCategory(category);

@@ -2,6 +2,7 @@ from flask import Blueprint, request, jsonify
 from flask_login import login_required, current_user
 from app.models import Product, Review, ProductImage
 from app import db
+from sqlalchemy import or_
 
 
 
@@ -179,3 +180,20 @@ def get_products_by_category(category_name):
 
     products_by_category = Product.query.filter_by(category=category_name).all()
     return {'products': [product.to_dict() for product in products_by_category]}
+
+
+# Search Bar
+@product_routes.route('/search', methods=['GET'])
+def search_products():
+    query = request.args.get('query', '')
+
+    # Filter products by matching the query with productName, description, or category
+    products = Product.query.filter(
+        or_(
+            Product.productName.ilike(f'%{query}%'),
+            Product.description.ilike(f'%{query}%'),
+            Product.category.ilike(f'%{query}%')
+        )
+    ).all()
+
+    return {'products': [product.to_dict() for product in products]}

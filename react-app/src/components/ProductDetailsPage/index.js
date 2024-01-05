@@ -26,7 +26,6 @@ function ProductDetailsPage() {
     const [ quantity, setQuantity ] = useState(1);
     const [ currentImageIndex, setCurrentImageIndex ] = useState(0);
     const [ cartMessage, setCartMessage ] = useState("");
-    const [ error] = useState(null);
     const { openModal } = useModal()
     const { productId } = useParams();
     const dispatch = useDispatch();

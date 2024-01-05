@@ -6,14 +6,14 @@ import { addReviewThunk } from '../../store/review';
 import { useModal } from "../../context/Modal";
 import "./LeaveReviewModal.css"
 
-import { useHistory, useLocation } from 'react-router-dom';
+import { useHistory } from 'react-router-dom';
 
 
 function ReviewFormModal({ productId }) {
   const dispatch = useDispatch();
   const { closeModal } = useModal();
   const history = useHistory();
-  const location = useLocation();
+
 
 
   const [description, setDescription] = useState('');
@@ -24,10 +24,8 @@ function ReviewFormModal({ productId }) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    console.log("handleSubmit triggered");
 
     if (description.length < 10) {
-      console.log("Setting error message...");
       setErrorMessage("Give us a little bit longer of a review.");
       return;
   }
@@ -38,8 +36,7 @@ function ReviewFormModal({ productId }) {
     };
     await dispatch(addReviewThunk(productId, newReview));
     closeModal();
-    const newPath = location.pathname.replace(/products\/.*$/, '') + `products/${productId}`;
-    history.push(newPath);
+    history.push(`/products/${productId}`);
 
 
   };

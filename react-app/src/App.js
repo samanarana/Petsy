@@ -15,6 +15,7 @@ import ListingsPage from "./components/ListingsPage/index";
 import AddAListing from "./components/ListingForm/AddAListing";
 import UpdateListing from "./components/ListingForm/UpdateListing";
 import CategoryProductsPage from "./components/CategoryProductsPage/index"
+import SearchResultsPage from "./components/Navigation/SearchResults";
 
 function App() {
   const dispatch = useDispatch();
@@ -38,10 +39,6 @@ function App() {
           <Route path="/signup">
             <SignupFormPage />
           </Route>
-          {/* <Route path="/products/:productId/review/:reviewId"><ReviewFormPage /></Route>
-          <Route path="/products/:productId/reviews/new">
-            <ReviewFormPage />
-          </Route> */}
           <Route path="/category/:category">
             <CategoryProductsPage />
           </Route>
@@ -66,7 +63,9 @@ function App() {
           <Route path="/update/:productId">
             <UpdateListing />
           </Route>
-
+          <Route path="/search">
+            <SearchResultsPage />
+          </Route>
 
         </Switch>
       )}

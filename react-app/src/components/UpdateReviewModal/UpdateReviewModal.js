@@ -13,7 +13,7 @@ function UpdateReviewModal({ productId, reviewId }) {
 
   const [description, setDescription] = useState('');
   const [rating, setRating] = useState(1);
-  const [errors, setErrors] = useState({});
+  const [errorMessage, setErrorMessage] = useState(null);
   const { closeModal } = useModal();
   const [hoveredStar, setHoveredStar] = useState(null);
   const history = useHistory()
@@ -25,12 +25,15 @@ function UpdateReviewModal({ productId, reviewId }) {
         setDescription(review.description);
         setRating(review.rating);
       })
-      .catch((e) => console.log(e));
   }, [dispatch, reviewId]);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
 
+    if (description.length < 10) {
+      setErrorMessage("Give us a little bit longer of a review.");
+      return;
+  }
     const newReview = {
       description,
       rating
@@ -39,7 +42,7 @@ function UpdateReviewModal({ productId, reviewId }) {
     const data = await dispatch(updateReviewThunk(reviewId, newReview));
 
     if (data && data.errors) {
-        setErrors(data.errors);
+      setErrorMessage(data.errors.description);
     } else {
         dispatch(getReviewThunk(productId));
         closeModal();
@@ -59,10 +62,10 @@ function UpdateReviewModal({ productId, reviewId }) {
             <textarea
                 value={description}
                 onChange={(e) => setDescription(e.target.value)}
-                className={errors.description ? "input-error" : ""}
+                className={errorMessage ? "input-error" : ""}
                 required
             />
-            {errors.description && <div className="error-message">{errors.description}</div>}
+            {errorMessage && <div className="error-message">{errorMessage}</div>}
         </label>
         <div className="rating-container">
             {Array(5).fill(null).map((_, idx) => (
