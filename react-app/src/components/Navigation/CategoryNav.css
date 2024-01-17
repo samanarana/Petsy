@@ -37,3 +37,10 @@
 .category-item a.active-category span {
     border-color: #000;
 }
+
+.no-results-message {
+    color: #555;
+    font-size: 24px;
+    text-align: center;
+    margin-top: 20%;
+}

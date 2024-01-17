@@ -186,26 +186,31 @@
 label {
     font-size: 12px;
 }
-
 .reviews-section {
     max-width: 900px;
     margin: auto;
-    padding-bottom: 30px;
+    padding: 30px;
+    background-color: #f9f9f9; 
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
 }
 
 .reviews-header {
     display: flex;
-    align-items: flex-start;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 20px;
 }
 
 .reviews-title {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
-    font-size: 30px;
+    font-size: 24px;
+    color: #333;
+    margin: 0;
 }
 
 .reviews-username {
-    font-family: 'Gill Sans', 'Gill Sans MT', Calibri, 'Trebuchet MS', sans-serif;
     font-size: 20px;
+    font-style: Bold;
 }
 
 .button-container {
@@ -247,8 +252,9 @@ label {
 }
 
 .review-list-itself {
-    list-style-type: none;
-    margin-bottom: 50px;
+    border-bottom: 1px solid #ccc;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
 }
 
 .new-listing-star {
@@ -263,7 +269,10 @@ label {
     color: red;
     font-size: 10px;
     display: flex;
-    text-align: center;
+    align-items: center;
     justify-content: center;
-    margin-right: 55px;
+    /* margin-top: 10px; */
+    width: 80%;
+    /* margin-left: auto; */
+    /* margin-right: auto; */
 }
