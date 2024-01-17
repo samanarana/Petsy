@@ -14,8 +14,6 @@ class Product(db.Model):
     category = db.Column(db.String(), nullable=False)
     quantity = db.Column(db.Integer(), nullable=False, default=1)
 
-
-
     user = db.relationship('User', backref=db.backref('product'))
     cartitems = db.relationship('CartItem', back_populates='product', cascade='all, delete-orphan')
     orderitems = db.relationship('OrderItem', back_populates='product', cascade='all, delete-orphan')
