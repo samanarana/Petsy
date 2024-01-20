@@ -13,7 +13,7 @@ const SearchResultsPage = () => {
                     <ProductTile key={product.id} product={product} userId={userId} />
                 ))
             ) : (
-                <div>No results found</div>
+                <div className="no-results-message">No results found ): </div>
             )}
         </div>
     );

@@ -48,7 +48,7 @@ function ReviewFormModal({ productId }) {
       </div>
       <form onSubmit={handleSubmit}>
       <label className="description-label-form">
-          Leave a review:
+         
           <textarea
           className="description-review"
             value={description}
