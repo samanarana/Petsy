@@ -95,6 +95,7 @@ function Navigation({ isLoaded }){
 
 			</ul>
 			{location.pathname !== '/cart' && location.pathname !== '/add-listing' && location.pathname !== '/listings' && <CategoryNav />}
+
 		</>
 	);
 }
