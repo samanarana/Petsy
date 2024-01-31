@@ -17,6 +17,8 @@ import UpdateListing from "./components/ListingForm/UpdateListing";
 import CategoryProductsPage from "./components/CategoryProductsPage/index"
 import SearchResultsPage from "./components/Navigation/SearchResults";
 
+import Footer from "./components/Navigation/Footer";
+
 function App() {
   const dispatch = useDispatch();
   const [isLoaded, setIsLoaded] = useState(false);
@@ -26,49 +28,52 @@ function App() {
 
   return (
     <>
-      <Navigation isLoaded={isLoaded} />
-      {isLoaded && (
-        <Switch>
+     <div className="app-grid-container">
+        <Navigation isLoaded={isLoaded} />
+        {isLoaded && (
+          <Switch>
 
-          <Route exact path="/">
-            <HomePage />
-          </Route>
-          <Route path="/login">
-            <LoginFormPage />
-          </Route>
-          <Route path="/signup">
-            <SignupFormPage />
-          </Route>
-          <Route path="/category/:category">
-            <CategoryProductsPage />
-          </Route>
-          <Route path="/products/:productId">
-            <ProductDetailsPage />
-          </Route>
-          <Route path="/products">
-            <ProductsPage />
-          </Route>
-          <Route path="/users/:userId/favorites">
-            <FavoritesPage />
-          </Route>
-          <Route path="/cart">
-            <CartPage />
-          </Route>
-          <Route path="/listings">
-                <ListingsPage />
-          </Route>
-          <Route path="/add-listing">
-            <AddAListing />
-          </Route>
-          <Route path="/update/:productId">
-            <UpdateListing />
-          </Route>
-          <Route path="/search">
-            <SearchResultsPage />
-          </Route>
+            <Route exact path="/">
+              <HomePage />
+            </Route>
+            <Route path="/login">
+              <LoginFormPage />
+            </Route>
+            <Route path="/signup">
+              <SignupFormPage />
+            </Route>
+            <Route path="/category/:category">
+              <CategoryProductsPage />
+            </Route>
+            <Route path="/products/:productId">
+              <ProductDetailsPage />
+            </Route>
+            <Route path="/products">
+              <ProductsPage />
+            </Route>
+            <Route path="/users/:userId/favorites">
+              <FavoritesPage />
+            </Route>
+            <Route path="/cart">
+              <CartPage />
+            </Route>
+            <Route path="/listings">
+                  <ListingsPage />
+            </Route>
+            <Route path="/add-listing">
+              <AddAListing />
+            </Route>
+            <Route path="/update/:productId">
+              <UpdateListing />
+            </Route>
+            <Route path="/search">
+              <SearchResultsPage />
+            </Route>
 
-        </Switch>
-      )}
+          </Switch>
+        )}
+        <Footer />
+      </div>
     </>
   );
 }
