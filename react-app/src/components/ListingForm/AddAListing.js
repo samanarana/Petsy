@@ -1,13 +1,18 @@
 import React, { useState } from 'react';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { useHistory } from 'react-router-dom';
-
 import './AddAListing.css';
 import { createProductThunk } from './../../store/product';
 
 const AddAListing = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const user = useSelector(state => state.session.user);
+
+    if (!user) {
+        history.push('/')
+    };
+
     const [errors, setErrors] = useState([]);
 
     const getErrorMessage = (fieldName) => {

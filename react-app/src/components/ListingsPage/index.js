@@ -1,17 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-
 import './ListingsPage.css';
 import ListingTile from './ListingTile';
 import { fetchUserProductsThunk, deleteProductThunk } from '../../store/product';
-
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faPlus, faEdit, faTrash, faEye } from '@fortawesome/free-solid-svg-icons';
 
 const ListingsPage = () => {
     const dispatch = useDispatch();
     const history = useHistory();
+    const user = useSelector(state => state.session.user);
+
+    if (!user) {
+        history.push('/')
+    };
     const userProducts = useSelector(state => state.product.userProducts);
 
     const [selectedTile, setSelectedTile] = useState(null);

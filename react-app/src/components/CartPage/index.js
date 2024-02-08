@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Link} from 'react-router-dom';
+import { Link, useHistory} from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import { removeFromCartThunk, fetchCartItemsThunk, updateCartItemQuantityThunk, clearCartThunk } from '../../store/cartitems';
 import { fetchAllProductsThunk } from '../../store/product';
@@ -8,7 +8,15 @@ import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
 import './CartPage.css';
 
 function CartPage() {
+
     const dispatch = useDispatch();
+    const history = useHistory();
+    const user = useSelector(state => state.session.user);
+
+    if (!user) {
+        history.push('/')
+    };
+
     const userCart = useSelector(state => state.cartitems.currentCart);
     const allProducts = useSelector(state => state.product.allProducts);
 
