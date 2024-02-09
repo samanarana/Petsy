@@ -5,6 +5,7 @@ import { removeFromCartThunk, fetchCartItemsThunk, updateCartItemQuantityThunk, 
 import { fetchAllProductsThunk } from '../../store/product';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown } from "@fortawesome/free-solid-svg-icons";
+import Spinner from '../Spinner';
 import './CartPage.css';
 
 function CartPage() {
@@ -30,7 +31,7 @@ function CartPage() {
         Promise.all([dispatch(fetchAllProductsThunk()), dispatch(fetchCartItemsThunk())])
         .then(() => setIsLoaded(true))
         .catch(error => {
-            setError("this is not working");
+            setError("CartPage Error,", error);
             setIsLoaded(false);
         });
     }, [dispatch]);
@@ -80,9 +81,9 @@ function CartPage() {
     };
 
 
-    if(!isLoaded) {
-        return <div>Loading...</div>
-    }
+    if (isLoaded === false) {
+        return <Spinner /> 
+    };
 
     if (orderSubmitted) {
         return (
