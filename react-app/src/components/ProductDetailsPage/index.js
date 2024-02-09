@@ -2,7 +2,6 @@ import React, { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from "react-redux";
 import { useParams} from "react-router-dom";
 
-
 import { productDetailsThunk } from '../../store/product';
 import { addFavoriteThunk, removeFavoriteThunk } from './../../store/favorite';
 import { addToCartThunk } from '../../store/cartitems';
@@ -19,6 +18,8 @@ import UpdateReviewModal from '../UpdateReviewModal/UpdateReviewModal';
 import './ProductDetails.css';
 import { useModal } from '../../context/Modal';
 import LoginFormModal from '../LoginFormModal';
+
+import Spinner from '../Spinner';
 
 function ProductDetailsPage() {
 
@@ -52,10 +53,9 @@ function ProductDetailsPage() {
 
     const isFavorited = favorites.some((favorite) => favorite.productId === product.id);
 
-    if (!isLoaded) {
-        return <div>Loading...</div>;
-        //placholder, let's update this to something pretty later
-    }
+    if (isLoaded === false) {
+        return <Spinner />
+    };
 
     if (!product) return null;
 
