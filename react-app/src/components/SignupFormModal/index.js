@@ -58,29 +58,7 @@ function SignupFormModal() {
     <div className="signup-form-modal">
       <h3>Create your account</h3>
       <p>Registration is easy.</p>
-      <div className="error-messages">
 
-
-
-        {errors.general &&
-          errors.general.map((error, idx) => (
-            <div key={idx} className="error-message">
-              {error}
-            </div>
-          ))}
-        {errors.email && (
-          <div className="error-message">{errors.email}</div>
-        )}
-        {errors.username && (
-          <div className="error-message">{errors.username}</div>
-        )}
-        {errors.password && (
-          <div className="error-message">{errors.password}</div>
-        )}
-        {errors.confirmPassword && (
-          <div className="error-message">{errors.confirmPassword}</div>
-        )}
-      </div>
       <form onSubmit={handleSubmit}>
         <label>
           Email *
@@ -133,6 +111,28 @@ function SignupFormModal() {
         >
           Register
         </button>
+
+        <div className="error-messages">
+
+          {errors.general &&
+            errors.general.map((error, idx) => (
+              <div key={idx} className="error-message">
+                {error}
+              </div>
+            ))}
+          {errors.email && (
+            <div className="error-message">{errors.email}</div>
+          )}
+          {errors.username && (
+            <div className="error-message">{errors.username}</div>
+          )}
+          {errors.password && (
+            <div className="error-message">{errors.password}</div>
+          )}
+          {errors.confirmPassword && (
+            <div className="error-message">{errors.confirmPassword}</div>
+          )}
+        </div>
       </form>
     </div>
   );
