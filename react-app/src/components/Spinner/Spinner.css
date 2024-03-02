@@ -1,4 +1,3 @@
-/* Updated Spinner.css */
 .loading-spinner {
     border: 8px solid rgba(0, 0, 0, 0.1);
     width: 72px; 
@@ -17,7 +16,6 @@
     }
   }
   
-
   .loading-spinner__container {
     display: flex;
     justify-content: center;
